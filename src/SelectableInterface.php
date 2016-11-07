@@ -57,4 +57,7 @@ interface SelectableInterface extends ReaderInterface
 
 
     public function isNewIndexSelected(): bool;
+
+
+    public function getElementCount(): int;
 }

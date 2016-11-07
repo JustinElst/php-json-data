@@ -304,6 +304,15 @@ class RawWriter implements SelectableWriterInterface
     }
 
 
+    public function getElementCount(): int
+    {
+        if (!$this->isArraySelected()) {
+            throw new LogicException("Cursor should point an array to get elements count");
+        }
+        return count($this->getCursor()->getDataReference());
+    }
+
+
     protected function isNumericProperty(string $key)
     {
         return preg_match('#^-?(?:0|[1-9]\d*)$#', $key) === 1;
