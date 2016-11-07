@@ -409,4 +409,86 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
             ->selectIndex($index)
             ->appendElement($newValueReader);
     }
+
+
+    public function testInsertElement_ElementExists_Inserted()
+    {
+        $data = ['a', 'c'];
+        $newValue = 'b';
+        $newValueReader = new RawWriter($newValue);
+        (new RawWriter($data))
+            ->selectIndex(1)
+            ->insertElement($newValueReader);
+        $expectedData = ['a', 'b', 'c'];
+        $this->assertEquals($expectedData, $data);
+    }
+
+
+    public function testInsertElement_ElementExists_DataReferencesInsertedElement()
+    {
+        $data = ['a', 'c'];
+        $newValue = 'b';
+        $newValueReader = new RawWriter($newValue);
+        $actualData = (new RawWriter($data))
+            ->selectIndex(1)
+            ->insertElement($newValueReader)
+            ->getData();
+        $this->assertEquals('b', $actualData);
+    }
+
+
+    /**
+     * @expectedException \Remorhaz\JSON\Data\Exception
+     * @expectedExceptionMessageRegExp /^Following element must be selected before insertion$/
+     */
+    public function testInsertElement_ElementNotExusts_ThrowsException()
+    {
+        $data = ['a', 'b'];
+        $newValue = 'c';
+        $newValueReader = new RawWriter($newValue);
+        (new RawWriter($data))
+            ->selectIndex(2)
+            ->insertElement($newValueReader);
+    }
+
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessageRegExp /^Following element must be selected before insertion$/
+     */
+    public function testInsertElement_ElementNotExusts_ThrowsSplException()
+    {
+        $data = ['a', 'b'];
+        $newValue = 'c';
+        $newValueReader = new RawWriter($newValue);
+        (new RawWriter($data))
+            ->selectIndex(2)
+            ->insertElement($newValueReader);
+    }
+
+
+    /**
+     * @expectedException \Remorhaz\JSON\Data\Exception
+     * @expectedExceptionMessageRegExp /^Index must be selected before element insertion$/
+     */
+    public function testInsertElement_IndexNotSelected_ThrowsException()
+    {
+        $data = ['a', 'b'];
+        $newValue = 'c';
+        $newValueReader = new RawWriter($newValue);
+        (new RawWriter($data))->insertElement($newValueReader);
+    }
+
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessageRegExp /^Index must be selected before element insertion$/
+     */
+    public function testInsertElement_IndexNotSelected_ThrowsSplException()
+    {
+        $data = ['a', 'b'];
+        $newValue = 'c';
+        $newValueReader = new RawWriter($newValue);
+        (new RawWriter($data))->insertElement($newValueReader);
+    }
 }

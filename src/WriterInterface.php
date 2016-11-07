@@ -34,6 +34,13 @@ interface WriterInterface extends ReaderInterface
 
 
     /**
+     * @param ReaderInterface $source
+     * @return $this
+     */
+    public function insertElement(ReaderInterface $source);
+
+
+    /**
      * @return $this
      */
     public function removeElement();

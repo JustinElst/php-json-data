@@ -99,6 +99,31 @@ class RawWriter implements SelectableWriterInterface
         return $this;
     }
 
+
+    /**
+     * @param ReaderInterface $source
+     * @return $this
+     */
+    public function insertElement(ReaderInterface $source)
+    {
+        if (!$this->isIndexSelected()) {
+            throw new LogicException("Index must be selected before element insertion");
+        }
+        if (!$this->hasData()) {
+            throw new LogicException("Following element must be selected before insertion");
+        }
+        $parentData = &$this
+            ->getParentCursor()
+            ->getDataReference();
+        $index = $this->getIndex();
+        array_splice($parentData, $index, 0, [$source->getData()]);
+        $this
+            ->getCursor()
+            ->bind($parentData[$index]);
+        return $this;
+    }
+
+
     /**
      * @return $this
      * @see AccessorInterface
