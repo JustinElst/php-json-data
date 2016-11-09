@@ -180,6 +180,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'arrayData' => [[0 => 1], '0'],
+            'stringData' => ['abc', 'a'],
             'booleanData' => [true, 'a'],
             'nullData' => [null, 'a'],
             'integerData' => [1, 'a'],

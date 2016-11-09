@@ -82,7 +82,10 @@ class RawSelectableReader implements SelectableReaderInterface
             $this
                 ->getCursor()
                 ->unbind();
-            if ($this->isNumericProperty($property)) {
+            if ('' == $property && version_compare(PHP_VERSION, '7.1') < 0) {
+                // Note: PHP bug #67300 allows some workarounds.
+                throw new RuntimeException("Empty string properties are supported in PHP 7.1+");
+            } elseif ($this->isNumericProperty($property)) {
                 // Numeric properties exported from array can be accessed only through iteration in PHP.
                 foreach ($parentData as $existingProperty => &$value) {
                     if ($existingProperty == $property) {

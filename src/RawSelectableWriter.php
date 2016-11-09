@@ -31,6 +31,10 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
+        if ('' == $this->getProperty() && version_compare(PHP_VERSION, '7.1') < 0) {
+            // Note: PHP bug #67300 allows some workarounds.
+            throw new RuntimeException("Empty string properties are supported in PHP 7.1+");
+        }
         $parentData->{$this->getProperty()} = &$sourceData;
         $this->getCursor()->bind($sourceData);
         return $this;
@@ -101,6 +105,10 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
         if (property_exists($parentData, $property)) {
             unset($parentData->{$property});
         } else {
+            if ('' == $property && version_compare(PHP_VERSION, '7.1') < 0) {
+                // Note: PHP bug #67300 allows some workarounds.
+                throw new RuntimeException("Empty string properties are supported in PHP 7.1+");
+            }
             if ($this->isNumericProperty($property)) {
                 // Numeric properties exported from array can be accessed only through iteration in PHP.
                 $newParentData = new \stdClass;
