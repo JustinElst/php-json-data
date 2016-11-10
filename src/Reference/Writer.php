@@ -33,9 +33,9 @@ class Writer extends Selector implements WriterInterface
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
-        if ('' == $this->getProperty() && version_compare(PHP_VERSION, '7.1') < 0) {
+        if ('' == $this->getProperty()) {
             // Note: PHP bug #67300 allows some workarounds.
-            throw new RuntimeException("Empty string properties are supported in PHP 7.1+");
+            throw new RuntimeException("Empty string properties are not supported in PHP 7.0");
         }
         $parentData->{$this->getProperty()} = &$sourceData;
         $this->getCursor()->bind($sourceData);
@@ -107,9 +107,9 @@ class Writer extends Selector implements WriterInterface
         if (property_exists($parentData, $property)) {
             unset($parentData->{$property});
         } else {
-            if ('' == $property && version_compare(PHP_VERSION, '7.1') < 0) {
+            if ('' == $property) {
                 // Note: PHP bug #67300 allows some workarounds.
-                throw new RuntimeException("Empty string properties are supported in PHP 7.1+");
+                throw new RuntimeException("Empty string properties are not supported in PHP 7.0");
             }
             if ($this->isNumericProperty($property)) {
                 // Numeric properties exported from array can be accessed only through iteration in PHP.
