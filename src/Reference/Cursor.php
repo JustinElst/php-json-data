@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSON\Data;
+namespace Remorhaz\JSON\Data\Reference;
 
-class RawCursor
+class Cursor
 {
 
     protected $data;

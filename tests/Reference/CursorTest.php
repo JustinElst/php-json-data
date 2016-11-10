@@ -1,24 +1,24 @@
 <?php
 
-namespace Remorhaz\JSON\Test\Data;
+namespace Remorhaz\JSON\Data\Test\Reference;
 
-use Remorhaz\JSON\Data\RawCursor;
+use Remorhaz\JSON\Data\Reference\Cursor;
 
-class RawCursorTest extends \PHPUnit_Framework_TestCase
+class CursorTest extends \PHPUnit_Framework_TestCase
 {
 
 
     public function testBoundCursorPointsToDataRoot()
     {
         $data = (object) ['a' => 'b'];
-        $cursor = (new RawCursor)->bind($data);
+        $cursor = (new Cursor)->bind($data);
         $this->assertEquals($data, $cursor->getDataReference());
     }
 
 
     public function testNewCursorReportedNotBound()
     {
-        $cursor = new RawCursor;
+        $cursor = new Cursor;
         $this->assertFalse($cursor->isBound());
     }
 
@@ -26,7 +26,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     public function testCursorReportedBoundAfterBinding()
     {
         $data = (object) ['a' => 'b'];
-        $cursor = (new RawCursor)->bind($data);
+        $cursor = (new Cursor)->bind($data);
         $this->assertTrue($cursor->isBound());
     }
 
@@ -36,7 +36,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewCursorThrowsExceptionOnGettingDataReference()
     {
-        (new RawCursor)->getDataReference();
+        (new Cursor)->getDataReference();
     }
 
 
@@ -45,7 +45,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewCursorThrowsSplExceptionOnGettingDataReference()
     {
-        (new RawCursor)->getDataReference();
+        (new Cursor)->getDataReference();
     }
 
 
@@ -54,7 +54,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewCursorThrowsExceptionOnGettingDataCopy()
     {
-        (new RawCursor)->getDataCopy();
+        (new Cursor)->getDataCopy();
     }
 
 
@@ -63,7 +63,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewCursorThrowsSplExceptionOnGettingDataCopy()
     {
-        (new RawCursor)->getDataCopy();
+        (new Cursor)->getDataCopy();
     }
 
 
@@ -73,7 +73,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     public function testUnboundCursorThrowsExceptionOnGettingDataReference()
     {
         $data = (object) ['a' => 'b'];
-        (new RawCursor)->bind($data)->unbind()->getDataReference();
+        (new Cursor)->bind($data)->unbind()->getDataReference();
     }
 
 
@@ -83,7 +83,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     public function testUnboundCursorThrowsSplExceptionOnGettingDataReference()
     {
         $data = (object) ['a' => 'b'];
-        (new RawCursor)->bind($data)->unbind()->getDataReference();
+        (new Cursor)->bind($data)->unbind()->getDataReference();
     }
 
 
@@ -93,7 +93,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     public function testUnboundCursorThrowsExceptionOnGettingDataCopy()
     {
         $data = (object) ['a' => 'b'];
-        (new RawCursor)->bind($data)->unbind()->getDataCopy();
+        (new Cursor)->bind($data)->unbind()->getDataCopy();
     }
 
 
@@ -103,14 +103,14 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     public function testUnboundCursorThrowsSplExceptionOnGettingDataCopy()
     {
         $data = (object) ['a' => 'b'];
-        (new RawCursor)->bind($data)->unbind()->getDataCopy();
+        (new Cursor)->bind($data)->unbind()->getDataCopy();
     }
 
 
     public function testCursorBindsByReference()
     {
         $data = (object) ['a' => 'b'];
-        $cursor = (new RawCursor)->bind($data);
+        $cursor = (new Cursor)->bind($data);
         $data->a = 'c';
         $expectedData = clone $data;
         $actualData = $cursor->getDataCopy();
@@ -122,7 +122,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $expectedData = clone $data;
-        $cursor = (new RawCursor)->bind($data);
+        $cursor = (new Cursor)->bind($data);
         $actualData = $cursor->getDataCopy();
         $data->a = 'c';
         $this->assertEquals($expectedData, $actualData);
@@ -133,7 +133,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $expectedData = clone $data;
-        (new RawCursor)->bind($data->a);
+        (new Cursor)->bind($data->a);
         $this->assertEquals($expectedData, $data);
     }
 
@@ -142,7 +142,7 @@ class RawCursorTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $expectedData = clone $data;
-        (new RawCursor)->bind($data->a)->unbind();
+        (new Cursor)->bind($data->a)->unbind();
         $this->assertEquals($expectedData, $data);
     }
 }

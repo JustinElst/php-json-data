@@ -1,8 +1,10 @@
 <?php
 
-namespace Remorhaz\JSON\Data;
+namespace Remorhaz\JSON\Data\Reference;
 
-class RawSelectableWriter extends RawSelectableReader implements SelectableWriterInterface
+use Remorhaz\JSON\Data\{ReaderInterface,WriterInterface};
+
+class Writer extends Selector implements WriterInterface
 {
 
 
@@ -14,20 +16,20 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
         $targetData = &$this
             ->getCursor()
             ->getDataReference();
-        $targetData = $source->getData();
+        $targetData = $source->getAsStruct();
         return $this;
     }
 
 
     public function insertProperty(ReaderInterface $source)
     {
-        if (!$this->isPropertySelected()) {
+        if (!$this->isProperty()) {
             throw new LogicException("Property must be selected to insert data");
         }
         if ($this->hasData()) {
             throw new LogicException("Property already exists");
         }
-        $sourceData = $source->getData();
+        $sourceData = $source->getAsStruct();
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
@@ -43,13 +45,13 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
 
     public function appendElement(ReaderInterface $source)
     {
-        if (!$this->isNewIndexSelected()) {
+        if (!$this->isNewElement()) {
             throw new LogicException("New index must be selected to insert data");
         }
         if ($this->hasData()) {
             throw new LogicException("Element already exists");
         }
-        $sourceData = $source->getData();
+        $sourceData = $source->getAsStruct();
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
@@ -68,7 +70,7 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
      */
     public function insertElement(ReaderInterface $source)
     {
-        if (!$this->isIndexSelected()) {
+        if (!$this->isElement()) {
             throw new LogicException("Index must be selected before element insertion");
         }
         if (!$this->hasData()) {
@@ -78,7 +80,7 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
             ->getParentCursor()
             ->getDataReference();
         $index = $this->getIndex();
-        array_splice($parentData, $index, 0, [$source->getData()]);
+        array_splice($parentData, $index, 0, [$source->getAsStruct()]);
         $this
             ->getCursor()
             ->bind($parentData[$index]);
@@ -92,7 +94,7 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
      */
     public function removeProperty()
     {
-        if (!$this->isPropertySelected()) {
+        if (!$this->isProperty()) {
             throw new LogicException("Property must be selected to be removed");
         }
         $property = $this->getProperty();
@@ -128,7 +130,7 @@ class RawSelectableWriter extends RawSelectableReader implements SelectableWrite
 
     public function removeElement()
     {
-        if (!$this->isIndexSelected()) {
+        if (!$this->isElement()) {
             throw new LogicException("Index must be selected to remove element");
         }
         $index = $this->getIndex();

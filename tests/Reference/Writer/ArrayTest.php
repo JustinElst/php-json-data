@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSON\Test\Data\RawWriter;
+namespace Remorhaz\JSON\Data\Test\Reference\Writer;
 
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Writer;
 
 class ArrayTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,9 +16,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectDataAfterSelectingExistingIndex(array $data, int $index, $expectedData)
     {
-        $actualData = (new RawSelectableWriter($data))
-            ->selectIndex($index)
-            ->getData();
+        $actualData = (new Writer($data))
+            ->selectElement($index)
+            ->getAsStruct();
         $this->assertEquals($expectedData, $actualData);
     }
 
@@ -30,8 +30,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterSelectingExistingIndex(array $data, int $index)
     {
-        $hasData = (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $hasData = (new Writer($data))
+            ->selectElement($index)
             ->hasData();
         $this->assertTrue($hasData);
     }
@@ -52,8 +52,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasNoDataAfterSelectingNonExistingIndex(array $data, int $index)
     {
-        $hasData = (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $hasData = (new Writer($data))
+            ->selectElement($index)
             ->hasData();
         $this->assertFalse($hasData);
     }
@@ -67,9 +67,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnDataAcessAfterSelectingNonExistingIndex(array $data, int $index)
     {
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
-            ->getData();
+        (new Writer($data))
+            ->selectElement($index)
+            ->getAsStruct();
     }
 
 
@@ -81,9 +81,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnDataAcessAfterSelectingNonExistingIndex(array $data, int $index)
     {
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
-            ->getData();
+        (new Writer($data))
+            ->selectElement($index)
+            ->getAsStruct();
     }
 
 
@@ -103,7 +103,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnNonArrayIndexSelection($data, int $index)
     {
-        (new RawSelectableWriter($data))->selectIndex($index);
+        (new Writer($data))->selectElement($index);
     }
 
 
@@ -115,7 +115,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnNonArrayIndexSelection($data, int $index)
     {
-        (new RawSelectableWriter($data))->selectIndex($index);
+        (new Writer($data))->selectElement($index);
     }
 
 
@@ -126,7 +126,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnNonArrayNewIndexSelection($data)
     {
-        (new RawSelectableWriter($data))->selectNewIndex();
+        (new Writer($data))->selectNewElement();
     }
 
 
@@ -137,7 +137,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnNonArrayNewIndexSelection($data)
     {
-        (new RawSelectableWriter($data))->selectNewIndex();
+        (new Writer($data))->selectNewElement();
     }
 
 
@@ -147,7 +147,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoArraySelectedAfterCreationWithNonArrayData($data)
     {
-        $isArraySelected = (new RawSelectableWriter($data))->isArraySelected();
+        $isArraySelected = (new Writer($data))->isArray();
         $this->assertFalse($isArraySelected);
     }
 
@@ -170,7 +170,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectlyReportedNonSelectedIndexInArrayData(array $data)
     {
-        $isIndexSelected = (new RawSelectableWriter($data))->isIndexSelected();
+        $isIndexSelected = (new Writer($data))->isElement();
         $this->assertFalse($isIndexSelected);
     }
 
@@ -181,7 +181,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function testArrayIsSelectedAfterCreationWithArrayData(array $data)
     {
-        $isArraySelected = (new RawSelectableWriter($data))->isArraySelected();
+        $isArraySelected = (new Writer($data))->isArray();
         $this->assertTrue($isArraySelected);
     }
 
@@ -207,9 +207,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $newValue,
         array $expectedData
     ) {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->replaceData($newValueReader);
         $this->assertEquals($expectedData, $data);
     }
@@ -229,11 +229,11 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $expectedData = $data;
         $index = 1;
         $newValue= 'd';
-        $newValueReader = new RawSelectableWriter($newValue);
+        $newValueReader = new Writer($newValue);
         $oldValue = 'b';
-        $oldValueReader = new RawSelectableWriter($oldValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $oldValueReader = new Writer($oldValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->replaceData($newValueReader)
             ->replaceData($oldValueReader);
         $this->assertEquals($expectedData, $data);
@@ -244,9 +244,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectNewIndex()
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectNewElement()
             ->appendElement($newValueReader);
         $expectedData =  ['a', 'b', 'c'];
         $this->assertEquals($expectedData, $data);
@@ -257,9 +257,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectNewIndex()
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectNewElement()
             ->appendElement($newValueReader)
             ->appendElement($newValueReader);
         $expectedData =  ['a', 'b', 'c', 'c'];
@@ -271,8 +271,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b', 'c'];
         $index = 1;
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        (new Writer($data))
+            ->selectElement($index)
             ->removeElement();
         $expectedData = ['a', 'c'];
         $this->assertEquals($expectedData, $data);
@@ -287,9 +287,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $data = ['a', 'b', 'c'];
         $index = 1;
         $newValue = 'd';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->removeElement()
             ->replaceData($newValueReader);
     }
@@ -303,9 +303,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $data = ['a', 'b', 'c'];
         $index = 1;
         $newValue = 'd';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->removeElement()
             ->replaceData($newValueReader);
     }
@@ -318,8 +318,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $index = 2;
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        (new Writer($data))
+            ->selectElement($index)
             ->removeElement();
     }
 
@@ -331,8 +331,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $index = 2;
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        (new Writer($data))
+            ->selectElement($index)
             ->removeElement();
     }
 
@@ -343,7 +343,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     public function testExceptionOnRemovingNonSelectedElement()
     {
         $data = ['a', 'b'];
-        (new RawSelectableWriter($data))->removeElement();
+        (new Writer($data))->removeElement();
     }
 
 
@@ -353,7 +353,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     public function testSplExceptionOnRemovingNonSelectedElement()
     {
         $data = ['a', 'b'];
-        (new RawSelectableWriter($data))->removeElement();
+        (new Writer($data))->removeElement();
     }
 
 
@@ -364,8 +364,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->appendElement($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->appendElement($newValueReader);
     }
 
 
@@ -376,8 +376,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->appendElement($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->appendElement($newValueReader);
     }
 
 
@@ -389,9 +389,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $data = ['a', 'b', 'c'];
         $index = 1;
         $newValue = 'd';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->appendElement($newValueReader);
     }
 
@@ -404,9 +404,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
         $data = ['a', 'b', 'c'];
         $index = 1;
         $newValue = 'd';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex($index)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement($index)
             ->appendElement($newValueReader);
     }
 
@@ -415,9 +415,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'c'];
         $newValue = 'b';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex(1)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement(1)
             ->insertElement($newValueReader);
         $expectedData = ['a', 'b', 'c'];
         $this->assertEquals($expectedData, $data);
@@ -428,11 +428,11 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'c'];
         $newValue = 'b';
-        $newValueReader = new RawSelectableWriter($newValue);
-        $actualData = (new RawSelectableWriter($data))
-            ->selectIndex(1)
+        $newValueReader = new Writer($newValue);
+        $actualData = (new Writer($data))
+            ->selectElement(1)
             ->insertElement($newValueReader)
-            ->getData();
+            ->getAsStruct();
         $this->assertEquals('b', $actualData);
     }
 
@@ -445,9 +445,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex(2)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement(2)
             ->insertElement($newValueReader);
     }
 
@@ -460,9 +460,9 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
-            ->selectIndex(2)
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
+            ->selectElement(2)
             ->insertElement($newValueReader);
     }
 
@@ -475,8 +475,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->insertElement($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->insertElement($newValueReader);
     }
 
 
@@ -488,7 +488,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['a', 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->insertElement($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->insertElement($newValueReader);
     }
 }

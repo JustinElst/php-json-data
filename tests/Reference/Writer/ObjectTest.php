@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSON\Test\Data\RawWriter;
+namespace Remorhaz\JSON\Data\Test\Reference\Writer;
 
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Writer;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,9 +16,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectDataAfterSelectingExistingProperty(\stdClass $data, string $property, $value)
     {
-        $actualData = (new RawSelectableWriter($data))
+        $actualData = (new Writer($data))
             ->selectProperty($property)
-            ->getData();
+            ->getAsStruct();
         $this->assertEquals($value, $actualData);
     }
 
@@ -30,7 +30,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterSelectingExistingProperty(\stdClass $data, string $property)
     {
-        $hasData = (new RawSelectableWriter($data))
+        $hasData = (new Writer($data))
             ->selectProperty($property)
             ->hasData();
         $this->assertTrue($hasData);
@@ -46,8 +46,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     public function testPropertyRemainsSelectedAfterRemovingExistingProperty(\stdClass $data, string $property, $value)
     {
         $expectedData = clone $data;
-        $valueReader = new RawSelectableWriter($value);
-        (new RawSelectableWriter($data))
+        $valueReader = new Writer($value);
+        (new Writer($data))
             ->selectProperty($property)
             ->removeProperty()
             ->insertProperty($valueReader);
@@ -73,7 +73,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasNoDataAfterNonExistingPropertySelection(\stdClass $data, string $property)
     {
-        $hasData = (new RawSelectableWriter($data))
+        $hasData = (new Writer($data))
             ->selectProperty($property)
             ->hasData();
         $this->assertFalse($hasData);
@@ -88,9 +88,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnDataAccessAfterNonExistingPropertySelection(\stdClass $data, string $property)
     {
-        (new RawSelectableWriter($data))
+        (new Writer($data))
             ->selectProperty($property)
-            ->getData();
+            ->getAsStruct();
     }
 
 
@@ -102,9 +102,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnDataAccessAfterNonExistingPropertySelection(\stdClass $data, string $property)
     {
-        (new RawSelectableWriter($data))
+        (new Writer($data))
             ->selectProperty($property)
-            ->getData();
+            ->getAsStruct();
     }
 
 
@@ -116,7 +116,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnNonObjectPropertySelection($data, string $property)
     {
-        (new RawSelectableWriter($data))->selectProperty($property);
+        (new Writer($data))->selectProperty($property);
     }
 
 
@@ -128,7 +128,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnNonObjectPropertySelection($data, string $property)
     {
-        (new RawSelectableWriter($data))->selectProperty($property);
+        (new Writer($data))->selectProperty($property);
     }
 
 
@@ -138,7 +138,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoObjectSelectedAfterCreationWithNonObjectData($data)
     {
-        $isObject = (new RawSelectableWriter($data))->isObjectSelected();
+        $isObject = (new Writer($data))->isObject();
         $this->assertFalse($isObject);
     }
 
@@ -149,7 +149,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectlyReportedNonSelectedPropertyInNonObjectData($data)
     {
-        $isPropertySelected = (new RawSelectableWriter($data))->isPropertySelected();
+        $isPropertySelected = (new Writer($data))->isProperty();
         $this->assertFalse($isPropertySelected);
     }
 
@@ -161,7 +161,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnRemovingNonSelectedPropertyInNonObjectData($data)
     {
-        (new RawSelectableWriter($data))->removeProperty();
+        (new Writer($data))->removeProperty();
     }
 
 
@@ -172,7 +172,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnRemovingNonSelectedPropertyInNonObjectData($data)
     {
-        (new RawSelectableWriter($data))->removeProperty();
+        (new Writer($data))->removeProperty();
     }
 
 
@@ -195,7 +195,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectlyReportedNonSelectedPropertyInObjectData(\stdClass $data)
     {
-        $isPropertySelected = (new RawSelectableWriter($data))->isPropertySelected();
+        $isPropertySelected = (new Writer($data))->isProperty();
         $this->assertFalse($isPropertySelected);
     }
 
@@ -206,7 +206,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testObjectIsSelectedAfterCreationWithObjectData(\stdClass $data)
     {
-        $isObjectSelected = (new RawSelectableWriter($data))->isObjectSelected();
+        $isObjectSelected = (new Writer($data))->isObject();
         $this->assertTrue($isObjectSelected);
     }
 
@@ -218,7 +218,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnRemovingNonSelectedPropertyInObjectData(\stdClass $data)
     {
-        (new RawSelectableWriter($data))->removeProperty();
+        (new Writer($data))->removeProperty();
     }
 
 
@@ -229,7 +229,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnRemovingNonSelectedPropertyInObjectData(\stdClass $data)
     {
-        (new RawSelectableWriter($data))->removeProperty();
+        (new Writer($data))->removeProperty();
     }
 
 
@@ -254,8 +254,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $newValue,
         \stdClass $expectedData
     ) {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($property)
             ->replaceData($newValueReader);
         $this->assertEquals($expectedData, $data);
@@ -287,9 +287,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $oldValue
     ) {
         $expectedData = clone $data;
-        $newValueReader = new RawSelectableWriter($newValue);
-        $oldValueReader = new RawSelectableWriter($oldValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        $oldValueReader = new Writer($oldValue);
+        (new Writer($data))
             ->selectProperty($property)
             ->replaceData($newValueReader)
             ->replaceData($oldValueReader);
@@ -317,8 +317,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnReplacingNonExistingProperty(\stdClass $data, string $newProperty, $newValue)
     {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($newProperty)
             ->replaceData($newValueReader);
     }
@@ -333,8 +333,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnReplacingNonExistingProperty(\stdClass $data, string $newProperty, $newValue)
     {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($newProperty)
             ->replaceData($newValueReader);
     }
@@ -353,8 +353,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $newValue,
         \stdClass $expectedData
     ) {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($newProperty)
             ->insertProperty($newValueReader);
         $this->assertEquals($expectedData, $data);
@@ -373,8 +373,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $newValue
     ) {
         $expectedData = clone $data;
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($newProperty)
             ->insertProperty($newValueReader)
             ->removeProperty(); // If property is still selected, this returns data to initial state.
@@ -390,7 +390,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionOnRemovingNonExistingProperty(\stdClass $data, string $property)
     {
-        (new RawSelectableWriter($data))
+        (new Writer($data))
             ->selectProperty($property)
             ->removeProperty();
     }
@@ -404,7 +404,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionOnRemovingNonExistingProperty(\stdClass $data, string $property)
     {
-        (new RawSelectableWriter($data))
+        (new Writer($data))
             ->selectProperty($property)
             ->removeProperty();
     }
@@ -430,8 +430,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionAfterInsertingExistingProperty(\stdClass $data, string $property, $newValue)
     {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($property)
             ->insertProperty($newValueReader);
     }
@@ -446,8 +446,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSplExceptionAfterInsertingExistingProperty(\stdClass $data, string $property, $newValue)
     {
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))
             ->selectProperty($property)
             ->insertProperty($newValueReader);
     }
@@ -471,8 +471,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->insertProperty($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->insertProperty($newValueReader);
     }
 
 
@@ -483,8 +483,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $data = (object) ['a' => 'b'];
         $newValue = 'c';
-        $newValueReader = new RawSelectableWriter($newValue);
-        (new RawSelectableWriter($data))->insertProperty($newValueReader);
+        $newValueReader = new Writer($newValue);
+        (new Writer($data))->insertProperty($newValueReader);
     }
 
 
@@ -495,9 +495,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectlyReportedSelectedProperty(\stdClass $data, string $property)
     {
-        $isPropertySelected = (new RawSelectableWriter($data))
+        $isPropertySelected = (new Writer($data))
             ->selectProperty($property)
-            ->isPropertySelected();
+            ->isProperty();
         $this->assertTrue($isPropertySelected);
     }
 
@@ -513,7 +513,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         string $property,
         \stdClass $expectedData
     ) {
-        (new RawSelectableWriter($data))
+        (new Writer($data))
             ->selectProperty($property)
             ->removeProperty();
         $this->assertEquals($expectedData, $data);

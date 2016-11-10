@@ -1,8 +1,8 @@
 <?php
 
-namespace Remorhaz\JSON\Test\Data;
+namespace Remorhaz\JSON\Data\Test\Reference\Writer;
 
-use Remorhaz\JSON\Data\RawSelectableWriter;
+use Remorhaz\JSON\Data\Reference\Writer;
 
 class RootTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectDataAfterCreation($data)
     {
-        $actualData = (new RawSelectableWriter($data))->getData();
+        $actualData = (new Writer($data))->getAsStruct();
         $this->assertEquals($data, $actualData);
     }
 
@@ -25,7 +25,7 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterCreation($data)
     {
-        $hasData = (new RawSelectableWriter($data))->hasData();
+        $hasData = (new Writer($data))->hasData();
         $this->assertTrue($hasData);
     }
 
@@ -47,8 +47,8 @@ class RootTest extends \PHPUnit_Framework_TestCase
     public function testCorrectDataAfterReplace($sourceData, $targetData)
     {
         $expectedData = $sourceData;
-        $sourceRaw = new RawSelectableWriter($sourceData);
-        $actualData = (new RawSelectableWriter($targetData))->replaceData($sourceRaw)->getData();
+        $sourceRaw = new Writer($sourceData);
+        $actualData = (new Writer($targetData))->replaceData($sourceRaw)->getAsStruct();
         $this->assertEquals($expectedData, $actualData);
     }
 
@@ -60,8 +60,8 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasDataAfterReplace($sourceData, $targetData)
     {
-        $sourceRaw = new RawSelectableWriter($sourceData);
-        $hasData = (new RawSelectableWriter($targetData))->replaceData($sourceRaw)->hasData();
+        $sourceRaw = new Writer($sourceData);
+        $hasData = (new Writer($targetData))->replaceData($sourceRaw)->hasData();
         $this->assertTrue($hasData);
     }
 
@@ -82,7 +82,7 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElementCount_ArraySelected_Calculated(array $data, int $expectedValue)
     {
-        $actualValue = (new RawSelectableWriter($data))->getElementCount();
+        $actualValue = (new Writer($data))->getElementCount();
         $this->assertEquals($expectedValue, $actualValue);
     }
 
@@ -104,7 +104,7 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElementCount_ArrayNotSelected_ExceptionThrown($data)
     {
-        (new RawSelectableWriter($data))->getElementCount();
+        (new Writer($data))->getElementCount();
     }
 
 
@@ -116,7 +116,7 @@ class RootTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElementCount_ArrayNotSelected_SplExceptionThrown($data)
     {
-        (new RawSelectableWriter($data))->getElementCount();
+        (new Writer($data))->getElementCount();
     }
 
 
