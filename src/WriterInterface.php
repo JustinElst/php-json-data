@@ -2,7 +2,7 @@
 
 namespace Remorhaz\JSON\Data;
 
-interface WriterInterface extends ReaderInterface
+interface WriterInterface extends SelectorInterface
 {
 
 
