@@ -5,6 +5,13 @@ namespace Remorhaz\JSON\Data;
 interface WriterInterface extends SelectorInterface
 {
 
+    /**
+     * Copies data and returns a new instance of writer object associated with the copy. Throws an exception if data
+     * is not set.
+     *
+     * @return WriterInterface
+     */
+    public function getAsWriter(): self;
 
     /**
      * @param ReaderInterface $source

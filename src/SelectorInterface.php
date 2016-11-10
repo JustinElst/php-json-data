@@ -5,6 +5,13 @@ namespace Remorhaz\JSON\Data;
 interface SelectorInterface extends ReaderInterface
 {
 
+    /**
+     * Copies data and returns a new instance of selector object associated with the copy. Throws an exception if data
+     * is not set.
+     *
+     * @return SelectorInterface
+     */
+    public function getAsSelector(): self;
 
     /**
      * @return $this

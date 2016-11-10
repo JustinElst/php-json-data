@@ -7,6 +7,10 @@ use Remorhaz\JSON\Data\{ReaderInterface,WriterInterface};
 class Writer extends Selector implements WriterInterface
 {
 
+    public function getAsWriter(): WriterInterface
+    {
+        return new self($this->getDataCopy());
+    }
 
     public function replaceData(ReaderInterface $source)
     {

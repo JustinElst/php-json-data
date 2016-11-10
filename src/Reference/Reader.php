@@ -19,6 +19,11 @@ class Reader implements ReaderInterface
         $this->root = &$data;
     }
 
+    public function getAsReader(): ReaderInterface
+    {
+        return new self($this->getDataCopy());
+    }
+
     public function hasData(): bool
     {
         return true;

@@ -5,6 +5,14 @@ namespace Remorhaz\JSON\Data;
 interface ReaderInterface {
 
     /**
+     * Copies data and returns a new instance of reader object associated with the copy. Throws an exception if data
+     * is not set.
+     *
+     * @return ReaderInterface
+     */
+    public function getAsReader(): self;
+
+    /**
      * Returns associated data in for of PHP structure, like json_decode(). Throws an exception if data is not set.
      *
      * @return mixed
