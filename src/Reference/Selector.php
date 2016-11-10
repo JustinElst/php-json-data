@@ -27,7 +27,8 @@ class Selector extends Reader implements SelectorInterface
 
     public function getAsSelector(): SelectorInterface
     {
-        return new self($this->getDataCopy());
+        $data = $this->getDataCopy();
+        return new self($data);
     }
 
     public function hasData(): bool

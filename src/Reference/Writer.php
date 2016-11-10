@@ -9,7 +9,8 @@ class Writer extends Selector implements WriterInterface
 
     public function getAsWriter(): WriterInterface
     {
-        return new self($this->getDataCopy());
+        $data = $this->getDataCopy();
+        return new self($data);
     }
 
     public function replaceData(ReaderInterface $source)

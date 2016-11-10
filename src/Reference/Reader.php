@@ -21,7 +21,8 @@ class Reader implements ReaderInterface
 
     public function getAsReader(): ReaderInterface
     {
-        return new self($this->getDataCopy());
+        $data = $this->getDataCopy();
+        return new self($data);
     }
 
     public function hasData(): bool
