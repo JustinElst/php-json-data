@@ -2,9 +2,10 @@
 
 namespace Remorhaz\JSON\Data\Test\Reference;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Reference\Cursor;
 
-class CursorTest extends \PHPUnit_Framework_TestCase
+class CursorTest extends TestCase
 {
 
 

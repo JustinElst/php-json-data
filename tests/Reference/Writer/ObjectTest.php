@@ -2,9 +2,10 @@
 
 namespace Remorhaz\JSON\Data\Test\Reference\Writer;
 
+use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Reference\Writer;
 
-class ObjectTest extends \PHPUnit_Framework_TestCase
+class ObjectTest extends TestCase
 {
 
 
