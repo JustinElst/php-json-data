@@ -82,6 +82,13 @@ class Reader implements ReaderInterface
         return count($this->getDataReference());
     }
 
+    /**
+     * Tests given value for equality to current one.
+     *
+     * @param ReaderInterface $value
+     * @return $this
+     * @throws \Remorhaz\JSON\Data\Exception
+     */
     public function test(ReaderInterface $value)
     {
         if ($this->getAsStruct() !== $value->getAsStruct()) {

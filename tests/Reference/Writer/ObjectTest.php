@@ -43,6 +43,7 @@ class ObjectTest extends TestCase
      * @param string $property
      * @param mixed $value
      * @dataProvider providerExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testPropertyRemainsSelectedAfterRemovingExistingProperty(\stdClass $data, string $property, $value)
     {
@@ -60,6 +61,7 @@ class ObjectTest extends TestCase
     {
         return [
             'stringProperty' => [(object) ['a' => 'b'], 'a', 'b'],
+            'stringPropertyWithEmptyName' => [(object) ['' => 'b'], '', 'b'],
             'numericPositiveProperty' => [(object) [1 => 'a'], '1', 'a'],
             'numericNegativeProperty' => [(object) [-1 => 'a'], '-1', 'a'],
             'numericZeroProperty' => [(object) [0 => 'a'], '0', 'a'],
@@ -248,6 +250,7 @@ class ObjectTest extends TestCase
      * @param mixed $newValue
      * @param \stdClass $expectedData
      * @dataProvider providerReplacingExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testCorrectDataAfterReplacingExistingProperty(
         \stdClass $data,
@@ -267,6 +270,7 @@ class ObjectTest extends TestCase
     {
         return [
             'stringProperty' => [(object) ['a' => 'b'], 'a', 'c', (object) ['a' => 'c']],
+            'stringPropertyWithEmptyName' => [(object) ['' => 'b'], '', 'c', (object) ['' => 'c']],
             'numericPositiveProperty' => [(object) [1 => 'a'], '1', 'b', (object) [1 => 'b']],
             'numericNegativeProperty' => [(object) [-1 => 'a'], '-1', 'b', (object) [-1 => 'b']],
             'numericZeroProperty' => [(object) [0 => 'a'], '0', 'b', (object) [0 => 'b']],
@@ -280,6 +284,7 @@ class ObjectTest extends TestCase
      * @param mixed $newValue
      * @param mixed $oldValue
      * @dataProvider providerReplacingAndRestoringExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testPropertyRemainsSelectedAfterReplacingExistingProperty(
         \stdClass $data,
@@ -302,6 +307,7 @@ class ObjectTest extends TestCase
     {
         return [
             'stringProperty' => [(object) ['a' => 'b'], 'a', 'c', 'b'],
+            'stringPropertyWithEmptyName' => [(object) ['' => 'b'], '', 'c', 'b'],
             'numericPositiveProperty' => [(object) [1 => 'a'], '1', 'b', 'a'],
             'numericNegativeProperty' => [(object) [-1 => 'a'], '-1', 'b', 'a'],
             'numericZeroProperty' => [(object) [0 => 'a'], '0', 'b', 'a'],
@@ -331,6 +337,7 @@ class ObjectTest extends TestCase
      * @param mixed $newValue
      * @expectedException \LogicException
      * @dataProvider providerNonExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testSplExceptionOnReplacingNonExistingProperty(\stdClass $data, string $newProperty, $newValue)
     {
@@ -347,6 +354,7 @@ class ObjectTest extends TestCase
      * @param mixed $newValue
      * @param \stdClass $expectedData
      * @dataProvider providerNonExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testCorrectDataAfterInsertingNonExistingProperty(
         \stdClass $data,
@@ -367,6 +375,7 @@ class ObjectTest extends TestCase
      * @param string $newProperty
      * @param mixed $newValue
      * @dataProvider providerNonExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testPropertyRemainsSelectedAfterInsertingNonExistingProperty(
         \stdClass $data,
@@ -444,6 +453,7 @@ class ObjectTest extends TestCase
      * @param mixed $newValue
      * @expectedException \LogicException
      * @dataProvider providerInsertingExistingProperty
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testSplExceptionAfterInsertingExistingProperty(\stdClass $data, string $property, $newValue)
     {
@@ -458,6 +468,7 @@ class ObjectTest extends TestCase
     {
         return [
             'stringProperty' => [(object) ['a' => 'b'], 'a', 'c'],
+            'stringPropertyWithEmptyName' => [(object) ['' => 'b'], '', 'c'],
             'numericPositiveProperty' => [(object) [1 => 'a'], '1', 'b'],
             'numericNegativeProperty' => [(object) [-1 => 'a'], '-1', 'b'],
             'numericZeroProperty' => [(object) [0 => 'a'], '0', 'b'],
@@ -479,6 +490,7 @@ class ObjectTest extends TestCase
 
     /**
      * @expectedException \LogicException
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function testSplExceptionOnInsertingNotSelectedProperty()
     {
@@ -525,6 +537,7 @@ class ObjectTest extends TestCase
     {
         return [
             'stringProperty' => [(object) ['a' => 'b', 'c' => 'd'], 'a', (object) ['c' => 'd']],
+            'stringPropertyWithEmptyName' => [(object) ['' => 'b', 'c' => 'd'], '', (object) ['c' => 'd']],
             'numericPositiveProperty' => [(object) [0 => 'a', 1 => 'b'], '1', (object) [0 => 'a']],
             'numericNegativeProperty' => [(object) [0 => 'a', -1 => 'b'], '-1', (object) [0 => 'a']],
             'numericZeroProperty' => [(object) [0 => 'a', 1 => 'b'], '0', (object) [1 => 'b']],

@@ -17,9 +17,3 @@ selected data.
 
 You can use `Reference/Reader`, `Reference/Selector` and `Reference/Writer` classes that work with native PHP structures
 by reference or implement your own accessors.
-
-# Documentation
-
-## Known issues
-1. Due to the restriction of PHP objects in versions before 7.1, it is impossible to access "" (empty string) property
-by reference, so it is disabled in `Reference/*` accessors.

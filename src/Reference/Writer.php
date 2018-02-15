@@ -13,6 +13,11 @@ class Writer extends Selector implements WriterInterface
         return new self($data);
     }
 
+    /**
+     * @param ReaderInterface $source
+     * @return $this
+     * @throws \Remorhaz\JSON\Data\Exception
+     */
     public function replaceData(ReaderInterface $source)
     {
         if (!$this->hasData()) {
@@ -25,7 +30,11 @@ class Writer extends Selector implements WriterInterface
         return $this;
     }
 
-
+    /**
+     * @param ReaderInterface $source
+     * @return $this
+     * @throws \Remorhaz\JSON\Data\Exception
+     */
     public function insertProperty(ReaderInterface $source)
     {
         if (!$this->isProperty()) {
@@ -38,16 +47,17 @@ class Writer extends Selector implements WriterInterface
         $parentData = &$this
             ->getParentCursor()
             ->getDataReference();
-        if ('' == $this->getProperty()) {
-            // Note: PHP bug #67300 allows some workarounds.
-            throw new RuntimeException("Empty string properties are not supported in PHP 7.0");
-        }
         $parentData->{$this->getProperty()} = &$sourceData;
         $this->getCursor()->bind($sourceData);
         return $this;
     }
 
 
+    /**
+     * @param ReaderInterface $source
+     * @return $this
+     * @throws \Remorhaz\JSON\Data\Exception
+     */
     public function appendElement(ReaderInterface $source)
     {
         if (!$this->isNewElement()) {
@@ -72,6 +82,7 @@ class Writer extends Selector implements WriterInterface
     /**
      * @param ReaderInterface $source
      * @return $this
+     * @throws \Remorhaz\JSON\Data\Exception
      */
     public function insertElement(ReaderInterface $source)
     {
@@ -112,10 +123,6 @@ class Writer extends Selector implements WriterInterface
         if (property_exists($parentData, $property)) {
             unset($parentData->{$property});
         } else {
-            if ('' == $property) {
-                // Note: PHP bug #67300 allows some workarounds.
-                throw new RuntimeException("Empty string properties are not supported in PHP 7.0");
-            }
             if ($this->isNumericProperty($property)) {
                 // Numeric properties exported from array can be accessed only through iteration in PHP.
                 $newParentData = new \stdClass;

@@ -71,10 +71,6 @@ class Selector extends Reader implements SelectorInterface
             $this
                 ->getCursor()
                 ->unbind();
-            if ('' == $name) {
-                // Note: PHP bug #67300 allows some workarounds.
-                throw new RuntimeException("Empty string properties are not supported in PHP 7.0");
-            }
             if ($this->isNumericProperty($name)) {
                 // Numeric properties exported from array can be accessed only through iteration in PHP.
                 foreach ($parentData as $existingProperty => &$value) {
