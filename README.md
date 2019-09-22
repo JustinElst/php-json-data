@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/remorhaz/php-json-data.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-data)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-data/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-data/?branch=master)
 [![codecov](https://codecov.io/gh/remorhaz/php-json-data/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-data)
+[![Mutation testing badge](https://badge.stryker-mutator.io/github.com/remorhaz/php-json-data/master)](https://stryker-mutator.github.io)
 
 This library is intended for internal use by libraries that operate JSON documents.
 
