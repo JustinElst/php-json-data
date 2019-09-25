@@ -6,7 +6,6 @@ namespace Remorhaz\JSON\Data\Event;
 use Iterator;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use Remorhaz\JSON\Path\Processor\Mutator\MutationInterface;
 
 interface ValueWalkerInterface
 {
