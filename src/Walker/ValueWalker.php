@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Data\Event;
+namespace Remorhaz\JSON\Data\Walker;
 
 use Iterator;
 use Remorhaz\JSON\Data\Path\PathInterface;
@@ -21,7 +21,7 @@ final class ValueWalker implements ValueWalkerInterface
         MutationInterface $modifier
     ): Iterator {
         foreach ($this->createEventIterator($value, $path) as $event) {
-            yield from $modifier($event);
+            yield from $modifier($event, $this);
         }
     }
 }

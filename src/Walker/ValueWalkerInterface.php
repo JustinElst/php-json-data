@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Data\Event;
+namespace Remorhaz\JSON\Data\Walker;
 
 use Iterator;
 use Remorhaz\JSON\Data\Path\PathInterface;

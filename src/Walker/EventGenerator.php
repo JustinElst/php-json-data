@@ -1,9 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Data\Event;
+namespace Remorhaz\JSON\Data\Walker;
 
 use Generator;
+use Remorhaz\JSON\Data\Event\AfterArrayEvent;
+use Remorhaz\JSON\Data\Event\AfterElementEvent;
+use Remorhaz\JSON\Data\Event\AfterElementEventInterface;
+use Remorhaz\JSON\Data\Event\AfterObjectEvent;
+use Remorhaz\JSON\Data\Event\AfterPropertyEvent;
+use Remorhaz\JSON\Data\Event\AfterPropertyEventInterface;
+use Remorhaz\JSON\Data\Event\BeforeArrayEvent;
+use Remorhaz\JSON\Data\Event\BeforeElementEvent;
+use Remorhaz\JSON\Data\Event\BeforeElementEventInterface;
+use Remorhaz\JSON\Data\Event\BeforeObjectEvent;
+use Remorhaz\JSON\Data\Event\BeforePropertyEvent;
+use Remorhaz\JSON\Data\Event\BeforePropertyEventInterface;
+use Remorhaz\JSON\Data\Event\EventInterface;
+use Remorhaz\JSON\Data\Event\Exception;
+use Remorhaz\JSON\Data\Event\ScalarEvent;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
