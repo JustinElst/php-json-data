@@ -9,4 +9,6 @@ interface MutationInterface
 {
 
     public function __invoke(EventInterface $event, ValueWalkerInterface $valueWalker);
+
+    public function reset(): void;
 }

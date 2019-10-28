@@ -20,6 +20,7 @@ final class ValueWalker implements ValueWalkerInterface
         PathInterface $path,
         MutationInterface $modifier
     ): Iterator {
+        $modifier->reset();
         foreach ($this->createEventIterator($value, $path) as $event) {
             yield from $modifier($event, $this);
         }
