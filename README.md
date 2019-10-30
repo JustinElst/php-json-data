@@ -11,6 +11,11 @@ This library is intended for internal use by libraries that operate JSON documen
 
 `Total refactoring [WIP]`
 
+## Requirements
+
+- PHP 7.3+
+- [JSON exception](https://www.php.net/manual/en/book.json.php) (ext-json)
+
 ## License
 
 This library is licensed under the MIT License. Please see [LICENSE](./LICENSE) for more information.
