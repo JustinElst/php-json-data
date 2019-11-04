@@ -6,7 +6,7 @@ namespace Remorhaz\JSON\Data\Value\EncodedJson\Exception;
 use RuntimeException;
 use Throwable;
 
-final class JsonDecodingFailedException extends RuntimeException implements ExceptionInterface
+final class JsonNotDecodedException extends RuntimeException implements ExceptionInterface
 {
 
     private $json;

@@ -28,10 +28,27 @@ class NodeScalarValueTest extends TestCase
     {
         return [
             'Resource' => [STDERR],
-            'Invalid object' => [new class {
-            }],
+            'Invalid object' => [
+                new class
+                {
+                },
+            ],
             'Array' => [[]],
             'Object' => [(object) []],
         ];
+    }
+
+    public function testGetData_ConstructedWithValidData_ReturnsSameValue(): void
+    {
+        $nodeValue = new NodeScalarValue('a', new Path);
+        self::assertSame('a', $nodeValue->getData());
+    }
+
+    public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
+    {
+        $path = new Path;
+        $nodeValue = new NodeScalarValue('a', $path);
+        self::assertSame($path, $nodeValue->getPath());
+
     }
 }

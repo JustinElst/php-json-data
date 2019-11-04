@@ -7,7 +7,6 @@ use function gettype;
 use function is_int;
 use function is_string;
 use Remorhaz\JSON\Data\Exception\ExceptionInterface;
-use Remorhaz\JSON\Data\Exception\PathAwareExceptionTrait;
 use Remorhaz\JSON\Data\Path\PathAwareInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use RuntimeException;
@@ -16,9 +15,9 @@ use Throwable;
 class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {
 
-    use PathAwareExceptionTrait;
-
     private $key;
+
+    private $path;
 
     /**
      * @param mixed $key
@@ -42,6 +41,11 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
         return $this->key;
     }
 
+    public function getPath(): PathInterface
+    {
+        return $this->path;
+    }
+
     private function buildKey(): string
     {
         if (is_string($this->key)) {
@@ -55,5 +59,10 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
         $type = gettype($this->key);
 
         return "<{$type}>";
+    }
+
+    private function buildPath(): string
+    {
+        return '/' . implode('/', $this->path->getElements());
     }
 }

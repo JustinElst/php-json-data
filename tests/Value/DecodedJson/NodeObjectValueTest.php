@@ -5,59 +5,38 @@ namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
 use PHPUnit\Framework\Constraint\Callback;
 use Remorhaz\JSON\Data\Path\PathInterface;
+use Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use function iterator_to_array;
 use PHPUnit\Framework\TestCase;
-use Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory;
-use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidElementKeyException;
 use Remorhaz\JSON\Data\Path\Path;
 
 /**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue
+ * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue
  */
-class NodeArrayValueTest extends TestCase
+class NodeObjectValueTest extends TestCase
 {
 
-    /**
-     * @param array $data
-     * @dataProvider providerArrayWithInvalidIndex
-     */
-    public function testCreateChildIterator_ArrayDataWithInvalidIndex_ThrowsException(array $data): void
+    public function testCreateChildIterator_EmptyObjectData_ReturnsEmptyIterator(): void
     {
-        $value = new NodeArrayValue($data, new Path, NodeValueFactory::create());
-
-        $this->expectException(InvalidElementKeyException::class);
-        iterator_to_array($value->createChildIterator(), true);
-    }
-
-    public function providerArrayWithInvalidIndex(): array
-    {
-        return [
-            'Non-zero first index' => [[1 => 'a']],
-            'Non-integer first index' => [['a' => 'b']],
-        ];
-    }
-
-    public function testCreateChildIterator_EmptyArrayData_ReturnsEmptyIterator(): void
-    {
-        $value = new NodeArrayValue([], new Path, NodeValueFactory::create());
+        $value = new NodeObjectValue((object) [], new Path, NodeValueFactory::create());
         $actualData = iterator_to_array($value->createChildIterator(), true);
         self::assertSame([], $actualData);
     }
 
-    public function testCreateChildIterator_NotEmptyArrayData_CallsFactoryForEachElement(): void
+    public function testCreateChildIterator_NotEmptyObjectData_CallsFactoryForEachElement(): void
     {
         $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
-        $value = new NodeArrayValue(['a', 1], new Path('b'), $nodeValueFactory);
+        $value = new NodeObjectValue((object) ['a' => 'b', 'c' => 1], new Path('d'), $nodeValueFactory);
 
         $nodeValueFactory
             ->expects(self::exactly(2))
             ->method('createValue')
             ->withConsecutive(
-                [self::identicalTo('a'), $this->isArgEqualPath('b', 0)],
-                [self::identicalTo(1), $this->isArgEqualPath('b', 1)],
+                [self::identicalTo('b'), $this->isArgEqualPath('d', 'a')],
+                [self::identicalTo(1), $this->isArgEqualPath('d', 'c')],
                 );
         iterator_to_array($value->createChildIterator(), true);
     }
@@ -74,7 +53,7 @@ class NodeArrayValueTest extends TestCase
     public function testCreateChildIterator_NodeFactoryReturnsValues_ReturnsSameValuesWithMatchingIndexes(): void
     {
         $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
-        $value = new NodeArrayValue(['a', 1], new Path('b'), $nodeValueFactory);
+        $value = new NodeObjectValue((object) ['a' => 'b', 'c' => 1], new Path('d'), $nodeValueFactory);
 
         $firstNode = $this->createMock(NodeValueInterface::class);
         $secondNode = $this->createMock(NodeValueInterface::class);
@@ -83,13 +62,13 @@ class NodeArrayValueTest extends TestCase
             ->willReturnOnConsecutiveCalls($firstNode, $secondNode);
 
         $actualValue = iterator_to_array($value->createChildIterator(), true);
-        self::assertSame([0 => $firstNode, 1 => $secondNode], $actualValue);
+        self::assertSame(['a' => $firstNode, 'c' => $secondNode], $actualValue);
     }
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
         $path = new Path;
-        $value = new NodeArrayValue([], $path, NodeValueFactory::create());
+        $value = new NodeObjectValue((object) [], $path, NodeValueFactory::create());
         self::assertSame($path, $value->getPath());
     }
 }

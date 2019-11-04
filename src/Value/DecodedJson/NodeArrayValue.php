@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Value\DecodedJson;
 
-use Generator;
 use Iterator;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
@@ -29,11 +28,6 @@ final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
     }
 
     public function createChildIterator(): Iterator
-    {
-        return $this->createChildGenerator();
-    }
-
-    private function createChildGenerator(): Generator
     {
         $validIndex = 0;
         foreach ($this->data as $index => $element) {

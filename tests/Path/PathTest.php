@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Path;
 
 use PHPUnit\Framework\TestCase;
+use Remorhaz\JSON\Data\Path\Exception\ParentNotFoundException;
 use Remorhaz\JSON\Data\Path\Path;
 
 /**
@@ -18,7 +19,7 @@ class PathTest extends TestCase
         self::assertSame(['a', 1], $path->getElements());
     }
 
-    public function testCopyWithElement_ConstructedInstance_ReturnsAnotherInstance(): void
+    public function testCopyWithElement_Constructed_ReturnsNewInstance(): void
     {
         $path = new Path();
         self::assertNotSame($path, $path->copyWithElement(1));
@@ -30,7 +31,7 @@ class PathTest extends TestCase
         self::assertSame(['a', 1], $path->copyWithElement(1)->getElements());
     }
 
-    public function testCopyWithProperty_ConstructedInstance_ReturnsAnotherInstance(): void
+    public function testCopyWithProperty_Constructed_ReturnsNewInstance(): void
     {
         $path = new Path();
         self::assertNotSame($path, $path->copyWithProperty('a'));
@@ -82,5 +83,59 @@ class PathTest extends TestCase
             'Nested paths' => [['a', 1], ['a']],
             'Paths with different element sequences' => [['a', 1], [1, 'a']],
         ];
+    }
+
+    /**
+     * @param array $pathElements
+     * @param array $containedPathElements
+     * @dataProvider providerContains
+     */
+    public function testContains_ContainedPath_ReturnsTrue(array $pathElements, array $containedPathElements): void
+    {
+        $path = new Path(...$pathElements);
+        $containedPath = new Path(...$containedPathElements);
+        self::assertTrue($path->contains($containedPath));
+    }
+
+    public function providerContains(): array
+    {
+        return [
+            'Same path' => [['a', 1], ['a', 1]],
+            'Sub-path' => [['a'], ['a', 1]],
+        ];
+    }
+
+    public function testCopyParent_NonEmptyPath_ReturnsNewInstance(): void
+    {
+        $path = new Path('a');
+        $pathCopy = $path->copyParent();
+        self::assertNotSame($path, $pathCopy);
+    }
+
+    /**
+     * @dataProvider providerCopyExistingParent
+     * @param array $pathElements
+     * @param array $expectedElements
+     */
+    public function testCopyParent_NonEmptyPath_ReturnsMatchingPath(array $pathElements, array $expectedElements): void
+    {
+        $path = new Path(...$pathElements);
+        $pathCopy = $path->copyParent();
+        self::assertSame($expectedElements, $pathCopy->getElements());
+    }
+
+    public function providerCopyExistingParent(): array
+    {
+        return [
+            'Single element path' => [['a'], []],
+            'Two elements in path' => [['a', 'b'], ['a']],
+        ];
+    }
+
+    public function testCopyParent_EmptyPath_ThrowsException(): void
+    {
+        $path = new Path;
+        $this->expectException(ParentNotFoundException::class);
+        $path->copyParent();
     }
 }
