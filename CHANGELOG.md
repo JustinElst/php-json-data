@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Unnecessary exception trait removed.
 
+### Fixed
+- Some exceptions fixed: moved to correct namespace, missing interface added.
+
 ## [0.5.0] - 2019-11-01
 ### Added
 - Implementation totally refactored.

@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Event\Exception;
 
 use LogicException;
+use Remorhaz\JSON\Data\Value\DataAwareInterface;
 use Throwable;
 
-final class InvalidScalarDataException extends LogicException implements ExceptionInterface
+final class InvalidScalarDataException extends LogicException implements ExceptionInterface, DataAwareInterface
 {
 
     private $data;

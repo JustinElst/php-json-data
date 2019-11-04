@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Export\Exception;
 
 use LogicException;
+use Remorhaz\JSON\Data\Value\DataAwareInterface;
 use Throwable;
 
-final class EncodingFailedException extends LogicException implements ExceptionInterface
+final class EncodingFailedException extends LogicException implements ExceptionInterface, DataAwareInterface
 {
 
     private $data;

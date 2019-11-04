@@ -17,7 +17,6 @@ use Remorhaz\JSON\Data\Event\BeforeObjectEvent;
 use Remorhaz\JSON\Data\Event\BeforePropertyEvent;
 use Remorhaz\JSON\Data\Event\BeforePropertyEventInterface;
 use Remorhaz\JSON\Data\Event\EventInterface;
-use Remorhaz\JSON\Data\Event\Exception;
 use Remorhaz\JSON\Data\Event\ScalarEvent;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;

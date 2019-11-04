@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Remorhaz\JSON\Data\Event\Exception;
+namespace Remorhaz\JSON\Data\Walker\Exception;
 
 use LogicException;
 use Throwable;
