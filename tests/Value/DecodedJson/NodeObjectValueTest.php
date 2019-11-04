@@ -37,7 +37,7 @@ class NodeObjectValueTest extends TestCase
             ->withConsecutive(
                 [self::identicalTo('b'), $this->isArgEqualPath('d', 'a')],
                 [self::identicalTo(1), $this->isArgEqualPath('d', 'c')],
-                );
+            );
         iterator_to_array($value->createChildIterator(), true);
     }
 

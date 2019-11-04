@@ -49,6 +49,5 @@ class NodeScalarValueTest extends TestCase
         $path = new Path;
         $nodeValue = new NodeScalarValue('a', $path);
         self::assertSame($path, $nodeValue->getPath());
-
     }
 }
