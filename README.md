@@ -12,7 +12,7 @@ This library provides infrastructure for JSON documents processing.
 ## Requirements
 
 - PHP 7.3+
-- [JSON exception](https://www.php.net/manual/en/book.json.php) (ext-json)
+- [JSON extension](https://www.php.net/manual/en/book.json.php) (ext-json)
 
 ## Node Values
 `ValueInterface` can be used to represent JSON document or it's part. There is a set of descendant interfaces that provide access to typed values:
