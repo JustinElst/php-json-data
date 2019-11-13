@@ -55,6 +55,13 @@ Library includes a set of `ValueExporterInterface` implementations that allow to
 - `ValueEncoder` converts value to JSON-encoded string.
 - `ValueDecoder` converts value to raw PHP values.
 
+## Comparators
+Library includes a set of `ComparatorInterface` implementations that provide a simple way to compare/sort JSON documents:
+
+- `EqualValueComparator` checks for JSON documents equality. Note that objects with same properties in different order are considered equal.
+- `GreaterValueComparator` compares JSON numbers and strings.
+- `ContainsValueComparator` checks JSON documents either for equality or for containment. Containing object is allowed to have additional properties on any level of recursion. 
+
 ## License
 
 This library is licensed under the MIT License. Please see [LICENSE](./LICENSE) for more information.
