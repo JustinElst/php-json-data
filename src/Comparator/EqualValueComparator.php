@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Comparator;
 
 use Collator;
+use Iterator;
 use function is_string;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
@@ -64,34 +65,45 @@ final class EqualValueComparator implements ComparatorInterface
             $leftValueIterator->next();
             $rightValueIterator->next();
         }
+
         return !$rightValueIterator->valid();
     }
 
     private function isObjectEqual(ObjectValueInterface $leftValue, ObjectValueInterface $rightValue): bool
     {
-        $leftValueIterator = $leftValue->createChildIterator();
-        $rightValueIterator = $rightValue->createChildIterator();
+        $leftProperties = $this->getPropertiesWithoutDuplicates($leftValue->createChildIterator());
+        if (!isset($leftProperties)) {
+            return false;
+        }
+        $rightProperties = $this->getPropertiesWithoutDuplicates($rightValue->createChildIterator());
+        if (!isset($rightProperties)) {
+            return false;
+        }
+        foreach ($rightProperties as $property => $rightValue) {
+            if (!isset($leftProperties[$property])) {
+                return false;
+            }
+            if (!$this->compare($leftProperties[$property], $rightValue)) {
+                return false;
+            }
+            unset($leftProperties[$property]);
+        }
 
+        return empty($leftProperties);
+    }
+
+    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
+    {
         $valuesByProperty = [];
-        while ($leftValueIterator->valid()) {
-            $property = $leftValueIterator->key();
+        while ($valueIterator->valid()) {
+            $property = $valueIterator->key();
             if (isset($valuesByProperty[$property])) {
-                return false;
+                return null;
             }
-            $valuesByProperty[$property] = $leftValueIterator->current();
-            $leftValueIterator->next();
+            $valuesByProperty[$property] = $valueIterator->current();
+            $valueIterator->next();
         }
-        while ($rightValueIterator->valid()) {
-            $property = $rightValueIterator->key();
-            if (!isset($valuesByProperty[$property])) {
-                return false;
-            }
-            if (!$this->compare($valuesByProperty[$property], $rightValueIterator->current())) {
-                return false;
-            }
-            unset($valuesByProperty[$property]);
-            $rightValueIterator->next();
-        }
-        return empty($valuesByProperty);
+
+        return $valuesByProperty;
     }
 }

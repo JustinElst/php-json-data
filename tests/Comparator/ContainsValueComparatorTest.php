@@ -4,9 +4,13 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Comparator;
 
 use Collator;
+use Generator;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Comparator\ContainsValueComparator;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
+use Remorhaz\JSON\Data\Value\ObjectValueInterface;
+use Remorhaz\JSON\Data\Value\ScalarValueInterface;
+use Remorhaz\JSON\Data\Value\ValueInterface;
 
 /**
  * @covers \Remorhaz\JSON\Data\Comparator\ContainsValueComparator
@@ -80,5 +84,45 @@ class ContainsValueComparatorTest extends TestCase
             'Right object contains additional properties' => ['{"a":"b"}', '{"a":"b","c":"d"}'],
             'Object with different property value' => ['{"a":"b"}', '{"a":"c"}'],
         ];
+    }
+
+    public function testCompare_DuplicatedPropertyInLeftValue_ReturnsFalse(): void
+    {
+        $comparator = new ContainsValueComparator(new Collator('UTF-8'));
+        $value = $this->createMock(ScalarValueInterface::class);
+        $value
+            ->method('getData')
+            ->willReturn('b');
+        $leftValue = $this->createObjectWithDuplicatedProperty('a', $value);
+        $rightValue = NodeValueFactory::create()->createValue('{"a":"b"}');
+        $actualValue = $comparator->compare($leftValue, $rightValue);
+        self::assertFalse($actualValue);
+    }
+
+    public function testCompare_DuplicatedPropertyInRightValue_ReturnsFalse(): void
+    {
+        $comparator = new ContainsValueComparator(new Collator('UTF-8'));
+        $leftValue = NodeValueFactory::create()->createValue('{"a":"b"}');
+        $value = $this->createMock(ScalarValueInterface::class);
+        $value
+            ->method('getData')
+            ->willReturn('b');
+        $rightValue = $this->createObjectWithDuplicatedProperty('a', $value);
+        $actualValue = $comparator->compare($leftValue, $rightValue);
+        self::assertFalse($actualValue);
+    }
+
+    private function createObjectWithDuplicatedProperty(string $name, ValueInterface $value): ValueInterface
+    {
+        $object = $this->createMock(ObjectValueInterface::class);
+        $generator = function () use ($name, $value): Generator {
+            yield $name => $value;
+            yield $name => $value;
+        };
+        $object
+            ->method('createChildIterator')
+            ->willReturn($generator());
+
+        return $object;
     }
 }
