@@ -12,7 +12,8 @@ This library provides infrastructure for JSON documents processing.
 ## Requirements
 
 - PHP 7.3+
-- [JSON extension](https://www.php.net/manual/en/book.json.php) (ext-json)
+- [Internationalization functions](https://www.php.net/manual/en/book.intl.php) (ext-intl) - to compare Unicode strings.
+- [JSON extension](https://www.php.net/manual/en/book.json.php) (ext-json) - to encode and decode JSON documents.
 
 ## Node Values
 `ValueInterface` can be used to represent JSON document or it's part. There is a set of descendant interfaces that provide access to typed values:
