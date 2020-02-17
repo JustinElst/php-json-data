@@ -7,7 +7,7 @@ matrix:
     - php: '7.4'
       env: XDEBUG=YES
     - php: nightly
-      env: XDEBUG=YES
+      env: XDEBUG=NO
   allow_failures:
     - php: nightly
 
