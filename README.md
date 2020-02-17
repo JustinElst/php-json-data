@@ -1,11 +1,12 @@
 # PHP JSON Data Accessors
 
 [![Latest Stable Version](https://poser.pugx.org/remorhaz/php-json-data/v/stable)](https://packagist.org/packages/remorhaz/php-json-data)
-[![License](https://poser.pugx.org/remorhaz/php-json-data/license)](https://packagist.org/packages/remorhaz/php-json-data)
 [![Build Status](https://travis-ci.org/remorhaz/php-json-data.svg?branch=master)](https://travis-ci.org/remorhaz/php-json-data)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-data/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-data/?branch=master)
 [![codecov](https://codecov.io/gh/remorhaz/php-json-data/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-data)
+[![Total Downloads](https://poser.pugx.org/remorhaz/php-json-data/downloads)](https://packagist.org/packages/remorhaz/php-json-data)
 [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/remorhaz/php-json-data/master)](https://stryker-mutator.github.io)
+[![License](https://poser.pugx.org/remorhaz/php-json-data/license)](https://packagist.org/packages/remorhaz/php-json-data)
 
 This library provides infrastructure for JSON documents processing.
 
