@@ -4,8 +4,12 @@ matrix:
   include:
     - php: '7.3'
       env: XDEBUG=YES
-    - php: '7.4snapshot'
-      env: XDEBUG=NO
+    - php: '7.4'
+      env: XDEBUG=YES
+    - php: nightly
+      env: XDEBUG=YES
+  allow_failures:
+    - php: nightly
 
 install:
   - mkdir -p ./build/logs
