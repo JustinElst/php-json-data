@@ -14,11 +14,12 @@
     }
   ],
   "require": {
-    "php": "^7.3 | 8.0.0 as 7.5.0",
+    "php": "^7.3",
     "ext-json": "*",
     "ext-intl": "*"
   },
   "require-dev": {
+    "php": "^7.3 | ^8.0",
     "phpunit/phpunit": "^9.0.1",
     "squizlabs/php_codesniffer": "^3.4",
     "infection/infection": "^0.15.3"
