@@ -1,21 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Value\DecodedJson;
 
-use function is_array;
-use function is_scalar;
 use Remorhaz\JSON\Data\Path\Path;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use stdClass;
+
+use function is_array;
+use function is_scalar;
 
 final class NodeValueFactory implements NodeValueFactoryInterface
 {
 
     public static function create(): NodeValueFactoryInterface
     {
-        return new self;
+        return new self();
     }
 
     /**
@@ -28,7 +30,7 @@ final class NodeValueFactory implements NodeValueFactoryInterface
     public function createValue($data, ?PathInterface $path = null): NodeValueInterface
     {
         if (!isset($path)) {
-            $path = new Path;
+            $path = new Path();
         }
         if (null === $data || is_scalar($data)) {
             return new NodeScalarValue($data, $path);

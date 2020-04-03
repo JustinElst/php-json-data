@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
@@ -11,6 +12,7 @@ use Remorhaz\JSON\Data\Value\DecodedJson\NodeScalarValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory;
 use Remorhaz\JSON\Data\Path\Path;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
+
 use const STDOUT;
 
 /**
@@ -25,7 +27,7 @@ class NodeValueFactoryTest extends TestCase
      */
     public function testCreateValue_ScalarDataOrNull_ReturnsNodeScalarValue($data): void
     {
-        $actualValue = NodeValueFactory::create()->createValue($data, new Path);
+        $actualValue = NodeValueFactory::create()->createValue($data, new Path());
         self::assertInstanceOf(NodeScalarValue::class, $actualValue);
     }
 
@@ -46,7 +48,7 @@ class NodeValueFactoryTest extends TestCase
      */
     public function testCreateValue_ScalarValueAndGivenPath_ResultHasSamePathInstance($data): void
     {
-        $path = new Path;
+        $path = new Path();
         $actualValue = NodeValueFactory::create()->createValue($data, $path);
         self::assertSame($path, $actualValue->getPath());
     }
@@ -68,7 +70,7 @@ class NodeValueFactoryTest extends TestCase
      */
     public function testCreateValue_ScalarValue_ResultHasMatchingData($data, $expectedValue): void
     {
-        $path = new Path;
+        $path = new Path();
         /** @var ScalarValueInterface $actualValue */
         $actualValue = NodeValueFactory::create()->createValue($data, $path);
         self::assertSame($expectedValue, $actualValue->getData());
@@ -76,13 +78,13 @@ class NodeValueFactoryTest extends TestCase
 
     public function testCreateValue_ArrayValue_ReturnsNodeArrayValue(): void
     {
-        $actualValue = NodeValueFactory::create()->createValue([], new Path);
+        $actualValue = NodeValueFactory::create()->createValue([], new Path());
         self::assertInstanceOf(NodeArrayValue::class, $actualValue);
     }
 
     public function testCreateValue_ArrayValueAndGivenPath_ResultHasSamePathInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $actualValue = NodeValueFactory::create()->createValue([], $path);
         self::assertSame($path, $actualValue->getPath());
     }
@@ -95,13 +97,13 @@ class NodeValueFactoryTest extends TestCase
 
     public function testCreateValue_ObjectValue_ReturnsNodeObjectValue(): void
     {
-        $actualValue = NodeValueFactory::create()->createValue((object) [], new Path);
+        $actualValue = NodeValueFactory::create()->createValue((object) [], new Path());
         self::assertInstanceOf(NodeObjectValue::class, $actualValue);
     }
 
     public function testCreateValue_ObjectValueAndGivenPath_ResultHasSamePathInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $actualValue = NodeValueFactory::create()->createValue((object) [], $path);
         self::assertSame($path, $actualValue->getPath());
     }
@@ -116,13 +118,13 @@ class NodeValueFactoryTest extends TestCase
     {
         $factory = NodeValueFactory::create();
         $this->expectException(InvalidNodeDataException::class);
-        $factory->createValue(STDOUT, new Path);
+        $factory->createValue(STDOUT, new Path());
     }
 
     public function testCreateValue_NonMatchingObject_ThrowsException(): void
     {
         $factory = NodeValueFactory::create();
         $this->expectException(InvalidNodeDataException::class);
-        $factory->createValue(new Path, new Path);
+        $factory->createValue(new Path(), new Path());
     }
 }

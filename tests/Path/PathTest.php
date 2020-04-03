@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Path;
@@ -134,7 +135,7 @@ class PathTest extends TestCase
 
     public function testCopyParent_EmptyPath_ThrowsException(): void
     {
-        $path = new Path;
+        $path = new Path();
         $this->expectException(ParentNotFoundException::class);
         $path->copyParent();
     }

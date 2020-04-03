@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Event;
@@ -15,13 +16,13 @@ class BeforePropertyEventTest extends TestCase
 
     public function testGetName_ConstructedWithName_ReturnsSameIndex(): void
     {
-        $event = new BeforePropertyEvent('a', new Path);
+        $event = new BeforePropertyEvent('a', new Path());
         self::assertSame('a', $event->getName());
     }
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $event = new BeforePropertyEvent('a', $path);
         self::assertSame($path, $event->getPath());
     }

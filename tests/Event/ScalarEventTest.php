@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Event;
@@ -17,7 +18,7 @@ class ScalarEventTest extends TestCase
     public function testConstruct_NonScalarData_ThrowsException(): void
     {
         $this->expectException(InvalidScalarDataException::class);
-        new ScalarEvent([], new Path);
+        new ScalarEvent([], new Path());
     }
 
     /**
@@ -27,7 +28,7 @@ class ScalarEventTest extends TestCase
      */
     public function testGetData_ConstructedWithScalarData_ReturnsSameValue($data, $expectedValue): void
     {
-        $event = new ScalarEvent($data, new Path);
+        $event = new ScalarEvent($data, new Path());
         self::assertSame($expectedValue, $event->getData());
     }
 
@@ -44,7 +45,7 @@ class ScalarEventTest extends TestCase
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $event = new ScalarEvent(null, $path);
         self::assertSame($path, $event->getPath());
     }

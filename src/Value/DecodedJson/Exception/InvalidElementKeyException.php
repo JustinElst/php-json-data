@@ -1,16 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Value\DecodedJson\Exception;
 
-use function gettype;
-use function is_int;
-use function is_string;
 use Remorhaz\JSON\Data\Exception\ExceptionInterface;
 use Remorhaz\JSON\Data\Path\PathAwareInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use RuntimeException;
 use Throwable;
+
+use function gettype;
+use function is_int;
+use function is_string;
 
 class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {

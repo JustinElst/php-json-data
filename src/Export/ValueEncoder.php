@@ -1,14 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Export;
 
+use Remorhaz\JSON\Data\Value\ValueInterface;
+use Throwable;
+
 use function json_encode;
+
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-use Remorhaz\JSON\Data\Value\ValueInterface;
-use Throwable;
 
 /**
  * @todo Don't use decoder

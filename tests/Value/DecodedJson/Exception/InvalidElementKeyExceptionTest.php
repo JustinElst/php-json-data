@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
@@ -38,7 +39,7 @@ class InvalidElementKeyExceptionTest extends TestCase
 
     public function testGetPath_ConstructedWithGivenPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $exception = new InvalidElementKeyException(0, $path);
         self::assertSame($path, $exception->getPath());
     }
@@ -50,7 +51,7 @@ class InvalidElementKeyExceptionTest extends TestCase
      */
     public function testGetKey_ConstructedWithGivenKey_ReturnsSameValue($key, $expectedValue): void
     {
-        $exception = new InvalidElementKeyException($key, new Path);
+        $exception = new InvalidElementKeyException($key, new Path());
         self::assertSame($expectedValue, $exception->getKey());
     }
 
@@ -64,20 +65,20 @@ class InvalidElementKeyExceptionTest extends TestCase
 
     public function testGetCode_Always_ReturnZero(): void
     {
-        $exception = new InvalidElementKeyException(0, new Path);
+        $exception = new InvalidElementKeyException(0, new Path());
         self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
     {
-        $exception = new InvalidElementKeyException(0, new Path);
+        $exception = new InvalidElementKeyException(0, new Path());
         self::assertNull($exception->getPrevious());
     }
 
     public function testGetPrevious_ConstructedWithGivenPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
-        $exception = new InvalidElementKeyException(0, new Path, $previous);
+        $previous = new Exception();
+        $exception = new InvalidElementKeyException(0, new Path(), $previous);
         self::assertSame($previous, $exception->getPrevious());
     }
 }

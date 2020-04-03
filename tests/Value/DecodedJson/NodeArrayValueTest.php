@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
@@ -7,12 +8,13 @@ use PHPUnit\Framework\Constraint\Callback;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use function iterator_to_array;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory;
 use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidElementKeyException;
 use Remorhaz\JSON\Data\Path\Path;
+
+use function iterator_to_array;
 
 /**
  * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue
@@ -26,7 +28,7 @@ class NodeArrayValueTest extends TestCase
      */
     public function testCreateChildIterator_ArrayDataWithInvalidIndex_ThrowsException(array $data): void
     {
-        $value = new NodeArrayValue($data, new Path, NodeValueFactory::create());
+        $value = new NodeArrayValue($data, new Path(), NodeValueFactory::create());
 
         $this->expectException(InvalidElementKeyException::class);
         iterator_to_array($value->createChildIterator(), true);
@@ -42,7 +44,7 @@ class NodeArrayValueTest extends TestCase
 
     public function testCreateChildIterator_EmptyArrayData_ReturnsEmptyIterator(): void
     {
-        $value = new NodeArrayValue([], new Path, NodeValueFactory::create());
+        $value = new NodeArrayValue([], new Path(), NodeValueFactory::create());
         $actualData = iterator_to_array($value->createChildIterator(), true);
         self::assertSame([], $actualData);
     }
@@ -88,7 +90,7 @@ class NodeArrayValueTest extends TestCase
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $value = new NodeArrayValue([], $path, NodeValueFactory::create());
         self::assertSame($path, $value->getPath());
     }

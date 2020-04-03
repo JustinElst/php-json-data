@@ -1,15 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Value\EncodedJson;
 
-use function json_decode;
-use const JSON_THROW_ON_ERROR;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory as DecodedJsonNodeValueFactory;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface as DecodedJsonNodeValueFactoryInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Throwable;
+
+use function json_decode;
+
+use const JSON_THROW_ON_ERROR;
 
 final class NodeValueFactory implements NodeValueFactoryInterface
 {

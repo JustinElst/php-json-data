@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\EncodedJson;
@@ -45,7 +46,7 @@ class NodeValueFactoryTest extends TestCase
         $decodedJsonFactory = $this->createMock(NodeValueFactoryInterface::class);
         $encodedJsonFactory = new NodeValueFactory($decodedJsonFactory);
 
-        $path = new Path;
+        $path = new Path();
         $decodedJsonFactory
             ->expects(self::once())
             ->method('createValue')

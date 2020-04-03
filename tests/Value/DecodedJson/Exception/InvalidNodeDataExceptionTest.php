@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson\Exception;
@@ -36,33 +37,33 @@ class InvalidNodeDataExceptionTest extends TestCase
     public function testGetData_ConstructedWithGivenData_ReturnsSameInstance(): void
     {
         $data = (object) [];
-        $exception = new InvalidNodeDataException($data, new Path);
+        $exception = new InvalidNodeDataException($data, new Path());
         self::assertSame($data, $exception->getData());
     }
 
     public function testGetPath_ConstructedWithGivenPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $exception = new InvalidNodeDataException(0, $path);
         self::assertSame($path, $exception->getPath());
     }
 
     public function testGetCode_Always_ReturnZero(): void
     {
-        $exception = new InvalidNodeDataException(0, new Path);
+        $exception = new InvalidNodeDataException(0, new Path());
         self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
     {
-        $exception = new InvalidNodeDataException(0, new Path);
+        $exception = new InvalidNodeDataException(0, new Path());
         self::assertNull($exception->getPrevious());
     }
 
     public function testGetPrevious_ConstructedWithGivenPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
-        $exception = new InvalidNodeDataException(0, new Path, $previous);
+        $previous = new Exception();
+        $exception = new InvalidNodeDataException(0, new Path(), $previous);
         self::assertSame($previous, $exception->getPrevious());
     }
 }

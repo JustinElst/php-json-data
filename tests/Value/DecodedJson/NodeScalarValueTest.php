@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
@@ -21,7 +22,7 @@ class NodeScalarValueTest extends TestCase
     public function testConstruct_InvalidData_ThrowsMatchingException($data): void
     {
         $this->expectException(InvalidNodeDataException::class);
-        new NodeScalarValue($data, new Path);
+        new NodeScalarValue($data, new Path());
     }
 
     public function providerInvalidData(): array
@@ -40,13 +41,13 @@ class NodeScalarValueTest extends TestCase
 
     public function testGetData_ConstructedWithValidData_ReturnsSameValue(): void
     {
-        $nodeValue = new NodeScalarValue('a', new Path);
+        $nodeValue = new NodeScalarValue('a', new Path());
         self::assertSame('a', $nodeValue->getData());
     }
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $nodeValue = new NodeScalarValue('a', $path);
         self::assertSame($path, $nodeValue->getPath());
     }

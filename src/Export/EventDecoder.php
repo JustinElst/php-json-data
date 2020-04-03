@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Export;
@@ -72,7 +73,7 @@ final class EventDecoder implements EventDecoderInterface
         }
         $data = array_pop($buffer);
 
-        return (new NodeValueFactory)->createValue($data);
+        return (new NodeValueFactory())->createValue($data);
     }
 
     public function exportExistingEvents(Iterator $events): NodeValueInterface
@@ -82,6 +83,6 @@ final class EventDecoder implements EventDecoderInterface
             return $value;
         }
 
-        throw new Exception\NoValueToExportException;
+        throw new Exception\NoValueToExportException();
     }
 }

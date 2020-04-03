@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Path\Exception;
@@ -16,7 +17,7 @@ class ParentNotFoundExceptionTest extends TestCase
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $exception = new ParentNotFoundException($path);
         self::assertSame($path, $exception->getPath());
     }
@@ -43,20 +44,20 @@ class ParentNotFoundExceptionTest extends TestCase
 
     public function testGetCode_Always_ReturnsZero(): void
     {
-        $exception = new ParentNotFoundException(new Path);
+        $exception = new ParentNotFoundException(new Path());
         self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
     {
-        $exception = new ParentNotFoundException(new Path);
+        $exception = new ParentNotFoundException(new Path());
         self::assertNull($exception->getPrevious());
     }
 
     public function testGetPrevious_ConstructedWithPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
-        $exception = new ParentNotFoundException(new Path, $previous);
+        $previous = new Exception();
+        $exception = new ParentNotFoundException(new Path(), $previous);
         self::assertSame($previous, $exception->getPrevious());
     }
 }

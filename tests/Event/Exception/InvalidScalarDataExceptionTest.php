@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Event\Exception;
@@ -39,7 +40,7 @@ class InvalidScalarDataExceptionTest extends TestCase
 
     public function testGetPrevious_ConstructedWithPrevious_ReturnsSameInstance(): void
     {
-        $previous = new Exception;
+        $previous = new Exception();
         $exception = new InvalidScalarDataException(null, $previous);
         self::assertSame($previous, $exception->getPrevious());
     }

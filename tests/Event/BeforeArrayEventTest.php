@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Event;
@@ -15,7 +16,7 @@ class BeforeArrayEventTest extends TestCase
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $event = new BeforeArrayEvent($path);
         self::assertSame($path, $event->getPath());
     }

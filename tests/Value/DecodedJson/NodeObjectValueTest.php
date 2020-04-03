@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
@@ -8,10 +9,11 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use function iterator_to_array;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory;
 use Remorhaz\JSON\Data\Path\Path;
+
+use function iterator_to_array;
 
 /**
  * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue
@@ -21,7 +23,7 @@ class NodeObjectValueTest extends TestCase
 
     public function testCreateChildIterator_EmptyObjectData_ReturnsEmptyIterator(): void
     {
-        $value = new NodeObjectValue((object) [], new Path, NodeValueFactory::create());
+        $value = new NodeObjectValue((object) [], new Path(), NodeValueFactory::create());
         $actualData = iterator_to_array($value->createChildIterator(), true);
         self::assertSame([], $actualData);
     }
@@ -67,7 +69,7 @@ class NodeObjectValueTest extends TestCase
 
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
-        $path = new Path;
+        $path = new Path();
         $value = new NodeObjectValue((object) [], $path, NodeValueFactory::create());
         self::assertSame($path, $value->getPath());
     }

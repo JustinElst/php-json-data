@@ -1,14 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Comparator;
 
 use Collator;
+use Remorhaz\JSON\Data\Value\ScalarValueInterface;
+use Remorhaz\JSON\Data\Value\ValueInterface;
+
 use function is_float;
 use function is_int;
 use function is_string;
-use Remorhaz\JSON\Data\Value\ScalarValueInterface;
-use Remorhaz\JSON\Data\Value\ValueInterface;
 
 final class GreaterValueComparator implements ComparatorInterface
 {

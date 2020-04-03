@@ -1,15 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Comparator;
 
 use Collator;
 use Iterator;
-use function is_string;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Data\Value\ValueInterface;
+
+use function is_string;
 
 final class EqualValueComparator implements ComparatorInterface
 {
