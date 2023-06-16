@@ -11,31 +11,34 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
 
 final class ValueDecoder implements ValueDecoderInterface
 {
-
-    public function exportValue(ValueInterface $value)
+    public function exportValue(ValueInterface $value): mixed
     {
-        if ($value instanceof ScalarValueInterface) {
-            return $value->getData();
+        return match (true) {
+            $value instanceof ScalarValueInterface => $value->getData(),
+            $value instanceof ArrayValueInterface => $this->exportArrayValue($value),
+            $value instanceof ObjectValueInterface => $this->exportObjectValue($value),
+            default => throw new Exception\UnexpectedValueException($value),
+        };
+    }
+
+    private function exportArrayValue(ArrayValueInterface $value): array
+    {
+        $result = [];
+        foreach ($value->createChildIterator() as $index => $element) {
+            /** @psalm-var mixed */
+            $result[$index] = $this->exportValue($element);
         }
 
-        if ($value instanceof ArrayValueInterface) {
-            $result = [];
-            foreach ($value->createChildIterator() as $index => $element) {
-                $result[$index] = $this->exportValue($element);
-            }
+        return $result;
+    }
 
-            return $result;
+    private function exportObjectValue(ObjectValueInterface $value): object
+    {
+        $result = (object) [];
+        foreach ($value->createChildIterator() as $name => $property) {
+            $result->{$name} = $this->exportValue($property);
         }
 
-        if ($value instanceof ObjectValueInterface) {
-            $result = (object) [];
-            foreach ($value->createChildIterator() as $name => $property) {
-                $result->{$name} = $this->exportValue($property);
-            }
-
-            return $result;
-        }
-
-        throw new Exception\UnexpectedValueException($value);
+        return $result;
     }
 }

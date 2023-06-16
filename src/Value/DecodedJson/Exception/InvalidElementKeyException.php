@@ -16,20 +16,16 @@ use function is_string;
 
 class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {
-
-    private $key;
-
-    private $path;
-
     /**
      * @param mixed $key
      * @param PathInterface $path
      * @param Throwable|null $previous
      */
-    public function __construct($key, PathInterface $path, Throwable $previous = null)
-    {
-        $this->key = $key;
-        $this->path = $path;
+    public function __construct(
+        private mixed $key,
+        private PathInterface $path,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct($this->buildMessage(), 0, $previous);
     }
 
@@ -38,7 +34,7 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
         return "Invalid element key in decoded JSON: {$this->buildKey()} at {$this->buildPath()}";
     }
 
-    public function getKey()
+    public function getKey(): mixed
     {
         return $this->key;
     }

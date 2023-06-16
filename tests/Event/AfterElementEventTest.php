@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class AfterElementEventTest extends TestCase
 {
-
     public function testGetIndex_ConstructedWithIndex_ReturnsSameIndex(): void
     {
         $event = new AfterElementEvent(1, new Path());

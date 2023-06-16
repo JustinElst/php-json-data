@@ -12,7 +12,7 @@ This library provides infrastructure for JSON documents processing.
 
 ## Requirements
 
-- PHP 7.3+
+- PHP 8 
 - [Internationalization functions](https://www.php.net/manual/en/book.intl.php) (ext-intl) - to compare Unicode strings.
 - [JSON extension](https://www.php.net/manual/en/book.json.php) (ext-json) - to encode and decode JSON documents.
 

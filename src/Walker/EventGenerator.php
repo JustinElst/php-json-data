@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Walker;
 
 use Generator;
+use Iterator;
 use Remorhaz\JSON\Data\Event\AfterArrayEvent;
 use Remorhaz\JSON\Data\Event\AfterElementEvent;
 use Remorhaz\JSON\Data\Event\AfterElementEventInterface;
@@ -27,18 +28,22 @@ use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 
 final class EventGenerator
 {
+    /**
+     * @var list<EventInterface|NodeValueInterface>
+     */
+    private array $stack;
 
-    private $stack;
-
-    private $path;
-
-    public function __construct(NodeValueInterface $value, PathInterface $path)
-    {
+    public function __construct(
+        NodeValueInterface $value,
+        private PathInterface $path,
+    ) {
         $this->stack = [$value];
-        $this->path = $path;
     }
 
-    public function __invoke(): Generator
+    /**
+     * @return Iterator<EventInterface>
+     */
+    public function __invoke(): Iterator
     {
         while (true) {
             if (empty($this->stack)) {
@@ -68,7 +73,11 @@ final class EventGenerator
         }
     }
 
-    private function onEvent(EventInterface $event): Generator
+    /**
+     * @param EventInterface $event
+     * @return Iterator<EventInterface>
+     */
+    private function onEvent(EventInterface $event): Iterator
     {
         switch (true) {
             case $event instanceof BeforeElementEventInterface:
@@ -93,12 +102,20 @@ final class EventGenerator
         yield $event;
     }
 
-    private function onScalarValue(ScalarValueInterface $value): Generator
+    /**
+     * @param ScalarValueInterface $value
+     * @return Iterator<EventInterface>
+     */
+    private function onScalarValue(ScalarValueInterface $value): Iterator
     {
         yield new ScalarEvent($value->getData(), $this->path);
     }
 
-    private function onArrayValue(ArrayValueInterface $value): Generator
+    /**
+     * @param ArrayValueInterface $value
+     * @return Iterator<EventInterface>
+     */
+    private function onArrayValue(ArrayValueInterface $value): Iterator
     {
         $localStack = [];
         foreach ($value->createChildIterator() as $index => $child) {
@@ -115,12 +132,16 @@ final class EventGenerator
         array_push(
             $this->stack,
             new AfterArrayEvent($this->path),
-            ...array_reverse($localStack)
+            ...array_reverse($localStack),
         );
         yield new BeforeArrayEvent($this->path);
     }
 
-    private function onObjectValue(ObjectValueInterface $value): Generator
+    /**
+     * @param ObjectValueInterface $value
+     * @return Iterator<EventInterface>
+     */
+    private function onObjectValue(ObjectValueInterface $value): Iterator
     {
         $localStack = [];
         foreach ($value->createChildIterator() as $name => $child) {
@@ -131,13 +152,13 @@ final class EventGenerator
                 $localStack,
                 new BeforePropertyEvent($name, $elementPath),
                 $child,
-                new AfterPropertyEvent($name, $elementPath)
+                new AfterPropertyEvent($name, $elementPath),
             );
         }
         array_push(
             $this->stack,
             new AfterObjectEvent($this->path),
-            ...array_reverse($localStack)
+            ...array_reverse($localStack),
         );
         yield new BeforeObjectEvent($this->path);
     }

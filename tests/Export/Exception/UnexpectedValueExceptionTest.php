@@ -14,7 +14,6 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
  */
 class UnexpectedValueExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new UnexpectedValueException($this->createMock(ValueInterface::class));

@@ -8,23 +8,22 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 
+use function is_scalar;
+
 final class NodeScalarValue implements NodeValueInterface, ScalarValueInterface
 {
+    private int|float|string|bool|null $data;
 
-    private $data;
-
-    private $path;
-
-    public function __construct($data, PathInterface $path)
-    {
-        if (null !== $data && !is_scalar($data)) {
-            throw new Exception\InvalidNodeDataException($data, $path);
-        }
-        $this->data = $data;
-        $this->path = $path;
+    public function __construct(
+        mixed $data,
+        private PathInterface $path,
+    ) {
+        $this->data = null === $data || is_scalar($data)
+            ? $data
+            : throw new Exception\InvalidNodeDataException($data, $path);
     }
 
-    public function getData()
+    public function getData(): int|float|string|bool|null
     {
         return $this->data;
     }

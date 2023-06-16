@@ -14,7 +14,6 @@ use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
  */
 class GreaterValueComparatorTest extends TestCase
 {
-
     /**
      * @param string $leftData
      * @param string $rightData

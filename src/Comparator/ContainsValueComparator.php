@@ -7,14 +7,14 @@ namespace Remorhaz\JSON\Data\Comparator;
 use Collator;
 use Iterator;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
+use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Data\Value\ValueInterface;
 
 final class ContainsValueComparator implements ComparatorInterface
 {
-
-    private $equalComparator;
+    private EqualValueComparator $equalComparator;
 
     public function __construct(Collator $collator)
     {
@@ -58,6 +58,10 @@ final class ContainsValueComparator implements ComparatorInterface
         return true;
     }
 
+    /**
+     * @param Iterator<string, NodeValueInterface> $valueIterator
+     * @return null|array<string, NodeValueInterface>
+     */
     private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
     {
         $valuesByProperty = [];

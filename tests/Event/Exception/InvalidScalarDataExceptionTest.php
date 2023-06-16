@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Event\Exception\InvalidScalarDataException;
  */
 class InvalidScalarDataExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new InvalidScalarDataException(null);

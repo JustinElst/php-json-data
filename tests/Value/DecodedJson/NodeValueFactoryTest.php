@@ -20,18 +20,19 @@ use const STDOUT;
  */
 class NodeValueFactoryTest extends TestCase
 {
-
     /**
-     * @param mixed $data
      * @dataProvider providerScalarDataOrNull
      */
-    public function testCreateValue_ScalarDataOrNull_ReturnsNodeScalarValue($data): void
+    public function testCreateValue_ScalarDataOrNull_ReturnsNodeScalarValue(mixed $data): void
     {
         $actualValue = NodeValueFactory::create()->createValue($data, new Path());
         self::assertInstanceOf(NodeScalarValue::class, $actualValue);
     }
 
-    public function providerScalarDataOrNull(): array
+    /**
+     * @return iterable<string, array{mixed, mixed}>
+     */
+    public static function providerScalarDataOrNull(): iterable
     {
         return [
             'Null' => [null, null],
@@ -43,10 +44,9 @@ class NodeValueFactoryTest extends TestCase
     }
 
     /**
-     * @param mixed $data
      * @dataProvider providerScalarDataOrNull
      */
-    public function testCreateValue_ScalarValueAndGivenPath_ResultHasSamePathInstance($data): void
+    public function testCreateValue_ScalarValueAndGivenPath_ResultHasSamePathInstance(mixed $data): void
     {
         $path = new Path();
         $actualValue = NodeValueFactory::create()->createValue($data, $path);
@@ -54,21 +54,18 @@ class NodeValueFactoryTest extends TestCase
     }
 
     /**
-     * @param mixed $data
      * @dataProvider providerScalarDataOrNull
      */
-    public function testCreateValue_ScalarValueAndNoPath_ResultHasEmptyPath($data): void
+    public function testCreateValue_ScalarValueAndNoPath_ResultHasEmptyPath(mixed $data): void
     {
         $actualValue = NodeValueFactory::create()->createValue($data);
         self::assertEmpty($actualValue->getPath()->getElements());
     }
 
     /**
-     * @param mixed $data
-     * @param $expectedValue
      * @dataProvider providerScalarDataOrNull
      */
-    public function testCreateValue_ScalarValue_ResultHasMatchingData($data, $expectedValue): void
+    public function testCreateValue_ScalarValue_ResultHasMatchingData(mixed $data, mixed $expectedValue): void
     {
         $path = new Path();
         /** @var ScalarValueInterface $actualValue */
@@ -119,12 +116,5 @@ class NodeValueFactoryTest extends TestCase
         $factory = NodeValueFactory::create();
         $this->expectException(InvalidNodeDataException::class);
         $factory->createValue(STDOUT, new Path());
-    }
-
-    public function testCreateValue_NonMatchingObject_ThrowsException(): void
-    {
-        $factory = NodeValueFactory::create();
-        $this->expectException(InvalidNodeDataException::class);
-        $factory->createValue(new Path(), new Path());
     }
 }

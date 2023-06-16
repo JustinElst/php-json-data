@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Export\Exception\NoValueToExportException;
  */
 class NoValueToExportExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new NoValueToExportException();

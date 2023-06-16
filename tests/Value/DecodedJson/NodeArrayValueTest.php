@@ -21,9 +21,7 @@ use function iterator_to_array;
  */
 class NodeArrayValueTest extends TestCase
 {
-
     /**
-     * @param array $data
      * @dataProvider providerArrayWithInvalidIndex
      */
     public function testCreateChildIterator_ArrayDataWithInvalidIndex_ThrowsException(array $data): void
@@ -34,7 +32,10 @@ class NodeArrayValueTest extends TestCase
         iterator_to_array($value->createChildIterator(), true);
     }
 
-    public function providerArrayWithInvalidIndex(): array
+    /**
+     * @return iterable<string, array{array}>
+     */
+    public static function providerArrayWithInvalidIndex(): iterable
     {
         return [
             'Non-zero first index' => [[1 => 'a']],
@@ -54,17 +55,26 @@ class NodeArrayValueTest extends TestCase
         $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
         $value = new NodeArrayValue(['a', 1], new Path('b'), $nodeValueFactory);
 
+        $interceptedArguments = [];
         $nodeValueFactory
-            ->expects(self::exactly(2))
             ->method('createValue')
-            ->withConsecutive(
-                [self::identicalTo('a'), $this->isArgEqualPath('b', 0)],
-                [self::identicalTo(1), $this->isArgEqualPath('b', 1)],
+            ->willReturnCallback(
+                function (mixed $data, ?PathInterface $path) use (&$interceptedArguments): NodeValueInterface {
+                    /** @psalm-var array $interceptedArguments */
+                    $interceptedArguments[] = [$data, $path?->getElements() ?? []];
+
+                    return $this->createStub(NodeValueInterface::class);
+                }
             );
         iterator_to_array($value->createChildIterator(), true);
+        $expectedValue = [
+            ['a', ['b', 0]],
+            [1, ['b', 1]],
+        ];
+        self::assertSame($expectedValue, $interceptedArguments);
     }
 
-    private function isArgEqualPath(...$elements): Callback
+    private function isArgEqualPath(int|string ...$elements): Callback
     {
         $callback = function (PathInterface $path) use ($elements): bool {
             return $path->equals(new Path(...$elements));

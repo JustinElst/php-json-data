@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class AfterPropertyEventTest extends TestCase
 {
-
     public function testGetName_ConstructedWithName_ReturnsSameIndex(): void
     {
         $event = new AfterPropertyEvent('a', new Path());

@@ -14,7 +14,6 @@ use Remorhaz\JSON\Data\Export\Exception\UnknownEventException;
  */
 class UnknownEventExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new UnknownEventException($this->createMock(EventInterface::class));

@@ -8,22 +8,16 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 final class BeforeElementEvent implements BeforeElementEventInterface
 {
-
-    private $index;
-
-    private $path;
-
-    public function __construct(int $index, PathInterface $path)
-    {
-        $this->index = $index;
-        $this->path = $path;
+    public function __construct(
+        private int $index,
+        private PathInterface $path,
+    ) {
     }
 
     public function getIndex(): int
     {
         return $this->index;
     }
-
 
     public function getPath(): PathInterface
     {

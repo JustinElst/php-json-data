@@ -10,16 +10,14 @@ use Throwable;
 
 final class EncodingFailedException extends LogicException implements ExceptionInterface, DataAwareInterface
 {
-
-    private $data;
-
-    public function __construct($data, Throwable $previous = null)
-    {
-        $this->data = $data;
+    public function __construct(
+        private mixed $data,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct("Failed to encode data to JSON", 0, $previous);
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }

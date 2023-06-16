@@ -8,6 +8,5 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
 
 interface ValueEncoderInterface extends ValueExporterInterface
 {
-
     public function exportValue(ValueInterface $value): string;
 }

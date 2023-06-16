@@ -14,18 +14,19 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class NodeScalarValueTest extends TestCase
 {
-
     /**
-     * @param $data
      * @dataProvider providerInvalidData
      */
-    public function testConstruct_InvalidData_ThrowsMatchingException($data): void
+    public function testConstruct_InvalidData_ThrowsMatchingException(mixed $data): void
     {
         $this->expectException(InvalidNodeDataException::class);
         new NodeScalarValue($data, new Path());
     }
 
-    public function providerInvalidData(): array
+    /**
+     * @return iterable<string, array{mixed}>
+     */
+    public static function providerInvalidData(): iterable
     {
         return [
             'Resource' => [STDERR],

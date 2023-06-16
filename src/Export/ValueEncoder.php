@@ -18,23 +18,21 @@ use const JSON_UNESCAPED_UNICODE;
  */
 final class ValueEncoder implements ValueEncoderInterface
 {
-
-    private $decoder;
-
-    public function __construct(ValueDecoderInterface $decoder)
-    {
-        $this->decoder = $decoder;
+    public function __construct(
+        private ValueDecoderInterface $decoder,
+    ) {
     }
 
     public function exportValue(ValueInterface $value): string
     {
+        /** @psalm-var mixed $decodedValue */
         $decodedValue = $this
             ->decoder
             ->exportValue($value);
         try {
             return json_encode(
                 $decodedValue,
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
             );
         } catch (Throwable $e) {
             throw new Exception\EncodingFailedException($decodedValue, $e);

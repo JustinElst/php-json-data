@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Value\EncodedJson;
 
 use Remorhaz\JSON\Data\Path\PathInterface;
-use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory as DecodedJsonNodeValueFactory;
-use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface as DecodedJsonNodeValueFactoryInterface;
+use Remorhaz\JSON\Data\Value\DecodedJson;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Throwable;
 
@@ -16,22 +15,20 @@ use const JSON_THROW_ON_ERROR;
 
 final class NodeValueFactory implements NodeValueFactoryInterface
 {
-
-    private $decodedJsonNodeValueFactory;
-
     public static function create(): NodeValueFactoryInterface
     {
-        return new self(DecodedJsonNodeValueFactory::create());
+        return new self(DecodedJson\NodeValueFactory::create());
     }
 
-    public function __construct(DecodedJsonNodeValueFactoryInterface $decodedJsonNodeValueFactory)
-    {
-        $this->decodedJsonNodeValueFactory = $decodedJsonNodeValueFactory;
+    public function __construct(
+        private DecodedJson\NodeValueFactoryInterface $decodedJsonNodeValueFactory,
+    ) {
     }
 
     public function createValue(string $json, ?PathInterface $path = null): NodeValueInterface
     {
         try {
+            /** @psalm-var mixed $decodedData */
             $decodedData = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $e) {
             throw new Exception\JsonNotDecodedException($json, $e);

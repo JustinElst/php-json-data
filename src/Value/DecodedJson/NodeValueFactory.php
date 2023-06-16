@@ -7,14 +7,13 @@ namespace Remorhaz\JSON\Data\Value\DecodedJson;
 use Remorhaz\JSON\Data\Path\Path;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
-use stdClass;
 
 use function is_array;
+use function is_object;
 use function is_scalar;
 
 final class NodeValueFactory implements NodeValueFactoryInterface
 {
-
     public static function create(): NodeValueFactoryInterface
     {
         return new self();
@@ -22,28 +21,17 @@ final class NodeValueFactory implements NodeValueFactoryInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @param array|bool|float|int|stdClass|string|null $data
-     * @param PathInterface|null $path
-     * @return NodeValueInterface
      */
-    public function createValue($data, ?PathInterface $path = null): NodeValueInterface
+    public function createValue(mixed $data, ?PathInterface $path = null): NodeValueInterface
     {
-        if (!isset($path)) {
-            $path = new Path();
-        }
-        if (null === $data || is_scalar($data)) {
-            return new NodeScalarValue($data, $path);
-        }
+        $path ??= new Path();
 
-        if (is_array($data)) {
-            return new NodeArrayValue($data, $path, $this);
-        }
-
-        if ($data instanceof stdClass) {
-            return new NodeObjectValue($data, $path, $this);
-        }
-
-        throw new Exception\InvalidNodeDataException($data, $path);
+        return match (true) {
+            null === $data,
+            is_scalar($data) => new NodeScalarValue($data, $path),
+            is_array($data) => new NodeArrayValue($data, $path, $this),
+            is_object($data) => new NodeObjectValue($data, $path, $this),
+            default => throw new Exception\InvalidNodeDataException($data, $path),
+        };
     }
 }

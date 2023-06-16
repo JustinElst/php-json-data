@@ -9,8 +9,7 @@ use Throwable;
 
 final class NoValueToExportException extends LogicException implements ExceptionInterface
 {
-
-    public function __construct(Throwable $previous = null)
+    public function __construct(?Throwable $previous = null)
     {
         parent::__construct("No value to export", 0, $previous);
     }

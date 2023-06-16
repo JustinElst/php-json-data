@@ -20,7 +20,6 @@ use function iterator_to_array;
  */
 class NodeObjectValueTest extends TestCase
 {
-
     public function testCreateChildIterator_EmptyObjectData_ReturnsEmptyIterator(): void
     {
         $value = new NodeObjectValue((object) [], new Path(), NodeValueFactory::create());
@@ -30,26 +29,33 @@ class NodeObjectValueTest extends TestCase
 
     public function testCreateChildIterator_NotEmptyObjectData_CallsFactoryForEachElement(): void
     {
-        $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $nodeValueFactory = $this->createStub(NodeValueFactoryInterface::class);
         $value = new NodeObjectValue((object) ['a' => 'b', 'c' => 1], new Path('d'), $nodeValueFactory);
 
+        $interceptedArgs = [];
         $nodeValueFactory
-            ->expects(self::exactly(2))
             ->method('createValue')
-            ->withConsecutive(
-                [self::identicalTo('b'), $this->isArgEqualPath('d', 'a')],
-                [self::identicalTo(1), $this->isArgEqualPath('d', 'c')],
+            ->willReturnCallback(
+                function (mixed $data, ?PathInterface $path) use (&$interceptedArgs): NodeValueInterface {
+                    /** @psalm-var array $interceptedArgs */
+                    $interceptedArgs[] = [$data, $path?->getElements() ?? []];
+
+                    return $this->createStub(NodeValueInterface::class);
+                },
             );
         iterator_to_array($value->createChildIterator(), true);
+        $expectedValue = [
+            ['b', ['d', 'a']],
+            [1, ['d', 'c']],
+        ];
+        self::assertSame($expectedValue, $interceptedArgs);
     }
 
-    private function isArgEqualPath(...$elements): Callback
+    private static function isArgEqualPath(...$elements): Callback
     {
-        $callback = function (PathInterface $path) use ($elements): bool {
-            return $path->equals(new Path(...$elements));
-        };
-
-        return self::callback($callback);
+        return self::callback(
+            fn (PathInterface $path): bool => $path->equals(new Path(...$elements)),
+        );
     }
 
     public function testCreateChildIterator_NodeFactoryReturnsValues_ReturnsSameValuesWithMatchingIndexes(): void

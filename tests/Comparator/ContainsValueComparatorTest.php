@@ -18,7 +18,6 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
  */
 class ContainsValueComparatorTest extends TestCase
 {
-
     /**
      * @param string $data
      * @param string $containedData
@@ -35,7 +34,10 @@ class ContainsValueComparatorTest extends TestCase
         self::assertTrue($actualValue);
     }
 
-    public function providerMatchingValues(): array
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerMatchingValues(): iterable
     {
         return [
             'Same string' => ['"a"', '"a"'],
@@ -72,7 +74,10 @@ class ContainsValueComparatorTest extends TestCase
         self::assertFalse($actualValue);
     }
 
-    public function providerNonMatchingValues(): array
+    /**
+     * @return iterable<string, string>
+     */
+    public static function providerNonMatchingValues(): iterable
     {
         return [
             'Array and scalar' => ['["a"]', '"a"'],

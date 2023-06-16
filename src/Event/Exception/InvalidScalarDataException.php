@@ -10,16 +10,14 @@ use Throwable;
 
 final class InvalidScalarDataException extends LogicException implements ExceptionInterface, DataAwareInterface
 {
-
-    private $data;
-
-    public function __construct($data, Throwable $previous = null)
-    {
-        $this->data = $data;
+    public function __construct(
+        private mixed $data,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct("Invalid scalar data", 0, $previous);
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }

@@ -8,6 +8,5 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
 
 interface ValueExporterInterface
 {
-
-    public function exportValue(ValueInterface $value);
+    public function exportValue(ValueInterface $value): mixed;
 }

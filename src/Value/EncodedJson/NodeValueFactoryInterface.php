@@ -9,6 +9,5 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 interface NodeValueFactoryInterface
 {
-
     public function createValue(string $json, ?PathInterface $path = null): NodeValueInterface;
 }

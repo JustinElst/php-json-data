@@ -8,12 +8,9 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 final class BeforeArrayEvent implements BeforeArrayEventInterface
 {
-
-    private $path;
-
-    public function __construct(PathInterface $path)
-    {
-        $this->path = $path;
+    public function __construct(
+        private PathInterface $path,
+    ) {
     }
 
     public function getPath(): PathInterface

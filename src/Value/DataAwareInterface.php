@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Data\Value;
 
 interface DataAwareInterface
 {
-
-    public function getData();
+    public function getData(): mixed;
 }

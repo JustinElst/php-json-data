@@ -13,12 +13,10 @@ use function implode;
 
 final class ParentNotFoundException extends LogicException implements ExceptionInterface, PathAwareInterface
 {
-
-    private $path;
-
-    public function __construct(PathInterface $path, Throwable $previous = null)
-    {
-        $this->path = $path;
+    public function __construct(
+        private PathInterface $path,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct("Parent not found in path {$this->buildPath()}", 0, $previous);
     }
 

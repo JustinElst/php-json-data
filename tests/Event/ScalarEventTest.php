@@ -14,7 +14,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class ScalarEventTest extends TestCase
 {
-
     public function testConstruct_NonScalarData_ThrowsException(): void
     {
         $this->expectException(InvalidScalarDataException::class);
@@ -22,17 +21,18 @@ class ScalarEventTest extends TestCase
     }
 
     /**
-     * @param $data
-     * @param $expectedValue
      * @dataProvider providerGetData
      */
-    public function testGetData_ConstructedWithScalarData_ReturnsSameValue($data, $expectedValue): void
+    public function testGetData_ConstructedWithScalarData_ReturnsSameValue(mixed $data, mixed $expectedValue): void
     {
         $event = new ScalarEvent($data, new Path());
         self::assertSame($expectedValue, $event->getData());
     }
 
-    public function providerGetData(): array
+    /**
+     * @return iterable<string, array{mixed, mixed}>
+     */
+    public static function providerGetData(): iterable
     {
         return [
             'Null' => [null, null],

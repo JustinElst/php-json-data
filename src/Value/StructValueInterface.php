@@ -8,6 +8,8 @@ use Iterator;
 
 interface StructValueInterface extends ValueInterface
 {
-
+    /**
+     * @return Iterator<int|string, NodeValueInterface>
+     */
     public function createChildIterator(): Iterator;
 }

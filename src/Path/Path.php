@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Path;
 
 use function array_slice;
+use function array_values;
 use function count;
 
 final class Path implements PathInterface
 {
+    /**
+     * @var list<int|string>
+     */
+    private array $elements;
 
-    private $elements;
-
-    public function __construct(...$elements)
+    public function __construct(int|string ...$elements)
     {
-        $this->elements = $elements;
+        $this->elements = array_values($elements);
     }
 
     public function copyWithElement(int $index): PathInterface
@@ -29,13 +32,14 @@ final class Path implements PathInterface
 
     public function copyParent(): PathInterface
     {
-        if (empty($this->elements)) {
-            throw new Exception\ParentNotFoundException($this);
-        }
-
-        return new self(...array_slice($this->elements, 0, -1));
+        return empty($this->elements)
+            ? throw new Exception\ParentNotFoundException($this)
+            : new self(...array_slice($this->elements, 0, -1));
     }
 
+    /**
+     * @return list<int|string>
+     */
     public function getElements(): array
     {
         return $this->elements;

@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Value\EncodedJson\Exception\JsonNotDecodedException;
  */
 class JsonNotDecodedExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new JsonNotDecodedException('a');

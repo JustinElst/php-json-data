@@ -14,7 +14,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class ParentNotFoundExceptionTest extends TestCase
 {
-
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
         $path = new Path();
@@ -23,8 +22,8 @@ class ParentNotFoundExceptionTest extends TestCase
     }
 
     /**
-     * @param array  $pathElements
-     * @param string $expectedValue
+     * @param list<mixed> $pathElements
+     * @param string      $expectedValue
      * @dataProvider providerGetMessage
      */
     public function testGetMessage(array $pathElements, string $expectedValue): void
@@ -34,7 +33,10 @@ class ParentNotFoundExceptionTest extends TestCase
         self::assertSame($expectedValue, $exception->getMessage());
     }
 
-    public function providerGetMessage(): array
+    /**
+     * @return iterable<string, array{list<mixed>, string}>
+     */
+    public static function providerGetMessage(): iterable
     {
         return [
             'Empty path' => [[], "Parent not found in path /"],

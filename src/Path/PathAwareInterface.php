@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Data\Path;
 
 interface PathAwareInterface
 {
-
     public function getPath(): PathInterface;
 }

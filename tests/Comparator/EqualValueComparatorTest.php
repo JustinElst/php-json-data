@@ -18,7 +18,6 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
  */
 class EqualValueComparatorTest extends TestCase
 {
-
     /**
      * @param string $data
      * @param string $equalData
@@ -35,7 +34,7 @@ class EqualValueComparatorTest extends TestCase
         self::assertTrue($actualValue);
     }
 
-    public function providerMatchingValues(): array
+    public static function providerMatchingValues(): iterable
     {
         return [
             'Same string' => ['"a"', '"a"'],

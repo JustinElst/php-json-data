@@ -9,12 +9,10 @@ use Throwable;
 
 final class JsonNotDecodedException extends RuntimeException implements ExceptionInterface
 {
-
-    private $json;
-
-    public function __construct(string $json, Throwable $previous = null)
-    {
-        $this->json = $json;
+    public function __construct(
+        private string $json,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct("Failed to decode JSON", 0, $previous);
     }
 

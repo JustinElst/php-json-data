@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class PathTest extends TestCase
 {
-
     public function testGetElements_ConstructedWithGivenElements_ReturnsSameValues(): void
     {
         $path = new Path('a', 1);
@@ -45,8 +44,8 @@ class PathTest extends TestCase
     }
 
     /**
-     * @param array $firstElements
-     * @param array $secondElements
+     * @param list<int|string>  $firstElements
+     * @param list<int, string> $secondElements
      * @dataProvider providerEquals
      */
     public function testEquals_EqualPath_ReturnsTrue(array $firstElements, array $secondElements): void
@@ -57,7 +56,10 @@ class PathTest extends TestCase
         self::assertTrue($firstPath->equals($secondPath));
     }
 
-    public function providerEquals(): array
+    /**
+     * @return iterable<string, array{list<int|string>, list<int|string>}>
+     */
+    public static function providerEquals(): iterable
     {
         return [
             'Empty paths' => [[], []],
@@ -66,8 +68,8 @@ class PathTest extends TestCase
     }
 
     /**
-     * @param array $firstElements
-     * @param array $secondElements
+     * @param list<int|string> $firstElements
+     * @param list<int|string> $secondElements
      * @dataProvider providerNotEquals
      */
     public function testEquals_NotEqualPath_ReturnsFalse(array $firstElements, array $secondElements): void
@@ -78,7 +80,10 @@ class PathTest extends TestCase
         self::assertFalse($firstPath->equals($secondPath));
     }
 
-    public function providerNotEquals(): array
+    /**
+     * @return iterable<string, array{list<int|string>, list<int|string>}>
+     */
+    public static function providerNotEquals(): iterable
     {
         return [
             'Nested paths' => [['a', 1], ['a']],
@@ -87,8 +92,8 @@ class PathTest extends TestCase
     }
 
     /**
-     * @param array $pathElements
-     * @param array $containedPathElements
+     * @param list<int|string> $pathElements
+     * @param list<int|string> $containedPathElements
      * @dataProvider providerContains
      */
     public function testContains_ContainedPath_ReturnsTrue(array $pathElements, array $containedPathElements): void
@@ -98,7 +103,10 @@ class PathTest extends TestCase
         self::assertTrue($path->contains($containedPath));
     }
 
-    public function providerContains(): array
+    /**
+     * @return iterable<string, array{list<int|string>, list<int|string>}>
+     */
+    public static function providerContains(): iterable
     {
         return [
             'Same path' => [['a', 1], ['a', 1]],
@@ -115,8 +123,8 @@ class PathTest extends TestCase
 
     /**
      * @dataProvider providerCopyExistingParent
-     * @param array $pathElements
-     * @param array $expectedElements
+     * @param list<int|string> $pathElements
+     * @param list<int|string> $expectedElements
      */
     public function testCopyParent_NonEmptyPath_ReturnsMatchingPath(array $pathElements, array $expectedElements): void
     {
@@ -125,7 +133,10 @@ class PathTest extends TestCase
         self::assertSame($expectedElements, $pathCopy->getElements());
     }
 
-    public function providerCopyExistingParent(): array
+    /**
+     * @return iterable<string, array{list<int|string>, list<int|string>}>
+     */
+    public static function providerCopyExistingParent(): iterable
     {
         return [
             'Single element path' => [['a'], []],

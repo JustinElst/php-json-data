@@ -16,7 +16,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
  */
 class NodeValueFactoryTest extends TestCase
 {
-
     public function testCreate_Always_ReturnsNodeValueInstance(): void
     {
         self::assertInstanceOf(NodeValueFactory::class, NodeValueFactory::create());

@@ -4,40 +4,28 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Value\DecodedJson;
 
-use Generator;
 use Iterator;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
-use stdClass;
 
 final class NodeObjectValue implements NodeValueInterface, ObjectValueInterface
 {
-
-    private $data;
-
-    private $path;
-
-    private $valueFactory;
-
     public function __construct(
-        stdClass $data,
-        PathInterface $path,
-        NodeValueFactoryInterface $valueFactory
+        private object $data,
+        private PathInterface $path,
+        private NodeValueFactoryInterface $valueFactory,
     ) {
-        $this->data = $data;
-        $this->path = $path;
-        $this->valueFactory = $valueFactory;
     }
 
+    /**
+     * @return Iterator<string, NodeValueInterface>
+     */
     public function createChildIterator(): Iterator
     {
-        return $this->createChildGenerator();
-    }
-
-    private function createChildGenerator(): Generator
-    {
+        /** @psalm-var mixed $property */
         foreach (get_object_vars($this->data) as $name => $property) {
+            /** @psalm-suppress RedundantCast */
             $stringName = (string) $name;
             yield $stringName => $this
                 ->valueFactory

@@ -14,20 +14,25 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class InvalidElementKeyExceptionTest extends TestCase
 {
-
     /**
-     * @param $key
-     * @param array $pathElements
-     * @param $expectedValue
+     * @param mixed $key
+     * @param list<int|string> $pathElements
+     * @param string $expectedValue
      * @dataProvider providerKeyMessage
      */
-    public function testGetMessage_Constructed_ReturnsMatchingValue($key, array $pathElements, $expectedValue): void
-    {
+    public function testGetMessage_Constructed_ReturnsMatchingValue(
+        mixed $key,
+        array $pathElements,
+        string $expectedValue,
+    ): void {
         $exception = new InvalidElementKeyException($key, new Path(...$pathElements));
         self::assertSame($expectedValue, $exception->getMessage());
     }
 
-    public function providerKeyMessage(): array
+    /**
+     * @return iterable<string, array{mixed, list<int|string>, string}>
+     */
+    public static function providerKeyMessage(): iterable
     {
         /** @noinspection HtmlUnknownTag */
         return [
@@ -45,17 +50,18 @@ class InvalidElementKeyExceptionTest extends TestCase
     }
 
     /**
-     * @param $key
-     * @param $expectedValue
      * @dataProvider providerKey
      */
-    public function testGetKey_ConstructedWithGivenKey_ReturnsSameValue($key, $expectedValue): void
+    public function testGetKey_ConstructedWithGivenKey_ReturnsSameValue(mixed $key, mixed $expectedValue): void
     {
         $exception = new InvalidElementKeyException($key, new Path());
         self::assertSame($expectedValue, $exception->getKey());
     }
 
-    public function providerKey(): array
+    /**
+     * @return iterable<string, array{mixed, mixed}>
+     */
+    public static function providerKey(): iterable
     {
         return [
             'Integer' => [1, 1],

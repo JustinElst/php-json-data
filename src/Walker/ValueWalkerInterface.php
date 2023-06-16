@@ -10,7 +10,6 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 interface ValueWalkerInterface
 {
-
     public function createEventIterator(NodeValueInterface $value, PathInterface $path): Iterator;
 
     public function createMutableEventIterator(

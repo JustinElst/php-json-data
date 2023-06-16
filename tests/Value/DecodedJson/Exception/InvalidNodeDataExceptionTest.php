@@ -14,19 +14,21 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class InvalidNodeDataExceptionTest extends TestCase
 {
-
     /**
-     * @param array $elements
-     * @param $expectedValue
+     * @param list<int|string> $elements
+     * @param string $expectedValue
      * @dataProvider providerGetMessage
      */
-    public function testGetMessage_Constructed_ReturnsMatchingValue(array $elements, $expectedValue): void
+    public function testGetMessage_Constructed_ReturnsMatchingValue(array $elements, string $expectedValue): void
     {
         $exception = new InvalidNodeDataException(null, new Path(...$elements));
         self::assertSame($expectedValue, $exception->getMessage());
     }
 
-    public function providerGetMessage(): array
+    /**
+     * @return iterable<string, array{list<int|string>, string}>
+     */
+    public static function providerGetMessage(): iterable
     {
         return [
             'Empty path' => [[], 'Invalid data in decoded JSON at /'],

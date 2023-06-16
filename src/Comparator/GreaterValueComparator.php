@@ -14,21 +14,17 @@ use function is_string;
 
 final class GreaterValueComparator implements ComparatorInterface
 {
-
-    private $collator;
-
-    public function __construct(Collator $collator)
-    {
-        $this->collator = $collator;
+    public function __construct(
+        private Collator $collator,
+    ) {
     }
 
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
-        if ($leftValue instanceof ScalarValueInterface && $rightValue instanceof ScalarValueInterface) {
-            return $this->isScalarGreater($leftValue, $rightValue);
-        }
-
-        return false;
+        return
+            $leftValue instanceof ScalarValueInterface &&
+            $rightValue instanceof ScalarValueInterface &&
+            $this->isScalarGreater($leftValue, $rightValue);
     }
 
     private function isScalarGreater(ScalarValueInterface $leftValue, ScalarValueInterface $rightValue): bool

@@ -20,9 +20,8 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 final class EventDecoder implements EventDecoderInterface
 {
-
     /**
-     * @param Iterator|EventInterface[] $events
+     * @param Iterator<EventInterface> $events
      * @return NodeValueInterface|null
      */
     public function exportEvents(Iterator $events): ?NodeValueInterface
@@ -76,13 +75,12 @@ final class EventDecoder implements EventDecoderInterface
         return (new NodeValueFactory())->createValue($data);
     }
 
+    /**
+     * @param Iterator<EventInterface> $events
+     * @return NodeValueInterface
+     */
     public function exportExistingEvents(Iterator $events): NodeValueInterface
     {
-        $value = $this->exportEvents($events);
-        if (isset($value)) {
-            return $value;
-        }
-
-        throw new Exception\NoValueToExportException();
+        return $this->exportEvents($events) ?? throw new Exception\NoValueToExportException();
     }
 }

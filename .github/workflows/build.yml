@@ -1,0 +1,67 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform-reqs:
+          - use-platform-reqs
+        php-version:
+          - "8.0"
+          - "8.1"
+          - "8.2"
+        dependencies:
+          - lowest
+          - highest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Install lowest dependencies
+        if: ${{ matrix.dependencies == 'lowest' && matrix.platform-reqs == 'use-platform-reqs' }}
+        run: composer update --no-interaction --prefer-lowest
+
+      - name: Install lowest dependencies (ignore platform reqs)
+        if: ${{ matrix.dependencies == 'lowest' && matrix.platform-reqs == 'ignore-platform-reqs' }}
+        run: composer update --no-interaction --prefer-lowest --ignore-platform-reqs
+
+      - name: Install highest dependencies
+        if: ${{ matrix.dependencies == 'highest' && matrix.platform-reqs == 'use-platform-reqs' }}
+        run: composer update --no-interaction
+
+      - name: Install highest dependencies (ignore platform reqs)
+        if: ${{ matrix.dependencies == 'highest' && matrix.platform-reqs == 'ignore-platform-reqs' }}
+        run: composer update --no-interaction --ignore-platform-reqs
+
+      - name: Run tests
+        run: composer test
+
+      - name: Run infection
+        run: composer infection
+        env:
+          INFECTION_DASHBOARD_API_KEY: ${{ secrets.INFECTION_DASHBOARD_API_KEY }}
+
+      - name: Upload coverage to Codecov.io
+        run: bash <(curl -s https://codecov.io/bash -s "build/logs")
+        continue-on-error: true
+
+      - name: Upload coverage to Scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: --format=php-clover build/logs/clover.xml
+        continue-on-error: true

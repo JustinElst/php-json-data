@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Path\Path;
  */
 class BeforeObjectEventTest extends TestCase
 {
-
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
     {
         $path = new Path();

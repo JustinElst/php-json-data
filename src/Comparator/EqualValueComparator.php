@@ -7,6 +7,7 @@ namespace Remorhaz\JSON\Data\Comparator;
 use Collator;
 use Iterator;
 use Remorhaz\JSON\Data\Value\ArrayValueInterface;
+use Remorhaz\JSON\Data\Value\NodeValueInterface;
 use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Data\Value\ValueInterface;
@@ -15,12 +16,9 @@ use function is_string;
 
 final class EqualValueComparator implements ComparatorInterface
 {
-
-    private $collator;
-
-    public function __construct(Collator $collator)
-    {
-        $this->collator = $collator;
+    public function __construct(
+        private Collator $collator,
+    ) {
     }
 
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
@@ -94,6 +92,10 @@ final class EqualValueComparator implements ComparatorInterface
         return empty($leftProperties);
     }
 
+    /**
+     * @param Iterator<string, NodeValueInterface> $valueIterator
+     * @return null|array<string, NodeValueInterface>
+     */
     private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
     {
         $valuesByProperty = [];

@@ -10,12 +10,15 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 interface EventExporterInterface
 {
-
     /**
-     * @param Iterator|EventInterface[] $events
+     * @param Iterator<EventInterface> $events
      * @return NodeValueInterface|null
      */
     public function exportEvents(Iterator $events): ?NodeValueInterface;
 
+    /**
+     * @param Iterator<EventInterface> $events
+     * @return NodeValueInterface
+     */
     public function exportExistingEvents(Iterator $events): NodeValueInterface;
 }

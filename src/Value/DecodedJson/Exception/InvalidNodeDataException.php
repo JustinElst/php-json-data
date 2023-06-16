@@ -16,15 +16,11 @@ class InvalidNodeDataException extends RuntimeException implements
     PathAwareInterface,
     DataAwareInterface
 {
-
-    private $data;
-
-    private $path;
-
-    public function __construct($data, PathInterface $path, Throwable $previous = null)
-    {
-        $this->data = $data;
-        $this->path = $path;
+    public function __construct(
+        private mixed $data,
+        private PathInterface $path,
+        ?Throwable $previous = null,
+    ) {
         parent::__construct($this->buildMessage(), 0, $previous);
     }
 
@@ -33,7 +29,7 @@ class InvalidNodeDataException extends RuntimeException implements
         return "Invalid data in decoded JSON at {$this->buildPath()}";
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }

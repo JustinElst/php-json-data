@@ -6,6 +6,5 @@ namespace Remorhaz\JSON\Data\Event;
 
 interface ScalarEventInterface extends EventInterface
 {
-
-    public function getData();
+    public function getData(): int|string|float|bool|null;
 }

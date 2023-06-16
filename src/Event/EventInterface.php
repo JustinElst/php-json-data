@@ -8,6 +8,5 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 interface EventInterface
 {
-
     public function getPath(): PathInterface;
 }

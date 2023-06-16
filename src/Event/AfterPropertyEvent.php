@@ -8,15 +8,10 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 final class AfterPropertyEvent implements AfterPropertyEventInterface
 {
-
-    private $name;
-
-    private $path;
-
-    public function __construct(string $name, PathInterface $path)
-    {
-        $this->name = $name;
-        $this->path = $path;
+    public function __construct(
+        private string $name,
+        private PathInterface $path,
+    ) {
     }
 
     public function getName(): string

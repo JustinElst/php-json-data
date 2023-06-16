@@ -13,7 +13,6 @@ use Remorhaz\JSON\Data\Walker\Exception\UnexpectedEntityException;
  */
 class UnexpectedEntityExceptionTest extends TestCase
 {
-
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
         $exception = new UnexpectedEntityException('a');
