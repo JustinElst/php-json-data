@@ -5,7 +5,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remorhaz/php-json-data/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remorhaz/php-json-data/?branch=master)
 [![codecov](https://codecov.io/gh/remorhaz/php-json-data/branch/master/graph/badge.svg)](https://codecov.io/gh/remorhaz/php-json-data)
 [![Total Downloads](https://poser.pugx.org/remorhaz/php-json-data/downloads)](https://packagist.org/packages/remorhaz/php-json-data)
-[![Mutation testing badge](https://badge.stryker-mutator.io/github.com/remorhaz/php-json-data/master)](https://stryker-mutator.github.io)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fremorhaz%2Fphp-json-data%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/remorhaz/php-json-data/master)
 [![License](https://poser.pugx.org/remorhaz/php-json-data/license)](https://packagist.org/packages/remorhaz/php-json-data)
 
 This library provides infrastructure for JSON documents processing.
