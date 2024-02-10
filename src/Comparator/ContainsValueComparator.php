@@ -23,17 +23,14 @@ final class ContainsValueComparator implements ComparatorInterface
 
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
-        if ($leftValue instanceof ScalarValueInterface && $rightValue instanceof ScalarValueInterface) {
-            return $this->equalComparator->compare($leftValue, $rightValue);
-        }
-        if ($leftValue instanceof ArrayValueInterface && $rightValue instanceof ArrayValueInterface) {
-            return $this->equalComparator->compare($leftValue, $rightValue);
-        }
-        if ($leftValue instanceof ObjectValueInterface && $rightValue instanceof ObjectValueInterface) {
-            return $this->objectContains($leftValue, $rightValue);
-        }
-
-        return false;
+        return match (true) {
+            $leftValue instanceof ScalarValueInterface && $rightValue instanceof ScalarValueInterface,
+            $leftValue instanceof ArrayValueInterface && $rightValue instanceof ArrayValueInterface =>
+                $this->equalComparator->compare($leftValue, $rightValue),
+            $leftValue instanceof ObjectValueInterface && $rightValue instanceof ObjectValueInterface =>
+                $this->objectContains($leftValue, $rightValue),
+            default => false,
+        };
     }
 
     private function objectContains(ObjectValueInterface $leftValue, ObjectValueInterface $rightValue): bool

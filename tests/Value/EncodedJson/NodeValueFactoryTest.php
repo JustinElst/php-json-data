@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\EncodedJson;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Path\Path;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
@@ -11,9 +12,7 @@ use Remorhaz\JSON\Data\Value\EncodedJson\Exception\JsonNotDecodedException;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory
- */
+#[CoversClass(NodeValueFactory::class)]
 class NodeValueFactoryTest extends TestCase
 {
     public function testCreate_Always_ReturnsNodeValueInstance(): void
@@ -30,7 +29,7 @@ class NodeValueFactoryTest extends TestCase
 
     public function testCreateValue_ValidJsonNoPath_PassesDecodedJsonAndNullToDecodedJsonFactory(): void
     {
-        $decodedJsonFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $decodedJsonFactory = self::createMock(NodeValueFactoryInterface::class);
         $encodedJsonFactory = new NodeValueFactory($decodedJsonFactory);
 
         $decodedJsonFactory
@@ -42,7 +41,7 @@ class NodeValueFactoryTest extends TestCase
 
     public function testCreateValue_ValidJsonWithPath_PassesDecodedJsonAndSamePathInstanceToDecodedJsonFactory(): void
     {
-        $decodedJsonFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $decodedJsonFactory = self::createMock(NodeValueFactoryInterface::class);
         $encodedJsonFactory = new NodeValueFactory($decodedJsonFactory);
 
         $path = new Path();
@@ -55,10 +54,10 @@ class NodeValueFactoryTest extends TestCase
 
     public function testCreateValue_DecodedJsonFactoryReturnsInstanceReturnsSameInstance(): void
     {
-        $decodedJsonFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $decodedJsonFactory = self::createStub(NodeValueFactoryInterface::class);
         $encodedJsonFactory = new NodeValueFactory($decodedJsonFactory);
 
-        $nodeValue = $this->createMock(NodeValueInterface::class);
+        $nodeValue = self::createStub(NodeValueInterface::class);
         $decodedJsonFactory
             ->method('createValue')
             ->willReturn($nodeValue);

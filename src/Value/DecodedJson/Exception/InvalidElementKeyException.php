@@ -16,17 +16,12 @@ use function is_string;
 
 class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {
-    /**
-     * @param mixed $key
-     * @param PathInterface $path
-     * @param Throwable|null $previous
-     */
     public function __construct(
-        private mixed $key,
-        private PathInterface $path,
+        private readonly mixed $key,
+        private readonly PathInterface $path,
         ?Throwable $previous = null,
     ) {
-        parent::__construct($this->buildMessage(), 0, $previous);
+        parent::__construct($this->buildMessage(), previous: $previous);
     }
 
     private function buildMessage(): string

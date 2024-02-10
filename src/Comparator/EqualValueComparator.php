@@ -17,25 +17,21 @@ use function is_string;
 final class EqualValueComparator implements ComparatorInterface
 {
     public function __construct(
-        private Collator $collator,
+        private readonly Collator $collator,
     ) {
     }
 
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
-        if ($leftValue instanceof ScalarValueInterface && $rightValue instanceof ScalarValueInterface) {
-            return $this->isScalarEqual($leftValue, $rightValue);
-        }
-
-        if ($leftValue instanceof ArrayValueInterface && $rightValue instanceof ArrayValueInterface) {
-            return $this->isArrayEqual($leftValue, $rightValue);
-        }
-
-        if ($leftValue instanceof ObjectValueInterface && $rightValue instanceof ObjectValueInterface) {
-            return $this->isObjectEqual($leftValue, $rightValue);
-        }
-
-        return false;
+        return match (true) {
+            $leftValue instanceof ScalarValueInterface && $rightValue instanceof ScalarValueInterface =>
+                $this->isScalarEqual($leftValue, $rightValue),
+            $leftValue instanceof ArrayValueInterface && $rightValue instanceof ArrayValueInterface =>
+                $this->isArrayEqual($leftValue, $rightValue),
+            $leftValue instanceof ObjectValueInterface && $rightValue instanceof ObjectValueInterface =>
+                $this->isObjectEqual($leftValue, $rightValue),
+            default => false,
+        };
     }
 
     private function isScalarEqual(ScalarValueInterface $leftValue, ScalarValueInterface $rightValue): bool
@@ -43,11 +39,9 @@ final class EqualValueComparator implements ComparatorInterface
         $leftData = $leftValue->getData();
         $rightData = $rightValue->getData();
 
-        if (is_string($leftData) && is_string($rightData)) {
-            return 0 === $this->collator->compare($leftData, $rightData);
-        }
-
-        return $leftData === $rightData;
+        return is_string($leftData) && is_string($rightData)
+            ? 0 === $this->collator->compare($leftData, $rightData)
+            : $leftData === $rightData;
     }
 
     private function isArrayEqual(ArrayValueInterface $leftValue, ArrayValueInterface $rightValue): bool

@@ -16,7 +16,7 @@ final class NodeScalarValue implements NodeValueInterface, ScalarValueInterface
 
     public function __construct(
         mixed $data,
-        private PathInterface $path,
+        private readonly PathInterface $path,
     ) {
         $this->data = null === $data || is_scalar($data)
             ? $data

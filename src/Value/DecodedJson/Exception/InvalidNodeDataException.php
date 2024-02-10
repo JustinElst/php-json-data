@@ -17,11 +17,11 @@ class InvalidNodeDataException extends RuntimeException implements
     DataAwareInterface
 {
     public function __construct(
-        private mixed $data,
-        private PathInterface $path,
+        private readonly mixed $data,
+        private readonly PathInterface $path,
         ?Throwable $previous = null,
     ) {
-        parent::__construct($this->buildMessage(), 0, $previous);
+        parent::__construct($this->buildMessage(), previous: $previous);
     }
 
     private function buildMessage(): string

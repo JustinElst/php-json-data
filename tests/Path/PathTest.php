@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Path;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Path\Exception\ParentNotFoundException;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Path\Path
- */
+#[CoversClass(Path::class)]
 class PathTest extends TestCase
 {
     public function testGetElements_ConstructedWithGivenElements_ReturnsSameValues(): void
@@ -46,8 +46,8 @@ class PathTest extends TestCase
     /**
      * @param list<int|string>  $firstElements
      * @param list<int, string> $secondElements
-     * @dataProvider providerEquals
      */
+    #[DataProvider('providerEquals')]
     public function testEquals_EqualPath_ReturnsTrue(array $firstElements, array $secondElements): void
     {
         $firstPath = new Path(...$firstElements);
@@ -70,8 +70,8 @@ class PathTest extends TestCase
     /**
      * @param list<int|string> $firstElements
      * @param list<int|string> $secondElements
-     * @dataProvider providerNotEquals
      */
+    #[DataProvider('providerNotEquals')]
     public function testEquals_NotEqualPath_ReturnsFalse(array $firstElements, array $secondElements): void
     {
         $firstPath = new Path(...$firstElements);
@@ -94,8 +94,8 @@ class PathTest extends TestCase
     /**
      * @param list<int|string> $pathElements
      * @param list<int|string> $containedPathElements
-     * @dataProvider providerContains
      */
+    #[DataProvider('providerContains')]
     public function testContains_ContainedPath_ReturnsTrue(array $pathElements, array $containedPathElements): void
     {
         $path = new Path(...$pathElements);
@@ -122,10 +122,10 @@ class PathTest extends TestCase
     }
 
     /**
-     * @dataProvider providerCopyExistingParent
      * @param list<int|string> $pathElements
      * @param list<int|string> $expectedElements
      */
+    #[DataProvider('providerCopyExistingParent')]
     public function testCopyParent_NonEmptyPath_ReturnsMatchingPath(array $pathElements, array $expectedElements): void
     {
         $path = new Path(...$pathElements);

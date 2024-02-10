@@ -12,9 +12,9 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 final class NodeObjectValue implements NodeValueInterface, ObjectValueInterface
 {
     public function __construct(
-        private object $data,
-        private PathInterface $path,
-        private NodeValueFactoryInterface $valueFactory,
+        private readonly object $data,
+        private readonly PathInterface $path,
+        private readonly NodeValueFactoryInterface $valueFactory,
     ) {
     }
 

@@ -14,16 +14,13 @@
     }
   ],
   "require": {
-    "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+    "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
     "ext-json": "*",
     "ext-intl": "*"
   },
   "require-dev": {
-    "infection/infection": "^0.26 || ^0.27",
-    "phpunit/phpunit": "^9.5 || ^10",
-    "psalm/plugin-phpunit": "^0.18.1",
-    "squizlabs/php_codesniffer": "^3.7.2",
-    "vimeo/psalm": "^5.12"
+    "bamarni/composer-bin-plugin": "^1.8",
+    "phpunit/phpunit": "^10.1 || ^11"
   },
   "autoload": {
     "psr-4": {
@@ -36,21 +33,34 @@
     }
   },
   "scripts": {
+    "post-update-cmd": ["@phive-install"],
+    "post-install-cmd": ["@phive-install"],
+    "phive-install": [
+      "`if [ -f tools/phive ]; then echo 'tools/'; fi`phive install --trust-gpg-keys C5095986493B4AA0"
+    ],
     "test-cs": [
-      "vendor/bin/phpcs -sp"
+      "vendor-bin/cs/vendor/bin/phpcs -sp"
     ],
     "test-unit": [
       "vendor/bin/phpunit --coverage-xml=build/log/coverage-xml --coverage-clover=build/log/clover.xml --log-junit=build/log/junit.xml"
     ],
-    "test-psalm": "vendor/bin/psalm --threads=4 --shepherd",
+    "test-unit-9": [
+      "vendor/bin/phpunit --configuration=phpunit-9.xml --coverage-xml=build/log/coverage-xml --coverage-clover=build/log/clover.xml --log-junit=build/log/junit.xml"
+    ],
+    "test-psalm": "vendor-bin/psalm/vendor/bin/psalm --threads=4 --shepherd",
     "test": [
       "@test-cs",
       "@test-unit",
       "@test-psalm"
     ],
+    "test-8.0": [
+      "@test-cs",
+      "@test-unit-9",
+      "@test-psalm"
+    ],
     "infection": [
       "mkdir -p build/log/infection",
-      "vendor/bin/infection --threads=4 --coverage=build/log --no-progress --skip-initial-tests"
+      "tools/infection --threads=4 --coverage=build/log --no-progress --skip-initial-tests"
     ],
     "test-infection": [
       "@test-unit",
@@ -59,7 +69,15 @@
   },
   "config": {
     "allow-plugins": {
+      "bamarni/composer-bin-plugin": true,
       "infection/extension-installer": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "bamarni-bin": {
+      "bin-links": false,
+      "forward-command": true
     }
   }
 }

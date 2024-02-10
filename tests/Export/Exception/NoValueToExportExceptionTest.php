@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Export\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\Exception\NoValueToExportException;
 
-/**
- * @covers \Remorhaz\JSON\Data\Export\Exception\NoValueToExportException
- */
+#[CoversClass(NoValueToExportException::class)]
 class NoValueToExportExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void

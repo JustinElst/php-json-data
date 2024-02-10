@@ -6,6 +6,8 @@ namespace Remorhaz\JSON\Data\Test\Comparator;
 
 use Collator;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Comparator\ContainsValueComparator;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
@@ -13,23 +15,17 @@ use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Data\Value\ValueInterface;
 
-/**
- * @covers \Remorhaz\JSON\Data\Comparator\ContainsValueComparator
- */
+#[CoversClass(ContainsValueComparator::class)]
 class ContainsValueComparatorTest extends TestCase
 {
-    /**
-     * @param string $data
-     * @param string $containedData
-     * @dataProvider providerMatchingValues
-     */
+    #[DataProvider('providerMatchingValues')]
     public function testCompare_MatchingValues_ReturnsTrue(string $data, string $containedData): void
     {
         $comparator = new ContainsValueComparator(new Collator('UTF-8'));
         $nodeValueFactory = NodeValueFactory::create();
         $actualValue = $comparator->compare(
             $nodeValueFactory->createValue($data),
-            $nodeValueFactory->createValue($containedData)
+            $nodeValueFactory->createValue($containedData),
         );
         self::assertTrue($actualValue);
     }
@@ -58,18 +54,14 @@ class ContainsValueComparatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param string $data
-     * @param string $containedData
-     * @dataProvider providerNonMatchingValues
-     */
+    #[DataProvider('providerNonMatchingValues')]
     public function testCompare_NonMatchingValues_ReturnsFalse(string $data, string $containedData): void
     {
         $comparator = new ContainsValueComparator(new Collator('UTF-8'));
         $nodeValueFactory = NodeValueFactory::create();
         $actualValue = $comparator->compare(
             $nodeValueFactory->createValue($data),
-            $nodeValueFactory->createValue($containedData)
+            $nodeValueFactory->createValue($containedData),
         );
         self::assertFalse($actualValue);
     }
@@ -95,7 +87,7 @@ class ContainsValueComparatorTest extends TestCase
     public function testCompare_DuplicatedPropertyInLeftValue_ReturnsFalse(): void
     {
         $comparator = new ContainsValueComparator(new Collator('UTF-8'));
-        $value = $this->createMock(ScalarValueInterface::class);
+        $value = self::createStub(ScalarValueInterface::class);
         $value
             ->method('getData')
             ->willReturn('b');
@@ -109,7 +101,7 @@ class ContainsValueComparatorTest extends TestCase
     {
         $comparator = new ContainsValueComparator(new Collator('UTF-8'));
         $leftValue = NodeValueFactory::create()->createValue('{"a":"b"}');
-        $value = $this->createMock(ScalarValueInterface::class);
+        $value = self::createStub(ScalarValueInterface::class);
         $value
             ->method('getData')
             ->willReturn('b');
@@ -120,7 +112,7 @@ class ContainsValueComparatorTest extends TestCase
 
     private function createObjectWithDuplicatedProperty(string $name, ValueInterface $value): ValueInterface
     {
-        $object = $this->createMock(ObjectValueInterface::class);
+        $object = self::createStub(ObjectValueInterface::class);
         $generator = function () use ($name, $value): Generator {
             yield $name => $value;
             yield $name => $value;

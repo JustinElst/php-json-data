@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidNodeDataException;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue;
@@ -15,14 +17,10 @@ use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 
 use const STDOUT;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactory
- */
+#[CoversClass(NodeValueFactory::class)]
 class NodeValueFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider providerScalarDataOrNull
-     */
+    #[DataProvider('providerScalarDataOrNull')]
     public function testCreateValue_ScalarDataOrNull_ReturnsNodeScalarValue(mixed $data): void
     {
         $actualValue = NodeValueFactory::create()->createValue($data, new Path());
@@ -43,9 +41,7 @@ class NodeValueFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerScalarDataOrNull
-     */
+    #[DataProvider('providerScalarDataOrNull')]
     public function testCreateValue_ScalarValueAndGivenPath_ResultHasSamePathInstance(mixed $data): void
     {
         $path = new Path();
@@ -53,18 +49,14 @@ class NodeValueFactoryTest extends TestCase
         self::assertSame($path, $actualValue->getPath());
     }
 
-    /**
-     * @dataProvider providerScalarDataOrNull
-     */
+    #[DataProvider('providerScalarDataOrNull')]
     public function testCreateValue_ScalarValueAndNoPath_ResultHasEmptyPath(mixed $data): void
     {
         $actualValue = NodeValueFactory::create()->createValue($data);
         self::assertEmpty($actualValue->getPath()->getElements());
     }
 
-    /**
-     * @dataProvider providerScalarDataOrNull
-     */
+    #[DataProvider('providerScalarDataOrNull')]
     public function testCreateValue_ScalarValue_ResultHasMatchingData(mixed $data, mixed $expectedValue): void
     {
         $path = new Path();

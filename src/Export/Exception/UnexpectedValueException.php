@@ -14,7 +14,7 @@ final class UnexpectedValueException extends DomainException implements Exceptio
         private ValueInterface $value,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Unexpected value", 0, $previous);
+        parent::__construct("Unexpected value", previous: $previous);
     }
 
     public function getValue(): ValueInterface

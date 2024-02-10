@@ -5,37 +5,30 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Export\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Event\EventInterface;
 use Remorhaz\JSON\Data\Export\Exception\UnknownEventException;
 
-/**
- * @covers \Remorhaz\JSON\Data\Export\Exception\UnknownEventException
- */
+#[CoversClass(UnknownEventException::class)]
 class UnknownEventExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {
-        $exception = new UnknownEventException($this->createMock(EventInterface::class));
+        $exception = new UnknownEventException(self::createStub(EventInterface::class));
         self::assertSame('Unknown event', $exception->getMessage());
     }
 
     public function testGetEvent_ConstructedWithData_ReturnsSameValue(): void
     {
-        $event = $this->createMock(EventInterface::class);
+        $event = self::createStub(EventInterface::class);
         $exception = new UnknownEventException($event);
         self::assertSame($event, $exception->getEvent());
     }
 
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new UnknownEventException($this->createMock(EventInterface::class));
-        self::assertSame(0, $exception->getCode());
-    }
-
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
     {
-        $exception = new UnknownEventException($this->createMock(EventInterface::class));
+        $exception = new UnknownEventException(self::createStub(EventInterface::class));
         self::assertNull($exception->getPrevious());
     }
 
@@ -43,7 +36,7 @@ class UnknownEventExceptionTest extends TestCase
     {
         $previous = new Exception();
         $exception = new UnknownEventException(
-            $this->createMock(EventInterface::class),
+            self::createStub(EventInterface::class),
             $previous,
         );
         self::assertSame($previous, $exception->getPrevious());

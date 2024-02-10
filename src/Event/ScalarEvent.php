@@ -14,7 +14,7 @@ final class ScalarEvent implements ScalarEventInterface
 
     public function __construct(
         mixed $data,
-        private PathInterface $path,
+        private readonly PathInterface $path,
     ) {
         $this->data = null === $data || is_scalar($data)
             ? $data

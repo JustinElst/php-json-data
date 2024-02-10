@@ -11,10 +11,10 @@ use Throwable;
 final class InvalidScalarDataException extends LogicException implements ExceptionInterface, DataAwareInterface
 {
     public function __construct(
-        private mixed $data,
+        private readonly mixed $data,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Invalid scalar data", 0, $previous);
+        parent::__construct("Invalid scalar data", previous: $previous);
     }
 
     public function getData(): mixed

@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeScalarValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidNodeDataException;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeScalarValue
- */
+#[CoversClass(NodeScalarValue::class)]
 class NodeScalarValueTest extends TestCase
 {
-    /**
-     * @dataProvider providerInvalidData
-     */
+    #[DataProvider('providerInvalidData')]
     public function testConstruct_InvalidData_ThrowsMatchingException(mixed $data): void
     {
         $this->expectException(InvalidNodeDataException::class);

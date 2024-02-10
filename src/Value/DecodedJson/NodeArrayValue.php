@@ -14,9 +14,9 @@ use function is_int;
 final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
 {
     public function __construct(
-        private array $data,
-        private PathInterface $path,
-        private NodeValueFactoryInterface $valueFactory
+        private readonly array $data,
+        private readonly PathInterface $path,
+        private readonly NodeValueFactoryInterface $valueFactory,
     ) {
     }
 

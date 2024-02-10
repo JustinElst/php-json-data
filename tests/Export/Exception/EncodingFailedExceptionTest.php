@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Export\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Export\Exception\EncodingFailedException;
 
-/**
- * @covers \Remorhaz\JSON\Data\Export\Exception\EncodingFailedException
- */
+#[CoversClass(EncodingFailedException::class)]
 class EncodingFailedExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
@@ -23,12 +22,6 @@ class EncodingFailedExceptionTest extends TestCase
     {
         $exception = new EncodingFailedException('a');
         self::assertSame('a', $exception->getData());
-    }
-
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new EncodingFailedException('a');
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void

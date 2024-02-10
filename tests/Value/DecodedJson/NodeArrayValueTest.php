@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
-use PHPUnit\Framework\Constraint\Callback;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
 use Remorhaz\JSON\Data\Value\NodeValueInterface;
@@ -16,14 +17,10 @@ use Remorhaz\JSON\Data\Path\Path;
 
 use function iterator_to_array;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeArrayValue
- */
+#[CoversClass(NodeArrayValue::class)]
 class NodeArrayValueTest extends TestCase
 {
-    /**
-     * @dataProvider providerArrayWithInvalidIndex
-     */
+    #[DataProvider('providerArrayWithInvalidIndex')]
     public function testCreateChildIterator_ArrayDataWithInvalidIndex_ThrowsException(array $data): void
     {
         $value = new NodeArrayValue($data, new Path(), NodeValueFactory::create());
@@ -52,7 +49,7 @@ class NodeArrayValueTest extends TestCase
 
     public function testCreateChildIterator_NotEmptyArrayData_CallsFactoryForEachElement(): void
     {
-        $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $nodeValueFactory = self::createStub(NodeValueFactoryInterface::class);
         $value = new NodeArrayValue(['a', 1], new Path('b'), $nodeValueFactory);
 
         $interceptedArguments = [];
@@ -63,7 +60,7 @@ class NodeArrayValueTest extends TestCase
                     /** @psalm-var array $interceptedArguments */
                     $interceptedArguments[] = [$data, $path?->getElements() ?? []];
 
-                    return $this->createStub(NodeValueInterface::class);
+                    return self::createStub(NodeValueInterface::class);
                 }
             );
         iterator_to_array($value->createChildIterator(), true);
@@ -74,22 +71,13 @@ class NodeArrayValueTest extends TestCase
         self::assertSame($expectedValue, $interceptedArguments);
     }
 
-    private function isArgEqualPath(int|string ...$elements): Callback
-    {
-        $callback = function (PathInterface $path) use ($elements): bool {
-            return $path->equals(new Path(...$elements));
-        };
-
-        return self::callback($callback);
-    }
-
     public function testCreateChildIterator_NodeFactoryReturnsValues_ReturnsSameValuesWithMatchingIndexes(): void
     {
-        $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $nodeValueFactory = self::createStub(NodeValueFactoryInterface::class);
         $value = new NodeArrayValue(['a', 1], new Path('b'), $nodeValueFactory);
 
-        $firstNode = $this->createMock(NodeValueInterface::class);
-        $secondNode = $this->createMock(NodeValueInterface::class);
+        $firstNode = self::createStub(NodeValueInterface::class);
+        $secondNode = self::createStub(NodeValueInterface::class);
         $nodeValueFactory
             ->method('createValue')
             ->willReturnOnConsecutiveCalls($firstNode, $secondNode);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
-use PHPUnit\Framework\Constraint\Callback;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Remorhaz\JSON\Data\Path\PathInterface;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue;
 use Remorhaz\JSON\Data\Value\DecodedJson\NodeValueFactoryInterface;
@@ -15,9 +15,7 @@ use Remorhaz\JSON\Data\Path\Path;
 
 use function iterator_to_array;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\NodeObjectValue
- */
+#[CoversClass(NodeObjectValue::class)]
 class NodeObjectValueTest extends TestCase
 {
     public function testCreateChildIterator_EmptyObjectData_ReturnsEmptyIterator(): void
@@ -29,7 +27,7 @@ class NodeObjectValueTest extends TestCase
 
     public function testCreateChildIterator_NotEmptyObjectData_CallsFactoryForEachElement(): void
     {
-        $nodeValueFactory = $this->createStub(NodeValueFactoryInterface::class);
+        $nodeValueFactory = self::createStub(NodeValueFactoryInterface::class);
         $value = new NodeObjectValue((object) ['a' => 'b', 'c' => 1], new Path('d'), $nodeValueFactory);
 
         $interceptedArgs = [];
@@ -40,7 +38,7 @@ class NodeObjectValueTest extends TestCase
                     /** @psalm-var array $interceptedArgs */
                     $interceptedArgs[] = [$data, $path?->getElements() ?? []];
 
-                    return $this->createStub(NodeValueInterface::class);
+                    return self::createStub(NodeValueInterface::class);
                 },
             );
         iterator_to_array($value->createChildIterator(), true);
@@ -51,20 +49,13 @@ class NodeObjectValueTest extends TestCase
         self::assertSame($expectedValue, $interceptedArgs);
     }
 
-    private static function isArgEqualPath(...$elements): Callback
-    {
-        return self::callback(
-            fn (PathInterface $path): bool => $path->equals(new Path(...$elements)),
-        );
-    }
-
     public function testCreateChildIterator_NodeFactoryReturnsValues_ReturnsSameValuesWithMatchingIndexes(): void
     {
-        $nodeValueFactory = $this->createMock(NodeValueFactoryInterface::class);
+        $nodeValueFactory = self::createStub(NodeValueFactoryInterface::class);
         $value = new NodeObjectValue((object) ['a' => 'b', 'c' => 1], new Path('d'), $nodeValueFactory);
 
-        $firstNode = $this->createMock(NodeValueInterface::class);
-        $secondNode = $this->createMock(NodeValueInterface::class);
+        $firstNode = self::createStub(NodeValueInterface::class);
+        $secondNode = self::createStub(NodeValueInterface::class);
         $nodeValueFactory
             ->method('createValue')
             ->willReturnOnConsecutiveCalls($firstNode, $secondNode);

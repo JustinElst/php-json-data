@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Test\Event;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Event\Exception\InvalidScalarDataException;
 use Remorhaz\JSON\Data\Event\ScalarEvent;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Event\ScalarEvent
- */
+#[CoversClass(ScalarEvent::class)]
 class ScalarEventTest extends TestCase
 {
     public function testConstruct_NonScalarData_ThrowsException(): void
@@ -20,9 +20,7 @@ class ScalarEventTest extends TestCase
         new ScalarEvent([], new Path());
     }
 
-    /**
-     * @dataProvider providerGetData
-     */
+    #[DataProvider('providerGetData')]
     public function testGetData_ConstructedWithScalarData_ReturnsSameValue(mixed $data, mixed $expectedValue): void
     {
         $event = new ScalarEvent($data, new Path());

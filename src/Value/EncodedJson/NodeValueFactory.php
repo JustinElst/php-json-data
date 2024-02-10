@@ -21,7 +21,7 @@ final class NodeValueFactory implements NodeValueFactoryInterface
     }
 
     public function __construct(
-        private DecodedJson\NodeValueFactoryInterface $decodedJsonNodeValueFactory,
+        private readonly DecodedJson\NodeValueFactoryInterface $decodedJsonNodeValueFactory,
     ) {
     }
 

@@ -9,7 +9,7 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 final class AfterObjectEvent implements AfterObjectEventInterface
 {
     public function __construct(
-        private PathInterface $path,
+        private readonly PathInterface $path,
     ) {
     }
 

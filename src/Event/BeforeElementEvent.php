@@ -9,8 +9,8 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 final class BeforeElementEvent implements BeforeElementEventInterface
 {
     public function __construct(
-        private int $index,
-        private PathInterface $path,
+        private readonly int $index,
+        private readonly PathInterface $path,
     ) {
     }
 

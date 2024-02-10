@@ -11,6 +11,6 @@ final class NoValueToExportException extends LogicException implements Exception
 {
     public function __construct(?Throwable $previous = null)
     {
-        parent::__construct("No value to export", 0, $previous);
+        parent::__construct("No value to export", previous: $previous);
     }
 }

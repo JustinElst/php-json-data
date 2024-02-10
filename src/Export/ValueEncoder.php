@@ -19,7 +19,7 @@ use const JSON_UNESCAPED_UNICODE;
 final class ValueEncoder implements ValueEncoderInterface
 {
     public function __construct(
-        private ValueDecoderInterface $decoder,
+        private readonly ValueDecoderInterface $decoder,
     ) {
     }
 

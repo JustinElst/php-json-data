@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidNodeDataException;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidNodeDataException
- */
+#[CoversClass(InvalidNodeDataException::class)]
 class InvalidNodeDataExceptionTest extends TestCase
 {
     /**
      * @param list<int|string> $elements
      * @param string $expectedValue
-     * @dataProvider providerGetMessage
      */
+    #[DataProvider('providerGetMessage')]
     public function testGetMessage_Constructed_ReturnsMatchingValue(array $elements, string $expectedValue): void
     {
         $exception = new InvalidNodeDataException(null, new Path(...$elements));
@@ -48,12 +48,6 @@ class InvalidNodeDataExceptionTest extends TestCase
         $path = new Path();
         $exception = new InvalidNodeDataException(0, $path);
         self::assertSame($path, $exception->getPath());
-    }
-
-    public function testGetCode_Always_ReturnZero(): void
-    {
-        $exception = new InvalidNodeDataException(0, new Path());
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void

@@ -5,32 +5,31 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Comparator;
 
 use Collator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Comparator\GreaterValueComparator;
 use Remorhaz\JSON\Data\Value\EncodedJson\NodeValueFactory;
 
-/**
- * @covers \Remorhaz\JSON\Data\Comparator\GreaterValueComparator
- */
+#[CoversClass(GreaterValueComparator::class)]
 class GreaterValueComparatorTest extends TestCase
 {
-    /**
-     * @param string $leftData
-     * @param string $rightData
-     * @dataProvider providerMatchingValues
-     */
+    #[DataProvider('providerMatchingValues')]
     public function testCompare_MatchingValues_ReturnsTrue(string $leftData, string $rightData): void
     {
         $comparator = new GreaterValueComparator(new Collator('UTF-8'));
         $nodeValueFactory = NodeValueFactory::create();
         $actualValue = $comparator->compare(
             $nodeValueFactory->createValue($leftData),
-            $nodeValueFactory->createValue($rightData)
+            $nodeValueFactory->createValue($rightData),
         );
         self::assertTrue($actualValue);
     }
 
-    public function providerMatchingValues(): array
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerMatchingValues(): iterable
     {
         return [
             'Left string is greater' => ['"b"', '"a"'],
@@ -40,23 +39,22 @@ class GreaterValueComparatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param string $leftData
-     * @param string $rightData
-     * @dataProvider providerNonMatchingValues
-     */
+    #[DataProvider('providerNonMatchingValues')]
     public function testCompare_NonMatchingValues_ReturnsFalse(string $leftData, string $rightData): void
     {
         $comparator = new GreaterValueComparator(new Collator('UTF-8'));
         $nodeValueFactory = NodeValueFactory::create();
         $actualValue = $comparator->compare(
             $nodeValueFactory->createValue($leftData),
-            $nodeValueFactory->createValue($rightData)
+            $nodeValueFactory->createValue($rightData),
         );
         self::assertFalse($actualValue);
     }
 
-    public function providerNonMatchingValues(): array
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function providerNonMatchingValues(): iterable
     {
         return [
             'Same string' => ['"a"', '"b"'],

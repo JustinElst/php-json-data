@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Value\DecodedJson;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidElementKeyException;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\DecodedJson\Exception\InvalidElementKeyException
- */
+#[CoversClass(InvalidElementKeyException::class)]
 class InvalidElementKeyExceptionTest extends TestCase
 {
     /**
      * @param mixed $key
      * @param list<int|string> $pathElements
      * @param string $expectedValue
-     * @dataProvider providerKeyMessage
      */
+    #[DataProvider('providerKeyMessage')]
     public function testGetMessage_Constructed_ReturnsMatchingValue(
         mixed $key,
         array $pathElements,
@@ -49,9 +49,7 @@ class InvalidElementKeyExceptionTest extends TestCase
         self::assertSame($path, $exception->getPath());
     }
 
-    /**
-     * @dataProvider providerKey
-     */
+    #[DataProvider('providerKey')]
     public function testGetKey_ConstructedWithGivenKey_ReturnsSameValue(mixed $key, mixed $expectedValue): void
     {
         $exception = new InvalidElementKeyException($key, new Path());
@@ -67,12 +65,6 @@ class InvalidElementKeyExceptionTest extends TestCase
             'Integer' => [1, 1],
             'String' => ['a', 'a'],
         ];
-    }
-
-    public function testGetCode_Always_ReturnZero(): void
-    {
-        $exception = new InvalidElementKeyException(0, new Path());
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void

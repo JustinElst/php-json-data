@@ -10,10 +10,10 @@ use Throwable;
 final class UnexpectedEntityException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private mixed $entity,
+        private readonly mixed $entity,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Invalid entity", 0, $previous);
+        parent::__construct("Invalid entity", previous: $previous);
     }
 
     public function getEntity(): mixed

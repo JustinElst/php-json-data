@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Event\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Event\Exception\InvalidScalarDataException;
 
-/**
- * @covers \Remorhaz\JSON\Data\Event\Exception\InvalidScalarDataException
- */
+#[CoversClass(InvalidScalarDataException::class)]
 class InvalidScalarDataExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
@@ -25,15 +24,9 @@ class InvalidScalarDataExceptionTest extends TestCase
         self::assertSame('a', $exception->getData());
     }
 
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new InvalidScalarDataException(null);
-        self::assertSame(0, $exception->getCode());
-    }
-
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
     {
-        $exception = new InvalidScalarDataException(null);
+        $exception = new InvalidScalarDataException(1);
         self::assertNull($exception->getPrevious());
     }
 

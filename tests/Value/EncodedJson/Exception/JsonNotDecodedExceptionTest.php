@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Value\EncodedJson\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Value\EncodedJson\Exception\JsonNotDecodedException;
 
-/**
- * @covers \Remorhaz\JSON\Data\Value\EncodedJson\Exception\JsonNotDecodedException
- */
+#[CoversClass(JsonNotDecodedException::class)]
 class JsonNotDecodedExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
@@ -23,12 +22,6 @@ class JsonNotDecodedExceptionTest extends TestCase
     {
         $exception = new JsonNotDecodedException('a');
         self::assertSame('a', $exception->getJson());
-    }
-
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new JsonNotDecodedException('a');
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void

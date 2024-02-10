@@ -11,10 +11,10 @@ use Throwable;
 final class UnknownEventException extends LogicException implements ExceptionInterface
 {
     public function __construct(
-        private EventInterface $event,
+        private readonly EventInterface $event,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Unknown event", 0, $previous);
+        parent::__construct("Unknown event", previous: $previous);
     }
 
     public function getEvent(): EventInterface

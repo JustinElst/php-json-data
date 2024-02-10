@@ -9,8 +9,8 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 final class AfterPropertyEvent implements AfterPropertyEventInterface
 {
     public function __construct(
-        private string $name,
-        private PathInterface $path,
+        private readonly string $name,
+        private readonly PathInterface $path,
     ) {
     }
 

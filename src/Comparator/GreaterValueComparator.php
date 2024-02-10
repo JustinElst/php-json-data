@@ -15,7 +15,7 @@ use function is_string;
 final class GreaterValueComparator implements ComparatorInterface
 {
     public function __construct(
-        private Collator $collator,
+        private readonly Collator $collator,
     ) {
     }
 
@@ -35,10 +35,6 @@ final class GreaterValueComparator implements ComparatorInterface
             return $leftData > $rightData;
         }
 
-        if (is_string($leftData) && is_string($rightData)) {
-            return 1 === $this->collator->compare($leftData, $rightData);
-        }
-
-        return false;
+        return is_string($leftData) && is_string($rightData) && 1 === $this->collator->compare($leftData, $rightData);
     }
 }

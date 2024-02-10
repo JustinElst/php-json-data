@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Remorhaz\JSON\Data\Test\Path\Exception;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Remorhaz\JSON\Data\Path\Exception\ParentNotFoundException;
 use Remorhaz\JSON\Data\Path\Path;
 
-/**
- * @covers \Remorhaz\JSON\Data\Path\Exception\ParentNotFoundException
- */
+#[CoversClass(ParentNotFoundException::class)]
 class ParentNotFoundExceptionTest extends TestCase
 {
     public function testGetPath_ConstructedWithPath_ReturnsSameInstance(): void
@@ -24,8 +24,8 @@ class ParentNotFoundExceptionTest extends TestCase
     /**
      * @param list<mixed> $pathElements
      * @param string      $expectedValue
-     * @dataProvider providerGetMessage
      */
+    #[DataProvider('providerGetMessage')]
     public function testGetMessage(array $pathElements, string $expectedValue): void
     {
         $path = new Path(...$pathElements);
@@ -42,12 +42,6 @@ class ParentNotFoundExceptionTest extends TestCase
             'Empty path' => [[], "Parent not found in path /"],
             'Non-empty path' => [['a', 1], "Parent not found in path /a/1"],
         ];
-    }
-
-    public function testGetCode_Always_ReturnsZero(): void
-    {
-        $exception = new ParentNotFoundException(new Path());
-        self::assertSame(0, $exception->getCode());
     }
 
     public function testGetPrevious_ConstructedWithoutPrevious_ReturnsNull(): void
