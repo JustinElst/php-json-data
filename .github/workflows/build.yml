@@ -58,7 +58,7 @@ jobs:
       - name: Run infection
         run: composer infection
         env:
-          INFECTION_DASHBOARD_API_KEY: ${{ secrets.INFECTION_DASHBOARD_API_KEY }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
       - name: Upload coverage to Codecov.io
         run: bash <(curl -s https://codecov.io/bash -s "build/logs")
