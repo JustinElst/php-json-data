@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Remorhaz\JSON\Data\Walker;
 
-use Generator;
 use Iterator;
 use Remorhaz\JSON\Data\Event\AfterArrayEvent;
 use Remorhaz\JSON\Data\Event\AfterElementEvent;
@@ -126,7 +125,7 @@ final class EventGenerator
                 $localStack,
                 new BeforeElementEvent($index, $elementPath),
                 $child,
-                new AfterElementEvent($index, $elementPath)
+                new AfterElementEvent($index, $elementPath),
             );
         }
         array_push(
