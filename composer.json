@@ -44,18 +44,10 @@
     "test-unit": [
       "vendor/bin/phpunit --coverage-xml=build/log/coverage-xml --coverage-clover=build/log/clover.xml --log-junit=build/log/junit.xml"
     ],
-    "test-unit-9": [
-      "vendor/bin/phpunit --configuration=phpunit-9.xml --coverage-xml=build/log/coverage-xml --coverage-clover=build/log/clover.xml --log-junit=build/log/junit.xml"
-    ],
     "test-psalm": "vendor-bin/psalm/vendor/bin/psalm --threads=4 --shepherd",
     "test": [
       "@test-cs",
       "@test-unit",
-      "@test-psalm"
-    ],
-    "test-8.0": [
-      "@test-cs",
-      "@test-unit-9",
       "@test-psalm"
     ],
     "infection": [
@@ -69,8 +61,7 @@
   },
   "config": {
     "allow-plugins": {
-      "bamarni/composer-bin-plugin": true,
-      "infection/extension-installer": true
+      "bamarni/composer-bin-plugin": true
     },
     "sort-packages": true
   },

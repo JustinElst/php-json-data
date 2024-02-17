@@ -17,4 +17,11 @@ final class AfterArrayEvent implements AfterArrayEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null): AfterArrayEventInterface
+    {
+        return new self(
+            path: $path ?? $this->path,
+        );
+    }
 }

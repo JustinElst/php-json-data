@@ -30,4 +30,15 @@ final class ScalarEvent implements ScalarEventInterface
     {
         return $this->path;
     }
+
+    public function with(
+        ?PathInterface $path = null,
+        float|bool|int|string|null $data = null,
+        bool $forceData = false,
+    ): ScalarEventInterface {
+        return new self(
+            data: $forceData ? $data : ($data ?? $this->data),
+            path: $path ?? $this->path,
+        );
+    }
 }

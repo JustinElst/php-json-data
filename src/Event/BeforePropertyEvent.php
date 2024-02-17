@@ -23,4 +23,12 @@ final class BeforePropertyEvent implements BeforePropertyEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null, ?string $name = null): BeforePropertyEventInterface
+    {
+        return new self(
+            name: $name ?? $this->name,
+            path: $path ?? $this->path,
+        );
+    }
 }

@@ -17,4 +17,11 @@ final class BeforeObjectEvent implements BeforeObjectEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null): BeforeObjectEventInterface
+    {
+        return new self(
+            path: $path ?? $this->path,
+        );
+    }
 }

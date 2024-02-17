@@ -47,4 +47,55 @@ class ScalarEventTest extends TestCase
         $event = new ScalarEvent(null, $path);
         self::assertSame($path, $event->getPath());
     }
+
+    public function testWith_GivenNoPath_ResultHasOldPath(): void
+    {
+        $path = new Path();
+        $event = new ScalarEvent(null, $path);
+        $clone = $event->with();
+        self::assertSame($path, $clone->getPath());
+    }
+
+    public function testWith_GivenNewPath_ResultHasNewPath(): void
+    {
+        $oldPath = new Path();
+        $event = new ScalarEvent(null, $oldPath);
+        $newPath = new Path();
+        $clone = $event->with(path: $newPath);
+        self::assertSame($newPath, $clone->getPath());
+    }
+
+    public function testWith_Called_ResultIsNewInstance(): void
+    {
+        $event = new ScalarEvent(null, new Path());
+        self::assertNotSame($event, $event->with());
+    }
+
+    public function testWith_GivenNoData_ResultHasOldData(): void
+    {
+        $event = new ScalarEvent('a', new Path());
+        $clone = $event->with();
+        self::assertSame('a', $clone->getData());
+    }
+
+    public function testWith_GivenNewNonNullData_ResultHasNewData(): void
+    {
+        $event = new ScalarEvent('a', new Path());
+        $clone = $event->with(data: 'b');
+        self::assertSame('b', $clone->getData());
+    }
+
+    public function testWith_GivenNewNullDataWithoutForceFlag_ResultHasOldData(): void
+    {
+        $event = new ScalarEvent('a', new Path());
+        $clone = $event->with(data: null);
+        self::assertSame('a', $clone->getData());
+    }
+
+    public function testWith_GivenNewNullDataWithForceFlag_ResultHasNewData(): void
+    {
+        $event = new ScalarEvent('a', new Path());
+        $clone = $event->with(data: null, forceData: true);
+        self::assertSame(null, $clone->getData());
+    }
 }

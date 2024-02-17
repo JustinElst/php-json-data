@@ -17,4 +17,11 @@ final class BeforeArrayEvent implements BeforeArrayEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null): BeforeArrayEventInterface
+    {
+        return new self(
+            path: $path ?? $this->path,
+        );
+    }
 }

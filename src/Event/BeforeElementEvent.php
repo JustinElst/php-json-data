@@ -23,4 +23,12 @@ final class BeforeElementEvent implements BeforeElementEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null, ?int $index = null): BeforeElementEventInterface
+    {
+        return new self(
+            index: $index ?? $this->index,
+            path: $path ?? $this->path,
+        );
+    }
 }

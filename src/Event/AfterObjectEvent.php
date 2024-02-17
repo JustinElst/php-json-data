@@ -17,4 +17,11 @@ final class AfterObjectEvent implements AfterObjectEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null): AfterObjectEventInterface
+    {
+        return new self(
+            path: $path ?? $this->path,
+        );
+    }
 }

@@ -23,4 +23,12 @@ final class AfterPropertyEvent implements AfterPropertyEventInterface
     {
         return $this->path;
     }
+
+    public function with(?PathInterface $path = null, ?string $name = null): AfterPropertyEventInterface
+    {
+        return new self(
+            name: $name ?? $this->name,
+            path: $path ?? $this->path,
+        );
+    }
 }

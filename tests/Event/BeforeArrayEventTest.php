@@ -18,4 +18,28 @@ class BeforeArrayEventTest extends TestCase
         $event = new BeforeArrayEvent($path);
         self::assertSame($path, $event->getPath());
     }
+
+
+    public function testWith_GivenNoPath_ResultHasOldPath(): void
+    {
+        $path = new Path();
+        $event = new BeforeArrayEvent($path);
+        $clone = $event->with();
+        self::assertSame($path, $clone->getPath());
+    }
+
+    public function testWith_GivenNewPath_ResultHasNewPath(): void
+    {
+        $oldPath = new Path();
+        $event = new BeforeArrayEvent($oldPath);
+        $newPath = new Path();
+        $clone = $event->with(path: $newPath);
+        self::assertSame($newPath, $clone->getPath());
+    }
+
+    public function testWith_Called_ResultIsNewInstance(): void
+    {
+        $event = new BeforeArrayEvent(new Path());
+        self::assertNotSame($event, $event->with());
+    }
 }

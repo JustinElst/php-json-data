@@ -7,9 +7,9 @@ RUN apt-get update &&  apt-get install -y \
       gpg \
       libicu-dev && \
     pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
     docker-php-ext-configure intl --enable-intl && \
     docker-php-ext-install intl pcntl && \
-    docker-php-ext-enable xdebug && \
     echo "xdebug.mode = develop,coverage,debug" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini"
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \

@@ -9,4 +9,6 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 interface EventInterface
 {
     public function getPath(): PathInterface;
+
+    public function with(?PathInterface $path = null): EventInterface;
 }
