@@ -6,24 +6,27 @@ namespace Remorhaz\JSON\Data\Event;
 
 use Remorhaz\JSON\Data\Path\PathInterface;
 
-final class AfterPropertyEvent implements AfterPropertyEventInterface
+final readonly class AfterPropertyEvent implements AfterPropertyEventInterface
 {
     public function __construct(
-        private readonly string $name,
-        private readonly PathInterface $path,
+        private string $name,
+        private PathInterface $path,
     ) {
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null, ?string $name = null): AfterPropertyEventInterface
     {
         return new self(

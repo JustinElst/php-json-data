@@ -10,5 +10,6 @@ interface PropertyEventInterface extends EventInterface
 {
     public function getName(): string;
 
+    #[\Override]
     public function with(?PathInterface $path = null, ?string $name = null): PropertyEventInterface;
 }

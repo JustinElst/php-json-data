@@ -14,7 +14,7 @@ use function gettype;
 use function is_int;
 use function is_string;
 
-class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
+final class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {
     public function __construct(
         private readonly mixed $key,
@@ -26,7 +26,7 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
 
     private function buildMessage(): string
     {
-        return "Invalid element key in decoded JSON: {$this->buildKey()} at {$this->buildPath()}";
+        return sprintf('Invalid element key in decoded JSON: %s at %s', $this->buildKey(), $this->buildPath());
     }
 
     public function getKey(): mixed
@@ -34,6 +34,7 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
         return $this->key;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
@@ -51,7 +52,7 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
 
         $type = gettype($this->key);
 
-        return "<{$type}>";
+        return sprintf('<%s>', $type);
     }
 
     private function buildPath(): string

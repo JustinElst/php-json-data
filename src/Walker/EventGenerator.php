@@ -45,35 +45,22 @@ final class EventGenerator
     public function __invoke(): Iterator
     {
         while (true) {
-            if (empty($this->stack)) {
+            if ($this->stack === []) {
                 return;
             }
+
             $entity = array_pop($this->stack);
-            switch (true) {
-                case $entity instanceof EventInterface:
-                    yield from $this->onEvent($entity);
-                    break;
-
-                case $entity instanceof ScalarValueInterface:
-                    yield from $this->onScalarValue($entity);
-                    break;
-
-                case $entity instanceof ArrayValueInterface:
-                    yield from $this->onArrayValue($entity);
-                    break;
-
-                case $entity instanceof ObjectValueInterface:
-                    yield from $this->onObjectValue($entity);
-                    break;
-
-                default:
-                    throw new Exception\UnexpectedEntityException($entity);
-            }
+            match (true) {
+                $entity instanceof EventInterface => yield from $this->onEvent($entity),
+                $entity instanceof ScalarValueInterface => yield from $this->onScalarValue($entity),
+                $entity instanceof ArrayValueInterface => yield from $this->onArrayValue($entity),
+                $entity instanceof ObjectValueInterface => yield from $this->onObjectValue($entity),
+                default => throw new Exception\UnexpectedEntityException($entity),
+            };
         }
     }
 
     /**
-     * @param EventInterface $event
      * @return Iterator<EventInterface>
      */
     private function onEvent(EventInterface $event): Iterator
@@ -98,11 +85,11 @@ final class EventGenerator
                     ->copyParent();
                 break;
         }
+
         yield $event;
     }
 
     /**
-     * @param ScalarValueInterface $value
      * @return Iterator<EventInterface>
      */
     private function onScalarValue(ScalarValueInterface $value): Iterator
@@ -111,7 +98,6 @@ final class EventGenerator
     }
 
     /**
-     * @param ArrayValueInterface $value
      * @return Iterator<EventInterface>
      */
     private function onArrayValue(ArrayValueInterface $value): Iterator
@@ -121,13 +107,11 @@ final class EventGenerator
             $elementPath = $this
                 ->path
                 ->copyWithElement($index);
-            array_push(
-                $localStack,
-                new BeforeElementEvent($index, $elementPath),
-                $child,
-                new AfterElementEvent($index, $elementPath),
-            );
+            $localStack[] = new BeforeElementEvent($index, $elementPath);
+            $localStack[] = $child;
+            $localStack[] = new AfterElementEvent($index, $elementPath);
         }
+
         array_push(
             $this->stack,
             new AfterArrayEvent($this->path),
@@ -137,7 +121,6 @@ final class EventGenerator
     }
 
     /**
-     * @param ObjectValueInterface $value
      * @return Iterator<EventInterface>
      */
     private function onObjectValue(ObjectValueInterface $value): Iterator
@@ -147,13 +130,11 @@ final class EventGenerator
             $elementPath = $this
                 ->path
                 ->copyWithProperty($name);
-            array_push(
-                $localStack,
-                new BeforePropertyEvent($name, $elementPath),
-                $child,
-                new AfterPropertyEvent($name, $elementPath),
-            );
+            $localStack[] = new BeforePropertyEvent($name, $elementPath);
+            $localStack[] = $child;
+            $localStack[] = new AfterPropertyEvent($name, $elementPath);
         }
+
         array_push(
             $this->stack,
             new AfterObjectEvent($this->path),

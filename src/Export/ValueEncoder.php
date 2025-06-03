@@ -16,13 +16,14 @@ use const JSON_UNESCAPED_UNICODE;
 /**
  * @todo Don't use decoder
  */
-final class ValueEncoder implements ValueEncoderInterface
+final readonly class ValueEncoder implements ValueEncoderInterface
 {
     public function __construct(
-        private readonly ValueDecoderInterface $decoder,
+        private ValueDecoderInterface $decoder,
     ) {
     }
 
+    #[\Override]
     public function exportValue(ValueInterface $value): string
     {
         /** @psalm-var mixed $decodedValue */
@@ -34,8 +35,8 @@ final class ValueEncoder implements ValueEncoderInterface
                 $decodedValue,
                 JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
             );
-        } catch (Throwable $e) {
-            throw new Exception\EncodingFailedException($decodedValue, $e);
+        } catch (Throwable $throwable) {
+            throw new Exception\EncodingFailedException($decodedValue, $throwable);
         }
     }
 }

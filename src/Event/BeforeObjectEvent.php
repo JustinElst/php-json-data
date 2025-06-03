@@ -6,18 +6,20 @@ namespace Remorhaz\JSON\Data\Event;
 
 use Remorhaz\JSON\Data\Path\PathInterface;
 
-final class BeforeObjectEvent implements BeforeObjectEventInterface
+final readonly class BeforeObjectEvent implements BeforeObjectEventInterface
 {
     public function __construct(
-        private readonly PathInterface $path,
+        private PathInterface $path,
     ) {
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null): BeforeObjectEventInterface
     {
         return new self(

@@ -10,6 +10,7 @@ interface ScalarEventInterface extends EventInterface
 {
     public function getData(): int|string|float|bool|null;
 
+    #[\Override]
     public function with(
         ?PathInterface $path = null,
         int|string|float|bool|null $data = null,

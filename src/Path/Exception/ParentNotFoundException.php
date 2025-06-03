@@ -17,9 +17,10 @@ final class ParentNotFoundException extends LogicException implements ExceptionI
         private readonly PathInterface $path,
         ?Throwable $previous = null,
     ) {
-        parent::__construct("Parent not found in path {$this->buildPath()}", previous: $previous);
+        parent::__construct('Parent not found in path ' . $this->buildPath(), previous: $previous);
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

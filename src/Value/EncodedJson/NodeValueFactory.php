@@ -13,7 +13,7 @@ use function json_decode;
 
 use const JSON_THROW_ON_ERROR;
 
-final class NodeValueFactory implements NodeValueFactoryInterface
+final readonly class NodeValueFactory implements NodeValueFactoryInterface
 {
     public static function create(): NodeValueFactoryInterface
     {
@@ -21,17 +21,18 @@ final class NodeValueFactory implements NodeValueFactoryInterface
     }
 
     public function __construct(
-        private readonly DecodedJson\NodeValueFactoryInterface $decodedJsonNodeValueFactory,
+        private DecodedJson\NodeValueFactoryInterface $decodedJsonNodeValueFactory,
     ) {
     }
 
+    #[\Override]
     public function createValue(string $json, ?PathInterface $path = null): NodeValueInterface
     {
         try {
             /** @psalm-var mixed $decodedData */
             $decodedData = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
-        } catch (Throwable $e) {
-            throw new Exception\JsonNotDecodedException($json, $e);
+        } catch (Throwable $throwable) {
+            throw new Exception\JsonNotDecodedException($json, $throwable);
         }
 
         return $this

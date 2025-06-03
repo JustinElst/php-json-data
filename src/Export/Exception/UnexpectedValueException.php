@@ -11,7 +11,7 @@ use Throwable;
 final class UnexpectedValueException extends DomainException implements ExceptionInterface
 {
     public function __construct(
-        private ValueInterface $value,
+        private readonly ValueInterface $value,
         ?Throwable $previous = null,
     ) {
         parent::__construct("Unexpected value", previous: $previous);

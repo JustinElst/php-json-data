@@ -21,7 +21,12 @@ final class NodeValueFactory implements NodeValueFactoryInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @param (null|object|scalar)[]|null|object|scalar $data
+     *
+     * @psalm-param array<int|string, null|object|scalar>|null|object|scalar $data
      */
+    #[\Override]
     public function createValue(mixed $data, ?PathInterface $path = null): NodeValueInterface
     {
         $path ??= new Path();

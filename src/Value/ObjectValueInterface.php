@@ -11,5 +11,6 @@ interface ObjectValueInterface extends StructValueInterface
     /**
      * @return Iterator<string, NodeValueInterface>
      */
+    #[\Override]
     public function createChildIterator(): Iterator;
 }

@@ -11,7 +11,7 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 use RuntimeException;
 use Throwable;
 
-class InvalidNodeDataException extends RuntimeException implements
+final class InvalidNodeDataException extends RuntimeException implements
     ExceptionInterface,
     PathAwareInterface,
     DataAwareInterface
@@ -26,14 +26,16 @@ class InvalidNodeDataException extends RuntimeException implements
 
     private function buildMessage(): string
     {
-        return "Invalid data in decoded JSON at {$this->buildPath()}";
+        return 'Invalid data in decoded JSON at ' . $this->buildPath();
     }
 
+    #[\Override]
     public function getData(): mixed
     {
         return $this->data;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

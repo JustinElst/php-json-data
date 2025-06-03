@@ -8,5 +8,6 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 interface AfterObjectEventInterface extends EventInterface
 {
+    #[\Override]
     public function with(?PathInterface $path = null): AfterObjectEventInterface;
 }

@@ -14,13 +14,14 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
 
 use function is_string;
 
-final class EqualValueComparator implements ComparatorInterface
+final readonly class EqualValueComparator implements ComparatorInterface
 {
     public function __construct(
-        private readonly Collator $collator,
+        private Collator $collator,
     ) {
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return match (true) {
@@ -53,9 +54,11 @@ final class EqualValueComparator implements ComparatorInterface
             if (!$rightValueIterator->valid()) {
                 return false;
             }
+
             if (!$this->compare($leftValueIterator->current(), $rightValueIterator->current())) {
                 return false;
             }
+
             $leftValueIterator->next();
             $rightValueIterator->next();
         }
@@ -69,28 +72,35 @@ final class EqualValueComparator implements ComparatorInterface
         if (!isset($leftProperties)) {
             return false;
         }
+
         $rightProperties = $this->getPropertiesWithoutDuplicates($rightValue->createChildIterator());
         if (!isset($rightProperties)) {
             return false;
         }
+
         foreach ($rightProperties as $property => $rightValue) {
             if (!isset($leftProperties[$property])) {
                 return false;
             }
+
             if (!$this->compare($leftProperties[$property], $rightValue)) {
                 return false;
             }
+
             unset($leftProperties[$property]);
         }
 
-        return empty($leftProperties);
+        return $leftProperties === [];
     }
 
     /**
      * @param Iterator<string, NodeValueInterface> $valueIterator
-     * @return null|array<string, NodeValueInterface>
+     *
+     * @return (NodeValueInterface|null)[]|null
+     *
+     * @psalm-return array<string, NodeValueInterface|null>|null
      */
-    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
+    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): array|null
     {
         $valuesByProperty = [];
         while ($valueIterator->valid()) {
@@ -98,6 +108,7 @@ final class EqualValueComparator implements ComparatorInterface
             if (isset($valuesByProperty[$property])) {
                 return null;
             }
+
             $valuesByProperty[$property] = $valueIterator->current();
             $valueIterator->next();
         }

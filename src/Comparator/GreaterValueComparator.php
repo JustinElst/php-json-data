@@ -12,13 +12,14 @@ use function is_float;
 use function is_int;
 use function is_string;
 
-final class GreaterValueComparator implements ComparatorInterface
+final readonly class GreaterValueComparator implements ComparatorInterface
 {
     public function __construct(
-        private readonly Collator $collator,
+        private Collator $collator,
     ) {
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return

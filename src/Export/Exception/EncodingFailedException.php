@@ -17,6 +17,7 @@ final class EncodingFailedException extends LogicException implements ExceptionI
         parent::__construct("Failed to encode data to JSON", previous: $previous);
     }
 
+    #[\Override]
     public function getData(): mixed
     {
         return $this->data;

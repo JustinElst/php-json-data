@@ -22,8 +22,8 @@ final class EventDecoder implements EventDecoderInterface
 {
     /**
      * @param Iterator<EventInterface> $events
-     * @return NodeValueInterface|null
      */
+    #[\Override]
     public function exportEvents(Iterator $events): ?NodeValueInterface
     {
         $buffer = [];
@@ -67,9 +67,11 @@ final class EventDecoder implements EventDecoderInterface
                     throw new Exception\UnknownEventException($event);
             }
         }
-        if (empty($buffer)) {
+
+        if ($buffer === []) {
             return null;
         }
+
         $data = array_pop($buffer);
 
         return (new NodeValueFactory())->createValue($data);
@@ -77,8 +79,8 @@ final class EventDecoder implements EventDecoderInterface
 
     /**
      * @param Iterator<EventInterface> $events
-     * @return NodeValueInterface
      */
+    #[\Override]
     public function exportExistingEvents(Iterator $events): NodeValueInterface
     {
         return $this->exportEvents($events) ?? throw new Exception\NoValueToExportException();

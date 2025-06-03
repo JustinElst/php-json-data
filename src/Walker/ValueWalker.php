@@ -12,21 +12,18 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 final class ValueWalker implements ValueWalkerInterface
 {
     /**
-     * @param NodeValueInterface $value
-     * @param PathInterface      $path
      * @return Iterator<EventInterface>
      */
+    #[\Override]
     public function createEventIterator(NodeValueInterface $value, PathInterface $path): Iterator
     {
         return (new EventGenerator($value, $path))();
     }
 
     /**
-     * @param NodeValueInterface $value
-     * @param PathInterface      $path
-     * @param MutationInterface  $modifier
      * @return Iterator<EventInterface>
      */
+    #[\Override]
     public function createMutableEventIterator(
         NodeValueInterface $value,
         PathInterface $path,

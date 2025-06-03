@@ -11,18 +11,19 @@ use Remorhaz\JSON\Data\Value\NodeValueInterface;
 
 use function is_int;
 
-final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
+final readonly class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
 {
     public function __construct(
-        private readonly array $data,
-        private readonly PathInterface $path,
-        private readonly NodeValueFactoryInterface $valueFactory,
+        private array $data,
+        private PathInterface $path,
+        private NodeValueFactoryInterface $valueFactory,
     ) {
     }
 
     /**
      * @return Iterator<int, NodeValueInterface>
      */
+    #[\Override]
     public function createChildIterator(): Iterator
     {
         $validIndex = 0;
@@ -31,12 +32,14 @@ final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
             if (!is_int($index) || $index != $validIndex++) {
                 throw new Exception\InvalidElementKeyException($index, $this->path);
             }
+
             yield $index => $this
                 ->valueFactory
                 ->createValue($element, $this->path->copyWithElement($index));
         }
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

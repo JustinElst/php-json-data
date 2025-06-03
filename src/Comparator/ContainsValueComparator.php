@@ -12,7 +12,7 @@ use Remorhaz\JSON\Data\Value\ObjectValueInterface;
 use Remorhaz\JSON\Data\Value\ScalarValueInterface;
 use Remorhaz\JSON\Data\Value\ValueInterface;
 
-final class ContainsValueComparator implements ComparatorInterface
+final readonly class ContainsValueComparator implements ComparatorInterface
 {
     private EqualValueComparator $equalComparator;
 
@@ -21,6 +21,7 @@ final class ContainsValueComparator implements ComparatorInterface
         $this->equalComparator = new EqualValueComparator($collator);
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return match (true) {
@@ -39,14 +40,17 @@ final class ContainsValueComparator implements ComparatorInterface
         if (!isset($leftProperties)) {
             return false;
         }
+
         $rightProperties = $this->getPropertiesWithoutDuplicates($rightValue->createChildIterator());
         if (!isset($rightProperties)) {
             return false;
         }
+
         foreach ($rightProperties as $property => $rightValue) {
             if (!isset($leftProperties[$property])) {
                 return false;
             }
+
             if (!$this->compare($leftProperties[$property], $rightValue)) {
                 return false;
             }
@@ -57,9 +61,12 @@ final class ContainsValueComparator implements ComparatorInterface
 
     /**
      * @param Iterator<string, NodeValueInterface> $valueIterator
-     * @return null|array<string, NodeValueInterface>
+     *
+     * @return (NodeValueInterface|null)[]|null
+     *
+     * @psalm-return array<string, NodeValueInterface|null>|null
      */
-    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
+    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): array|null
     {
         $valuesByProperty = [];
         while ($valueIterator->valid()) {
@@ -67,6 +74,7 @@ final class ContainsValueComparator implements ComparatorInterface
             if (isset($valuesByProperty[$property])) {
                 return null;
             }
+
             $valuesByProperty[$property] = $valueIterator->current();
             $valueIterator->next();
         }
