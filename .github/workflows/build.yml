@@ -36,30 +36,25 @@ jobs:
 
       - name: Install PHIVE
         uses: szepeviktor/phive@v1
+        with:
+          binPath: "${{ github.workspace }}/tools/phar/phive"
 
-      - name: Debug GitHub token
-        run: |
-          echo "Token length: ${#GITHUB_TOKEN}"
-          curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/rate_limit
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Cache Phive tools
         id: cache-phive
         uses: actions/cache@v4
         with:
           path: |
             ~/.phive
-            tools
-          key: phive-${{ runner.os }}-${{ hashFiles('.phive/phars.xml', 'phive.xml') }}
+            ${{ github.workspace }}/tools
+          key: phive-${{ runner.os }}-${{ hashFiles('.phive/phars.xml') }}
           restore-keys: |
             phive-${{ runner.os }}-
 
       - name: Install PHAR tools with PHIVE
         if: steps.cache-phive.outputs.cache-hit != 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.PHIVE_GITHUB_TOKEN }}
-          PHIVE_GITHUB_API_TOKEN: ${{ secrets.PHIVE_GITHUB_TOKEN }}
-        run: tools/phive install --trust-gpg-keys C5095986493B4AA0
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ${{ github.workspace }}/tools/phar/phive install --trust-gpg-keys C5095986493B4AA0
 
       - name: Install lowest dependencies
         if: ${{ matrix.dependencies == 'lowest' && matrix.platform-reqs == 'use-platform-reqs' }}
