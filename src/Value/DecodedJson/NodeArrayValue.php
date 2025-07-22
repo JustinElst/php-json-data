@@ -23,6 +23,7 @@ final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
     /**
      * @return Iterator<int, NodeValueInterface>
      */
+    #[\Override]
     public function createChildIterator(): Iterator
     {
         $validIndex = 0;
@@ -37,6 +38,7 @@ final class NodeArrayValue implements NodeValueInterface, ArrayValueInterface
         }
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

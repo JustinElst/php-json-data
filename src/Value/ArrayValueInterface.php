@@ -11,5 +11,6 @@ interface ArrayValueInterface extends StructValueInterface
     /**
      * @return Iterator<int, NodeValueInterface>
      */
+    #[\Override]
     public function createChildIterator(): Iterator;
 }

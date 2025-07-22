@@ -13,11 +13,13 @@ final class BeforeObjectEvent implements BeforeObjectEventInterface
     ) {
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null): BeforeObjectEventInterface
     {
         return new self(

@@ -13,11 +13,13 @@ final class AfterObjectEvent implements AfterObjectEventInterface
     ) {
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null): AfterObjectEventInterface
     {
         return new self(

@@ -14,16 +14,19 @@ final class BeforePropertyEvent implements BeforePropertyEventInterface
     ) {
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null, ?string $name = null): BeforePropertyEventInterface
     {
         return new self(

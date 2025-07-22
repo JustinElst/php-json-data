@@ -23,6 +23,7 @@ final class ValueEncoder implements ValueEncoderInterface
     ) {
     }
 
+    #[\Override]
     public function exportValue(ValueInterface $value): string
     {
         /** @psalm-var mixed $decodedValue */

@@ -21,6 +21,7 @@ final class ContainsValueComparator implements ComparatorInterface
         $this->equalComparator = new EqualValueComparator($collator);
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return match (true) {
@@ -47,6 +48,9 @@ final class ContainsValueComparator implements ComparatorInterface
             if (!isset($leftProperties[$property])) {
                 return false;
             }
+            if (null === $rightValue) {
+                throw new \RuntimeException('rightValue cannot be null at that point.');
+            }
             if (!$this->compare($leftProperties[$property], $rightValue)) {
                 return false;
             }
@@ -57,13 +61,16 @@ final class ContainsValueComparator implements ComparatorInterface
 
     /**
      * @param Iterator<string, NodeValueInterface> $valueIterator
-     * @return null|array<string, NodeValueInterface>
+     * @return null|array<string, NodeValueInterface|null>
      */
     private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
     {
         $valuesByProperty = [];
         while ($valueIterator->valid()) {
             $property = $valueIterator->key();
+            if (!is_string($property)) {
+                return null;
+            }
             if (isset($valuesByProperty[$property])) {
                 return null;
             }

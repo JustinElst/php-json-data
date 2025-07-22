@@ -21,7 +21,10 @@ final class NodeValueFactory implements NodeValueFactoryInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @param mixed $data
      */
+    #[\Override]
     public function createValue(mixed $data, ?PathInterface $path = null): NodeValueInterface
     {
         $path ??= new Path();

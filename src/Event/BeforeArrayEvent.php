@@ -13,11 +13,13 @@ final class BeforeArrayEvent implements BeforeArrayEventInterface
     ) {
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null): BeforeArrayEventInterface
     {
         return new self(

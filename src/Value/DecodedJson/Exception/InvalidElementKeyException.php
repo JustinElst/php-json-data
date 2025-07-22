@@ -14,7 +14,7 @@ use function gettype;
 use function is_int;
 use function is_string;
 
-class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
+final class InvalidElementKeyException extends RuntimeException implements ExceptionInterface, PathAwareInterface
 {
     public function __construct(
         private readonly mixed $key,
@@ -34,6 +34,7 @@ class InvalidElementKeyException extends RuntimeException implements ExceptionIn
         return $this->key;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

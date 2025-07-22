@@ -20,16 +20,19 @@ final class Path implements PathInterface
         $this->elements = array_values($elements);
     }
 
+    #[\Override]
     public function copyWithElement(int $index): PathInterface
     {
         return new self(...$this->elements, ...[$index]);
     }
 
+    #[\Override]
     public function copyWithProperty(string $name): PathInterface
     {
         return new self(...$this->elements, ...[$name]);
     }
 
+    #[\Override]
     public function copyParent(): PathInterface
     {
         return empty($this->elements)
@@ -40,16 +43,19 @@ final class Path implements PathInterface
     /**
      * @return list<int|string>
      */
+    #[\Override]
     public function getElements(): array
     {
         return $this->elements;
     }
 
+    #[\Override]
     public function equals(PathInterface $path): bool
     {
         return $path->getElements() === $this->elements;
     }
 
+    #[\Override]
     public function contains(PathInterface $path): bool
     {
         $subPath = array_slice($path->getElements(), 0, count($this->elements));

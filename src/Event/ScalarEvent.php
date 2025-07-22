@@ -21,16 +21,19 @@ final class ScalarEvent implements ScalarEventInterface
             : throw new Exception\InvalidScalarDataException($data);
     }
 
+    #[\Override]
     public function getData(): int|string|float|bool|null
     {
         return $this->data;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(
         ?PathInterface $path = null,
         float|bool|int|string|null $data = null,

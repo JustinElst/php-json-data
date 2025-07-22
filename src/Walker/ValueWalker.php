@@ -16,6 +16,7 @@ final class ValueWalker implements ValueWalkerInterface
      * @param PathInterface      $path
      * @return Iterator<EventInterface>
      */
+    #[\Override]
     public function createEventIterator(NodeValueInterface $value, PathInterface $path): Iterator
     {
         return (new EventGenerator($value, $path))();
@@ -27,6 +28,7 @@ final class ValueWalker implements ValueWalkerInterface
      * @param MutationInterface  $modifier
      * @return Iterator<EventInterface>
      */
+    #[\Override]
     public function createMutableEventIterator(
         NodeValueInterface $value,
         PathInterface $path,

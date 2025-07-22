@@ -21,6 +21,7 @@ final class NodeObjectValue implements NodeValueInterface, ObjectValueInterface
     /**
      * @return Iterator<string, NodeValueInterface>
      */
+    #[\Override]
     public function createChildIterator(): Iterator
     {
         /** @psalm-var mixed $property */
@@ -33,6 +34,7 @@ final class NodeObjectValue implements NodeValueInterface, ObjectValueInterface
         }
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

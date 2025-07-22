@@ -24,6 +24,7 @@ final class EventDecoder implements EventDecoderInterface
      * @param Iterator<EventInterface> $events
      * @return NodeValueInterface|null
      */
+    #[\Override]
     public function exportEvents(Iterator $events): ?NodeValueInterface
     {
         $buffer = [];
@@ -79,6 +80,7 @@ final class EventDecoder implements EventDecoderInterface
      * @param Iterator<EventInterface> $events
      * @return NodeValueInterface
      */
+    #[\Override]
     public function exportExistingEvents(Iterator $events): NodeValueInterface
     {
         return $this->exportEvents($events) ?? throw new Exception\NoValueToExportException();

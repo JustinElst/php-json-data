@@ -17,6 +17,7 @@ final class InvalidScalarDataException extends LogicException implements Excepti
         parent::__construct("Invalid scalar data", previous: $previous);
     }
 
+    #[\Override]
     public function getData(): mixed
     {
         return $this->data;

@@ -25,6 +25,7 @@ final class NodeValueFactory implements NodeValueFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function createValue(string $json, ?PathInterface $path = null): NodeValueInterface
     {
         try {

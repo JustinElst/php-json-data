@@ -14,16 +14,19 @@ final class BeforeElementEvent implements BeforeElementEventInterface
     ) {
     }
 
+    #[\Override]
     public function getIndex(): int
     {
         return $this->index;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null, ?int $index = null): BeforeElementEventInterface
     {
         return new self(

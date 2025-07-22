@@ -21,6 +21,7 @@ final class EqualValueComparator implements ComparatorInterface
     ) {
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return match (true) {
@@ -53,7 +54,16 @@ final class EqualValueComparator implements ComparatorInterface
             if (!$rightValueIterator->valid()) {
                 return false;
             }
-            if (!$this->compare($leftValueIterator->current(), $rightValueIterator->current())) {
+            $leftCurrent = $leftValueIterator->current();
+            $rightCurrent = $rightValueIterator->current();
+
+            if ($leftCurrent === null) {
+                throw new \RuntimeException("Left current cannot be null at that point.");
+            }
+            if ($rightCurrent === null) {
+                throw new \RuntimeException("Right current cannot be null at that point.");
+            }
+            if (!$this->compare($leftCurrent, $rightCurrent)) {
                 return false;
             }
             $leftValueIterator->next();
@@ -77,6 +87,9 @@ final class EqualValueComparator implements ComparatorInterface
             if (!isset($leftProperties[$property])) {
                 return false;
             }
+            if ($rightValue === null) {
+                throw new \RuntimeException("Right value cannot be null at that point.");
+            }
             if (!$this->compare($leftProperties[$property], $rightValue)) {
                 return false;
             }
@@ -88,14 +101,20 @@ final class EqualValueComparator implements ComparatorInterface
 
     /**
      * @param Iterator<string, NodeValueInterface> $valueIterator
-     * @return null|array<string, NodeValueInterface>
+     *
+     * @return (NodeValueInterface|null)[]|null
+     *
+     * @psalm-return array<string, NodeValueInterface|null>|null
      */
-    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): ?array
+    private function getPropertiesWithoutDuplicates(Iterator $valueIterator): array|null
     {
         $valuesByProperty = [];
         while ($valueIterator->valid()) {
             $property = $valueIterator->key();
             if (isset($valuesByProperty[$property])) {
+                return null;
+            }
+            if ($property === null) {
                 return null;
             }
             $valuesByProperty[$property] = $valueIterator->current();

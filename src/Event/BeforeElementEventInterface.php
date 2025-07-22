@@ -8,5 +8,6 @@ use Remorhaz\JSON\Data\Path\PathInterface;
 
 interface BeforeElementEventInterface extends ElementEventInterface
 {
+    #[\Override]
     public function with(?PathInterface $path = null, ?int $index = null,): BeforeElementEventInterface;
 }

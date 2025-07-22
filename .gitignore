@@ -7,3 +7,5 @@
 /phpunit.xml
 /tools/
 .phpunit.result.cache
+composer.phar
+.idea

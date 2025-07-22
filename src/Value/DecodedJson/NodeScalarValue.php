@@ -23,11 +23,13 @@ final class NodeScalarValue implements NodeValueInterface, ScalarValueInterface
             : throw new Exception\InvalidNodeDataException($data, $path);
     }
 
+    #[\Override]
     public function getData(): int|float|string|bool|null
     {
         return $this->data;
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;

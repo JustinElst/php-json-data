@@ -11,6 +11,7 @@ use Remorhaz\JSON\Data\Value\ValueInterface;
 
 final class ValueDecoder implements ValueDecoderInterface
 {
+    #[\Override]
     public function exportValue(ValueInterface $value): mixed
     {
         return match (true) {

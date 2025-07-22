@@ -14,16 +14,19 @@ final class AfterElementEvent implements AfterElementEventInterface
     ) {
     }
 
+    #[\Override]
     public function getPath(): PathInterface
     {
         return $this->path;
     }
 
+    #[\Override]
     public function getIndex(): int
     {
         return $this->index;
     }
 
+    #[\Override]
     public function with(?PathInterface $path = null, ?int $index = null): AfterElementEventInterface
     {
         return new self(

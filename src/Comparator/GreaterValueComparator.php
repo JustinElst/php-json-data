@@ -19,6 +19,7 @@ final class GreaterValueComparator implements ComparatorInterface
     ) {
     }
 
+    #[\Override]
     public function compare(ValueInterface $leftValue, ValueInterface $rightValue): bool
     {
         return
