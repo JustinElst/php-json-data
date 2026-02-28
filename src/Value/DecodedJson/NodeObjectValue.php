@@ -26,7 +26,7 @@ final readonly class NodeObjectValue implements NodeValueInterface, ObjectValueI
     {
         /** @psalm-var mixed $property */
         foreach (get_object_vars($this->data) as $name => $property) {
-            $stringName = $name;
+            $stringName = (string)$name;
             yield $stringName => $this
                 ->valueFactory
                 ->createValue($property, $this->path->copyWithProperty($stringName));
